@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTM Acceleration Motion — Master Checklist</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F3F6FA;color:#374151;padding:24px}
+.wrap{max-width:720px;margin:0 auto}
+.header{margin-bottom:1.5rem}
+.title-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.title-display{font-size:20px;font-weight:600;color:#111827;cursor:pointer;border-bottom:2px dashed transparent;transition:border-color 0.15s;padding-bottom:2px}
+.title-display:hover{border-bottom-color:#0078D4}
+.title-input{font-size:20px;font-weight:600;color:#111827;border:none;border-bottom:2px solid #0078D4;background:transparent;outline:none;font-family:inherit;width:100%;padding-bottom:2px}
+.edit-hint{font-size:11px;color:#9CA3AF;display:flex;align-items:center;gap:4px}
+.header p{font-size:13px;color:#6B7280}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+.stat{background:#fff;border-radius:8px;padding:12px 14px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.07)}
+.stat-num{font-size:24px;font-weight:600;color:#0F2B5B}
+.stat-lbl{font-size:11px;color:#6B7280;margin-top:2px}
+.progress-label{font-size:12px;color:#6B7280;margin-bottom:6px}
+.progress-bar-bg{height:6px;background:#E5EBF4;border-radius:4px;margin-bottom:1.5rem;overflow:hidden}
+.progress-bar-fill{height:6px;background:#0078D4;border-radius:4px;transition:width 0.3s}
+.section{margin-bottom:1.5rem}
+.section-title{font-size:10px;font-weight:600;letter-spacing:.08em;color:#6B7280;text-transform:uppercase;padding-bottom:8px;border-bottom:1px solid #E5EBF4;margin-bottom:8px}
+.item{background:#fff;border-radius:8px;margin-bottom:6px;box-shadow:0 1px 4px rgba(0,0,0,0.07);overflow:hidden}
+.item-row{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;cursor:pointer;transition:background 0.15s}
+.item-row:hover{background:#F8FAFD}
+.item.done .item-name{text-decoration:line-through;color:#6B7280}
+.item.done .item-row{opacity:0.6}
+.checkbox{width:20px;height:20px;min-width:20px;border-radius:4px;border:1.5px solid #D1D5DB;display:flex;align-items:center;justify-content:center;transition:all 0.15s;margin-top:2px;background:#fff;font-size:12px;font-weight:700;color:#fff}
+.checkbox.checked{background:#0078D4;border-color:#0078D4}
+.item-body{flex:1}
+.item-name{font-size:14px;color:#111827;line-height:1.4;font-weight:500}
+.item-sub{font-size:12px;color:#6B7280;margin-top:2px;line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;margin-left:8px;vertical-align:middle}
+.badge.must{background:#E6F1FB;color:#0C447C}
+.badge.team{background:#E1F5EE;color:#0F6E56}
+.badge.lock{background:#FAEEDA;color:#633806}
+.subtasks-list{padding:0 14px 4px 46px}
+.subtask-item{display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px solid #F3F6FA}
+.sub-checkbox{width:16px;height:16px;min-width:16px;border-radius:3px;border:1.5px solid #D1D5DB;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;font-size:9px;font-weight:700;color:#fff}
+.sub-checkbox.checked{background:#00838F;border-color:#00838F}
+.subtask-name{font-size:12px;color:#374151;flex:1;line-height:1.4}
+.subtask-name.done{text-decoration:line-through;color:#9CA3AF}
+.subtask-del{background:none;border:none;color:#D1D5DB;cursor:pointer;font-size:16px;padding:0 2px;line-height:1;transition:color 0.15s}
+.subtask-del:hover{color:#D13438}
+.add-subtask-btn{background:none;border:1px dashed #D1D5DB;color:#9CA3AF;font-size:11px;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:inherit;margin:0 14px 10px 46px;display:block;transition:all 0.15s;text-align:left}
+.add-subtask-btn:hover{border-color:#0078D4;color:#0078D4;background:#EEF6FD}
+.subtask-input-row{display:none;align-items:center;gap:8px;padding:0 14px 10px 46px}
+.subtask-input-row.visible{display:flex}
+.subtask-input{flex:1;padding:7px 10px;border:1.5px solid #E5EBF4;border-radius:6px;font-size:12px;font-family:inherit;outline:none;transition:border-color 0.15s}
+.subtask-input:focus{border-color:#0078D4}
+.st-save{background:#0078D4;color:#fff;border:none;padding:7px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.st-cancel{background:#F3F6FA;color:#6B7280;border:none;padding:7px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit}
+.reset-btn{font-size:13px;color:#6B7280;background:#fff;border:1px solid #E5EBF4;border-radius:8px;padding:8px 16px;cursor:pointer;margin-top:8px;font-family:inherit}
+.reset-btn:hover{background:#F3F6FA}
+.save-notice{font-size:11px;color:#9CA3AF;margin-top:12px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="title-row">
+      <span class="title-display" id="titleDisplay" onclick="startEditTitle()" title="Click to edit"></span>
+      <input class="title-input" id="titleInput" type="text" onblur="saveTitle()" onkeydown="if(event.key==='Enter')saveTitle()" style="display:none" />
+    </div>
+    <p>Check off each item as you build out your motion. Progress and sub-tasks save automatically.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-num" id="cnt-done">0</div><div class="stat-lbl">Completed</div></div>
+    <div class="stat"><div class="stat-num" id="cnt-left">14</div><div class="stat-lbl">Remaining</div></div>
+    <div class="stat"><div class="stat-num" id="cnt-pct">0%</div><div class="stat-lbl">Ready to launch</div></div>
+  </div>
+  <div class="progress-label" id="prog-label">0 of 14 complete</div>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
+  <div id="sections"></div>
+  <button class="reset-btn" onclick="resetAll()">Reset all</button>
+  <div class="save-notice">✓ Your title, progress and sub-tasks save automatically in this browser</div>
+</div>
+<script>
+const SECTIONS=[
+  {title:"Foundation — do this first",items:[
+    {id:"s1",name:"Strategic rationale (motion brief)",sub:"Define why now, what problem it solves, and which FY priority it serves. One paragraph max.",badge:"must"},
+    {id:"s2",name:"TAM & opportunity slide",sub:"Market size, pipeline potential, revenue impact, and risk of inaction.",badge:"must"},
+    {id:"s3",name:"Motion type & success metrics",sub:"Name the motion lever (velocity, attach, conversion, etc.) and set 2–3 measurable KPIs.",badge:"must"}
+  ]},
+  {title:"Targeting & scope",items:[
+    {id:"t1",name:"Account targeting & ICP criteria slide",sub:"Industry, size, lifecycle stage, product signal, geography, and explicit exclusions.",badge:"must"},
+    {id:"t2",name:"Geo / segment breakdown of accounts in scope",sub:"Region × segment table with account counts and priority tier (P1/P2/P3).",badge:"must"}
+  ]},
+  {title:"Value & messaging",items:[
+    {id:"v1",name:"Seller value articulation (WIIFM)",sub:"Comp impact, pipeline coverage, deal size uplift, time-to-close, competitive edge.",badge:"must"},
+    {id:"v2",name:"Customer value proposition",sub:"Business outcome, security outcome, TCO/ROI, time-to-value, differentiation, proof points.",badge:"must"}
+  ]},
+  {title:"Orchestration & coverage",items:[
+    {id:"o1",name:"MCEM orchestration slide",sub:"Actions and owners mapped across Identify → Connect → Discover → Prove → Close → Grow.",badge:"must"},
+    {id:"o2",name:"Partner activation strategy",sub:"Partner roles, enablement plan, co-sell model, PAL attach, deal registration process.",badge:"team"},
+    {id:"o3",name:"CxE / GBB support plan",sub:"Coverage model, engagement trigger criteria, escalation path, POC support model.",badge:"team"}
+  ]},
+  {title:"Cross-functional plans",items:[
+    {id:"c1",name:"Programs team plan",sub:"Funding/incentives, motion tracking methodology, governance cadence and owners.",badge:"team"},
+    {id:"c2",name:"Enablement team plan",sub:"Training format, seller readiness date, pitch deck/toolkit assets created or updated.",badge:"team"},
+    {id:"c3",name:"Marketing plan",sub:"ABM campaign, webinar/event, concise field-ready value pitch deck — owner + due date.",badge:"team"}
+  ]},
+  {title:"Execution & governance",items:[
+    {id:"e1",name:"Engineering roadmap alignment (with lock date)",sub:"Committed features confirmed. Lock date set — no edits after that date without VP approval.",badge:"lock"},
+    {id:"e2",name:"Comms & landing plan",sub:"Stakeholder matrix, key messages per audience, channel, timing, and owner for each group.",badge:"must"}
+  ]}
+];
+
+const BADGE_LABELS={must:"Required",team:"Cross-functional",lock:"Time-sensitive"};
+const STORAGE_KEY='gtm_checklist_v2';
+const total=14;
+
+function loadState(){
+  try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{title:'GTM acceleration motion — master checklist',checks:{},subtasks:{}};}
+  catch{return{title:'GTM acceleration motion — master checklist',checks:{},subtasks:{}};}
+}
+
+function saveState(state){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}
+function getState(){return loadState();}
+
+function startEditTitle(){
+  const state=getState();
+  const display=document.getElementById('titleDisplay');
+  const input=document.getElementById('titleInput');
+  input.value=state.title;
+  display.style.display='none';
+  input.style.display='block';
+  input.focus();
+  input.select();
+}
+
+function saveTitle(){
+  const input=document.getElementById('titleInput');
+  const display=document.getElementById('titleDisplay');
+  const text=input.value.trim()||'GTM acceleration motion — master checklist';
+  const state=getState();
+  state.title=text;
+  saveState(state);
+  display.textContent=text;
+  display.style.display='';
+  input.style.display='none';
+  document.title=text;
+}
+
+function updateStats(){
+  const state=getState();
+  const done=Object.values(state.checks).filter(Boolean).length;
+  document.getElementById('cnt-done').textContent=done;
+  document.getElementById('cnt-left').textContent=total-done;
+  document.getElementById('cnt-pct').textContent=Math.round(done/total*100)+'%';
+  document.getElementById('prog-fill').style.width=(done/total*100)+'%';
+  document.getElementById('prog-label').textContent=done+' of '+total+' complete';
+}
+
+function toggleItem(id){
+  const state=getState();
+  state.checks[id]=!state.checks[id];
+  saveState(state);
+  const el=document.getElementById('item-'+id);
+  const cb=document.getElementById('cb-'+id);
+  el.classList.toggle('done',state.checks[id]);
+  cb.classList.toggle('checked',state.checks[id]);
+  cb.textContent=state.checks[id]?'✓':'';
+  updateStats();
+}
+
+function showSubtaskInput(id){
+  document.getElementById('sti-'+id).classList.add('visible');
+  document.getElementById('stt-'+id).focus();
+}
+
+function hideSubtaskInput(id){
+  document.getElementById('sti-'+id).classList.remove('visible');
+  document.getElementById('stt-'+id).value='';
+}
+
+function saveSubtask(id){
+  const input=document.getElementById('stt-'+id);
+  const text=input.value.trim();
+  if(!text)return;
+  const state=getState();
+  if(!state.subtasks[id])state.subtasks[id]=[];
+  state.subtasks[id].push({text,done:false});
+  saveState(state);
+  hideSubtaskInput(id);
+  renderSubtasks(id);
+}
+
+function toggleSubtask(itemId,idx){
+  const state=getState();
+  state.subtasks[itemId][idx].done=!state.subtasks[itemId][idx].done;
+  saveState(state);
+  renderSubtasks(itemId);
+}
+
+function deleteSubtask(itemId,idx){
+  const state=getState();
+  state.subtasks[itemId].splice(idx,1);
+  saveState(state);
+  renderSubtasks(itemId);
+}
+
+function renderSubtasks(itemId){
+  const state=getState();
+  const subtasks=state.subtasks[itemId]||[];
+  const list=document.getElementById('stlist-'+itemId);
+  list.innerHTML=subtasks.map((st,i)=>`
+    <div class="subtask-item">
+      <div class="sub-checkbox ${st.done?'checked':''}" onclick="toggleSubtask('${itemId}',${i})">${st.done?'✓':''}</div>
+      <span class="subtask-name ${st.done?'done':''}">${st.text}</span>
+      <button class="subtask-del" onclick="deleteSubtask('${itemId}',${i})" title="Remove">×</button>
+    </div>`).join('');
+}
+
+function resetAll(){
+  if(!confirm('Reset everything including your title, checkboxes and sub-tasks? This cannot be undone.'))return;
+  localStorage.removeItem(STORAGE_KEY);
+  location.reload();
+}
+
+function buildUI(){
+  const state=getState();
+  const display=document.getElementById('titleDisplay');
+  display.textContent=state.title;
+  document.title=state.title;
+  const container=document.getElementById('sections');
+  SECTIONS.forEach(sec=>{
+    const div=document.createElement('div');
+    div.className='section';
+    div.innerHTML='<div class="section-title">'+sec.title+'</div>';
+    sec.items.forEach(it=>{
+      const checked=state.checks[it.id]||false;
+      const badge=it.badge?`<span class="badge ${it.badge}">${BADGE_LABELS[it.badge]}</span>`:'';
+      div.innerHTML+=`
+        <div class="item ${checked?'done':''}" id="item-${it.id}">
+          <div class="item-row" onclick="toggleItem('${it.id}')">
+            <div class="checkbox ${checked?'checked':''}" id="cb-${it.id}">${checked?'✓':''}</div>
+            <div class="item-body">
+              <div class="item-name">${it.name}${badge}</div>
+              <div class="item-sub">${it.sub}</div>
+            </div>
+          </div>
+          <div class="subtasks-list" id="stlist-${it.id}"></div>
+          <button class="add-subtask-btn" onclick="showSubtaskInput('${it.id}')">+ add sub-task</button>
+          <div class="subtask-input-row" id="sti-${it.id}">
+            <input class="subtask-input" id="stt-${it.id}" type="text" placeholder="Describe the sub-task..." onkeydown="if(event.key==='Enter')saveSubtask('${it.id}')" />
+            <button class="st-save" onclick="saveSubtask('${it.id}')">Save</button>
+            <button class="st-cancel" onclick="hideSubtaskInput('${it.id}')">Cancel</button>
+          </div>
+        </div>`;
+    });
+    container.appendChild(div);
+  });
+  SECTIONS.forEach(sec=>sec.items.forEach(it=>renderSubtasks(it.id)));
+  updateStats();
+}
+
+buildUI();
+</script>
+</body>
+</html>
