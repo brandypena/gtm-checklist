@@ -1,1 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTM Motions BA Checklist</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F3F6FA;color:#374151}
+.wrap{max-width:720px;margin:0 auto;padding:24px}
 
+/* ── PAGE SWITCHING ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ══════════════════════════════════
+   HOME SCREEN
+══════════════════════════════════ */
+.home-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center}
+.home-wordmark{font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#9CA3AF;margin-bottom:32px}
+.home-title{font-size:36px;font-weight:700;color:#111827;letter-spacing:-1px;line-height:1.15;margin-bottom:48px}
+.home-title span{color:#0078D4}
+
+.btn-start{position:relative;background:#0078D4;color:#fff;border:none;padding:18px 48px;border-radius:100px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:0.3px;transition:all 0.2s;box-shadow:0 4px 24px rgba(0,120,212,0.35)}
+.btn-start:hover{background:#006cbd;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,120,212,0.45)}
+.btn-start:active{transform:translateY(0)}
+
+.home-motions-list{width:100%;max-width:560px;margin-top:48px;text-align:left}
+.home-motions-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#9CA3AF;margin-bottom:12px;text-align:center}
+
+.home-card{background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.07);transition:box-shadow 0.15s,transform 0.12s}
+.home-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.1);transform:translateY(-1px)}
+.hc-name{font-size:14px;font-weight:600;color:#111827;margin-bottom:2px}
+.hc-meta{font-size:12px;color:#9CA3AF}
+.hc-right{display:flex;align-items:center;gap:10px}
+.hc-pct{font-size:12px;color:#9CA3AF}
+.hc-pill{padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.hc-pill.p{background:#F3F6FA;color:#9CA3AF}
+.hc-pill.i{background:#E6F1FB;color:#0C447C}
+.hc-pill.c{background:#E1F5EE;color:#0F6E56}
+.hc-btns{display:flex;gap:6px;opacity:0;transition:opacity 0.15s}
+.home-card:hover .hc-btns{opacity:1}
+.hc-share{background:#E6F1FB;color:#0C447C;border:none;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
+.hc-del{background:#FCEBEB;color:#A32D2D;border:none;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
+
+.rocket-empty{margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.rocket-svg{opacity:0.85}
+.rocket-label{font-size:14px;color:#9CA3AF;line-height:1.5}
+
+/* ══════════════════════════════════
+   NEW MOTION SCREEN
+══════════════════════════════════ */
+.new-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px}
+.new-card{background:#fff;border-radius:16px;padding:36px;width:100%;max-width:480px;box-shadow:0 2px 16px rgba(0,0,0,0.08)}
+.new-back{background:none;border:none;font-size:13px;color:#9CA3AF;cursor:pointer;font-family:inherit;padding:0;margin-bottom:24px;display:flex;align-items:center;gap:5px;transition:color 0.15s}
+.new-back:hover{color:#0078D4}
+.new-card h2{font-size:20px;font-weight:700;color:#111827;letter-spacing:-0.3px;margin-bottom:4px}
+.new-card p{font-size:13px;color:#9CA3AF;margin-bottom:28px}
+.fg{margin-bottom:18px}
+.fg label{display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:7px;letter-spacing:0.3px;text-transform:uppercase}
+.fg input{width:100%;padding:12px 14px;border:1.5px solid #E5EBF4;border-radius:10px;font-size:15px;font-family:inherit;color:#111827;outline:none;transition:border-color 0.15s,box-shadow 0.15s;background:#fff}
+.fg input:focus{border-color:#0078D4;box-shadow:0 0 0 3px rgba(0,120,212,0.1)}
+.fg input::placeholder{color:#D1D5DB;font-size:14px}
+.btn-create{width:100%;background:#0078D4;color:#fff;border:none;padding:14px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px;transition:all 0.2s;box-shadow:0 2px 12px rgba(0,120,212,0.25)}
+.btn-create:hover{background:#006cbd;transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,120,212,0.35)}
+
+/* ══════════════════════════════════
+   CHECKLIST SCREEN — EXACT ORIGINAL
+══════════════════════════════════ */
+.cl-wrap{max-width:720px;margin:0 auto;padding:24px}
+.header{margin-bottom:1.5rem}
+.title-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.title-display{font-size:20px;font-weight:600;color:#111827;cursor:pointer;border-bottom:2px dashed transparent;transition:border-color 0.15s;padding-bottom:2px}
+.title-display:hover{border-bottom-color:#0078D4}
+.title-input{font-size:20px;font-weight:600;color:#111827;border:none;border-bottom:2px solid #0078D4;background:transparent;outline:none;font-family:inherit;width:100%;padding-bottom:2px}
+.header p{font-size:13px;color:#6B7280}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+.stat{background:#fff;border-radius:8px;padding:12px 14px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.07)}
+.stat-num{font-size:24px;font-weight:600;color:#0F2B5B}
+.stat-lbl{font-size:11px;color:#6B7280;margin-top:2px}
+.progress-label{font-size:12px;color:#6B7280;margin-bottom:6px}
+.progress-bar-bg{height:6px;background:#E5EBF4;border-radius:4px;margin-bottom:1.5rem;overflow:hidden}
+.progress-bar-fill{height:6px;background:#0078D4;border-radius:4px;transition:width 0.3s}
+.section{margin-bottom:1.5rem}
+.section-title{font-size:10px;font-weight:600;letter-spacing:.08em;color:#6B7280;text-transform:uppercase;padding-bottom:8px;border-bottom:1px solid #E5EBF4;margin-bottom:8px}
+.item{background:#fff;border-radius:8px;margin-bottom:6px;box-shadow:0 1px 4px rgba(0,0,0,0.07);overflow:hidden}
+.item-row{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;cursor:pointer;transition:background 0.15s}
+.item-row:hover{background:#F8FAFD}
+.item.done .item-name{text-decoration:line-through;color:#6B7280}
+.item.done .item-row{opacity:0.6}
+.checkbox{width:20px;height:20px;min-width:20px;border-radius:4px;border:1.5px solid #D1D5DB;display:flex;align-items:center;justify-content:center;transition:all 0.15s;margin-top:2px;background:#fff;font-size:12px;font-weight:700;color:#fff}
+.checkbox.checked{background:#0078D4;border-color:#0078D4}
+.item-body{flex:1}
+.item-name{font-size:14px;color:#111827;line-height:1.4;font-weight:500}
+.item-sub{font-size:12px;color:#6B7280;margin-top:2px;line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;margin-left:8px;vertical-align:middle}
+.badge.must{background:#E6F1FB;color:#0C447C}
+.badge.team{background:#E1F5EE;color:#0F6E56}
+.badge.lock{background:#FAEEDA;color:#633806}
+.subtasks-list{padding:0 14px 4px 46px}
+.subtask-item{display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px solid #F3F6FA}
+.sub-checkbox{width:16px;height:16px;min-width:16px;border-radius:3px;border:1.5px solid #D1D5DB;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;font-size:9px;font-weight:700;color:#fff}
+.sub-checkbox.checked{background:#00838F;border-color:#00838F}
+.subtask-name{font-size:12px;color:#374151;flex:1;line-height:1.4}
+.subtask-name.done{text-decoration:line-through;color:#9CA3AF}
+.subtask-del{background:none;border:none;color:#D1D5DB;cursor:pointer;font-size:16px;padding:0 2px;line-height:1;transition:color 0.15s}
+.subtask-del:hover{color:#D13438}
+.add-subtask-btn{background:none;border:1px dashed #D1D5DB;color:#9CA3AF;font-size:11px;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:inherit;margin:0 14px 10px 46px;display:block;transition:all 0.15s;text-align:left}
+.add-subtask-btn:hover{border-color:#0078D4;color:#0078D4;background:#EEF6FD}
+.subtask-input-row{display:none;align-items:center;gap:8px;padding:0 14px 10px 46px}
+.subtask-input-row.visible{display:flex}
+.subtask-input{flex:1;padding:7px 10px;border:1.5px solid #E5EBF4;border-radius:6px;font-size:12px;font-family:inherit;outline:none;transition:border-color 0.15s}
+.subtask-input:focus{border-color:#0078D4}
+.st-save{background:#0078D4;color:#fff;border:none;padding:7px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.st-cancel{background:#F3F6FA;color:#6B7280;border:none;padding:7px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit}
+.reset-btn{font-size:13px;color:#6B7280;background:#fff;border:1px solid #E5EBF4;border-radius:8px;padding:8px 16px;cursor:pointer;margin-top:8px;font-family:inherit}
+.reset-btn:hover{background:#F3F6FA}
+.save-notice{font-size:11px;color:#9CA3AF;margin-top:12px;text-align:center}
+.cl-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.cl-back{background:none;border:none;font-size:13px;color:#9CA3AF;cursor:pointer;font-family:inherit;padding:0;display:flex;align-items:center;gap:4px}
+.cl-back:hover{color:#0078D4}
+.cl-share{background:#E6F1FB;color:#0C447C;border:none;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.15s}
+.cl-share:hover{background:#d0e4f5}
+.ro-banner{background:#FFF3CD;border:1px solid #FFB900;border-radius:8px;padding:10px 14px;font-size:12px;color:#7D5A00;margin-bottom:1.5rem}
+
+/* modal */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:100;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:12px;padding:24px;width:90%;max-width:380px;box-shadow:0 4px 24px rgba(0,0,0,0.15)}
+.modal h3{font-size:15px;font-weight:600;color:#111827;margin-bottom:4px}
+.modal p{font-size:13px;color:#6B7280;margin-bottom:16px;line-height:1.5}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end}
+.btn-sec{background:#F3F6FA;color:#374151;border:none;padding:8px 14px;border-radius:7px;font-size:13px;cursor:pointer;font-family:inherit}
+.btn-danger{background:#D13438;color:#fff;border:none;padding:8px 14px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+
+/* toast */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;transition:opacity 0.25s;pointer-events:none;z-index:200;white-space:nowrap}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- ══ HOME ══ -->
+<div class="page active" id="pgHome">
+  <div class="home-wrap">
+    <div class="home-wordmark">Microsoft Security · BA Team</div>
+    <h1 class="home-title">GTM Motions<br><span>BA Checklist</span></h1>
+    <button class="btn-start" onclick="goNew()">Start New Motion</button>
+    <div id="homeMotions" class="home-motions-list" style="display:none">
+      <div class="home-motions-label">My Motions</div>
+      <div id="motionCards"></div>
+    </div>
+    <div class="rocket-empty" id="rocketEmpty">
+      <svg class="rocket-svg" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="40" fill="#EEF2FF"/>
+        <path d="M40 16C40 16 28 28 28 42C28 49.18 33.37 55.13 40 56.7C46.63 55.13 52 49.18 52 42C52 28 40 16 40 16Z" fill="#0078D4" opacity="0.15"/>
+        <path d="M40 16C40 16 28 28 28 42C28 49.18 33.37 55.13 40 56.7C46.63 55.13 52 49.18 52 42C52 28 40 16 40 16Z" stroke="#0078D4" stroke-width="1.5" fill="none"/>
+        <circle cx="40" cy="40" r="5" fill="#0078D4"/>
+        <path d="M32 50L26 56M26 56L22 64M26 56L34 58" stroke="#0078D4" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M48 50L54 56M54 56L58 64M54 56L46 58" stroke="#0078D4" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M28 42C24 42 20 44 20 44C20 44 22 50 28 50" fill="#0078D4" opacity="0.2"/>
+        <path d="M28 42C24 42 20 44 20 44C20 44 22 50 28 50" stroke="#0078D4" stroke-width="1.5" fill="none"/>
+        <path d="M52 42C56 42 60 44 60 44C60 44 58 50 52 50" fill="#0078D4" opacity="0.2"/>
+        <path d="M52 42C56 42 60 44 60 44C60 44 58 50 52 50" stroke="#0078D4" stroke-width="1.5" fill="none"/>
+        <path d="M37 64L40 68L43 64" stroke="#0078D4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+      </svg>
+      <p class="rocket-label">Click <strong>"Start New Motion"</strong> to create a new project</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NEW MOTION ══ -->
+<div class="page" id="pgNew">
+  <div class="new-wrap">
+    <div class="new-card">
+      <button class="new-back" onclick="goHome()">← Back</button>
+      <h2>New GTM Motion</h2>
+      <p>Fill in the details below to get started.</p>
+      <div class="fg"><label>Project name</label><input id="fn" type="text" placeholder="e.g. Defender for Cloud Q4 Acceleration"/></div>
+      <div class="fg"><label>Primary product(s)</label><input id="fp" type="text" placeholder="e.g. Defender for Endpoint, Sentinel"/></div>
+      <div class="fg"><label>Your name</label><input id="fo" type="text" placeholder="Your full name"/></div>
+      <div class="fg"><label>Fiscal period</label><input id="ff" type="text" placeholder="e.g. FY26 H1"/></div>
+      <button class="btn-create" onclick="createMotion()">Create Motion &amp; Start Checklist →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CHECKLIST ══ -->
+<div class="page" id="pgChecklist">
+  <div class="cl-wrap">
+    <div class="cl-topbar">
+      <button class="cl-back" id="clBack" onclick="goHome()">← My Motions</button>
+      <button class="cl-share" id="clShareBtn" onclick="doShare()">⬆ Share</button>
+    </div>
+    <div id="roBanner" style="display:none" class="ro-banner">👁 <strong>Read-only view.</strong> This is a shared snapshot — progress shown is from when this link was generated.</div>
+    <div class="header">
+      <div class="title-row">
+        <span class="title-display" id="titleDisplay" onclick="startEditTitle()" title="Click to rename"></span>
+        <input class="title-input" id="titleInput" type="text" onblur="saveTitle()" onkeydown="if(event.key==='Enter')saveTitle()" style="display:none"/>
+      </div>
+      <p id="clSub">Check off each item as you build out your motion. Progress and sub-tasks save automatically.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-num" id="cnt-done">0</div><div class="stat-lbl">Completed</div></div>
+      <div class="stat"><div class="stat-num" id="cnt-left">14</div><div class="stat-lbl">Remaining</div></div>
+      <div class="stat"><div class="stat-num" id="cnt-pct">0%</div><div class="stat-lbl">Ready to launch</div></div>
+    </div>
+    <div class="progress-label" id="prog-label">0 of 14 complete</div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
+    <div id="sections"></div>
+    <div id="clBottom">
+      <button class="reset-btn" onclick="resetChecklist()">Reset checklist</button>
+      <div class="save-notice">✓ Progress and sub-tasks save automatically in your browser</div>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="overlay" id="delOverlay">
+  <div class="modal">
+    <h3>Delete this motion?</h3>
+    <p>This will permanently delete the motion and all its checklist progress. This cannot be undone.</p>
+    <div class="modal-btns">
+      <button class="btn-sec" onclick="closeModal()">Cancel</button>
+      <button class="btn-danger" onclick="confirmDel()">Delete</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const SECTIONS=[
+  {title:"Foundation — do this first",items:[
+    {id:"s1",name:"Strategic rationale (motion brief)",sub:"Define why now, what problem it solves, and which FY priority it serves. One paragraph max.",badge:"must"},
+    {id:"s2",name:"TAM & opportunity slide",sub:"Market size, pipeline potential, revenue impact, and risk of inaction.",badge:"must"},
+    {id:"s3",name:"Motion type & success metrics",sub:"Name the motion lever (velocity, attach, conversion, etc.) and set 2–3 measurable KPIs.",badge:"must"}
+  ]},
+  {title:"Targeting & scope",items:[
+    {id:"t1",name:"Account targeting & ICP criteria slide",sub:"Industry, size, lifecycle stage, product signal, geography, and explicit exclusions.",badge:"must"},
+    {id:"t2",name:"Geo / segment breakdown of accounts in scope",sub:"Region × segment table with account counts and priority tier (P1/P2/P3).",badge:"must"}
+  ]},
+  {title:"Value & messaging",items:[
+    {id:"v1",name:"Seller value articulation (WIIFM)",sub:"Comp impact, pipeline coverage, deal size uplift, time-to-close, competitive edge.",badge:"must"},
+    {id:"v2",name:"Customer value proposition",sub:"Business outcome, security outcome, TCO/ROI, time-to-value, differentiation, proof points.",badge:"must"}
+  ]},
+  {title:"Orchestration & coverage",items:[
+    {id:"o1",name:"MCEM orchestration slide",sub:"Actions and owners mapped across Identify → Connect → Discover → Prove → Close → Grow.",badge:"must"},
+    {id:"o2",name:"Partner activation strategy",sub:"Partner roles, enablement plan, co-sell model, PAL attach, deal registration process.",badge:"team"},
+    {id:"o3",name:"CxE / GBB support plan",sub:"Coverage model, engagement trigger criteria, escalation path, POC support model.",badge:"team"}
+  ]},
+  {title:"Cross-functional plans",items:[
+    {id:"c1",name:"Programs team plan",sub:"Funding/incentives, motion tracking methodology, governance cadence and owners.",badge:"team"},
+    {id:"c2",name:"Enablement team plan",sub:"Training format, seller readiness date, pitch deck/toolkit assets created or updated.",badge:"team"},
+    {id:"c3",name:"Marketing plan",sub:"ABM campaign, webinar/event, concise field-ready value pitch deck — owner + due date.",badge:"team"}
+  ]},
+  {title:"Execution & governance",items:[
+    {id:"e1",name:"Engineering roadmap alignment (with lock date)",sub:"Committed features confirmed. Lock date set — no edits after that date without VP approval.",badge:"lock"},
+    {id:"e2",name:"Comms & landing plan",sub:"Stakeholder matrix, key messages per audience, channel, timing, and owner for each group.",badge:"must"}
+  ]}
+];
+const BL={must:"Required",team:"Cross-functional",lock:"Time-sensitive"};
+const TOTAL=14;
+let cid=null,readOnly=false,roData=null,delId=null;
+
+function allIds(){return SECTIONS.flatMap(s=>s.items.map(i=>i.id));}
+function emptyData(){const d={checks:{},subtasks:{}};allIds().forEach(id=>{d.checks[id]=false;d.subtasks[id]=[];});return d;}
+function getMotions(){try{return JSON.parse(localStorage.getItem('gtm_motions')||'[]');}catch{return[];}}
+function setMotions(m){localStorage.setItem('gtm_motions',JSON.stringify(m));}
+function getData(id){try{return JSON.parse(localStorage.getItem('gtm_d_'+id)||'null');}catch{return null;}}
+function setData(id,d){localStorage.setItem('gtm_d_'+id,JSON.stringify(d));}
+
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+
+function goHome(){
+  cid=null;readOnly=false;roData=null;
+  history.replaceState(null,'',location.pathname);
+  renderHome();showPage('pgHome');
+}
+
+function goNew(){
+  ['fn','fp','fo','ff'].forEach(id=>document.getElementById(id).value='');
+  showPage('pgNew');
+}
+
+function renderHome(){
+  const ms=getMotions();
+  const homeMotions=document.getElementById('homeMotions');
+  const rocketEmpty=document.getElementById('rocketEmpty');
+  if(!ms.length){
+    homeMotions.style.display='none';
+    rocketEmpty.style.display='flex';
+    return;
+  }
+  rocketEmpty.style.display='none';
+  homeMotions.style.display='block';
+  document.getElementById('motionCards').innerHTML=ms.map(m=>{
+    const d=getData(m.id)||emptyData();
+    const done=Object.values(d.checks).filter(Boolean).length;
+    const pct=Math.round(done/TOTAL*100);
+    const sc=m.status==='In Motion'?'i':m.status==='Complete'?'c':'p';
+    return `<div class="home-card" onclick="openMotion('${m.id}')">
+      <div>
+        <div class="hc-name">${m.name}</div>
+        <div class="hc-meta">${m.owner}${m.product?' · '+m.product:''}${m.fiscal?' · '+m.fiscal:''}</div>
+      </div>
+      <div class="hc-right">
+        <div class="hc-btns">
+          <button class="hc-share" onclick="event.stopPropagation();shareById('${m.id}')">⬆ Share</button>
+          <button class="hc-del" onclick="event.stopPropagation();askDel('${m.id}')">Delete</button>
+        </div>
+        <span class="hc-pct">${done}/${TOTAL} · ${pct}%</span>
+        <span class="hc-pill ${sc}">${m.status}</span>
+        <span style="color:#0078D4;font-size:18px">›</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function createMotion(){
+  const name=document.getElementById('fn').value.trim();
+  const owner=document.getElementById('fo').value.trim();
+  if(!name||!owner){alert('Please fill in the project name and your name.');return;}
+  const ms=getMotions();
+  const id='m_'+Date.now();
+  ms.unshift({id,name,owner,product:document.getElementById('fp').value.trim(),fiscal:document.getElementById('ff').value.trim(),status:'Planning'});
+  setMotions(ms);setData(id,emptyData());openMotion(id);
+}
+
+function openMotion(id){
+  readOnly=false;roData=null;cid=id;
+  const m=getMotions().find(m=>m.id===id);if(!m)return;
+  history.replaceState(null,'',location.pathname+'#'+id);
+  document.getElementById('titleDisplay').textContent=m.name;
+  document.getElementById('titleDisplay').style.display='';
+  document.getElementById('titleInput').style.display='none';
+  document.getElementById('clShareBtn').style.display='';
+  document.getElementById('roBanner').style.display='none';
+  document.getElementById('clBottom').style.display='block';
+  document.getElementById('clBack').onclick=goHome;
+  buildChecklist();showPage('pgChecklist');
+}
+
+function startEditTitle(){
+  if(readOnly)return;
+  const ms=getMotions();const m=ms.find(m=>m.id===cid);if(!m)return;
+  const d=document.getElementById('titleDisplay');
+  const i=document.getElementById('titleInput');
+  i.value=m.name;d.style.display='none';i.style.display='block';i.focus();i.select();
+}
+
+function saveTitle(){
+  const i=document.getElementById('titleInput');
+  const d=document.getElementById('titleDisplay');
+  const text=i.value.trim();if(!text)return;
+  const ms=getMotions();const m=ms.find(m=>m.id===cid);
+  if(m){m.name=text;setMotions(ms);}
+  d.textContent=text;d.style.display='';i.style.display='none';document.title=text;
+}
+
+function shareById(id){
+  const d=getData(id)||emptyData();
+  const m=getMotions().find(m=>m.id===id);if(!m)return;
+  const enc=btoa(unescape(encodeURIComponent(JSON.stringify({motion:m,data:d}))));
+  const url=location.origin+location.pathname+'#share_'+enc;
+  navigator.clipboard.writeText(url).then(()=>showToast('Share link copied to clipboard!')).catch(()=>prompt('Copy this link:',url));
+}
+
+function doShare(){if(cid)shareById(cid);}
+
+function openShared(enc){
+  try{
+    const p=JSON.parse(decodeURIComponent(escape(atob(enc))));
+    readOnly=true;roData=p.data;cid=null;
+    document.getElementById('titleDisplay').textContent=p.motion.name;
+    document.getElementById('titleDisplay').style.display='';
+    document.getElementById('titleInput').style.display='none';
+    document.getElementById('clShareBtn').style.display='none';
+    document.getElementById('roBanner').style.display='block';
+    document.getElementById('clBottom').style.display='none';
+    document.getElementById('clBack').onclick=()=>{history.replaceState(null,'',location.pathname);goHome();};
+    buildChecklist();showPage('pgChecklist');
+  }catch{goHome();}
+}
+
+function buildChecklist(){
+  const d=readOnly?roData:(getData(cid)||emptyData());
+  updateStats(d);
+  const container=document.getElementById('sections');
+  container.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    const div=document.createElement('div');
+    div.className='section';
+    div.innerHTML='<div class="section-title">'+sec.title+'</div>';
+    sec.items.forEach(it=>{
+      const on=d.checks[it.id]||false;
+      const badge=it.badge?`<span class="badge ${it.badge}">${BL[it.badge]}</span>`:'';
+      const click=readOnly?'':`onclick="toggleItem('${it.id}')"`;
+      div.innerHTML+=`
+        <div class="item ${on?'done':''}" id="item-${it.id}">
+          <div class="item-row" style="${readOnly?'cursor:default':''}" ${click}>
+            <div class="checkbox ${on?'checked':''}" id="cb-${it.id}">${on?'✓':''}</div>
+            <div class="item-body">
+              <div class="item-name">${it.name}${badge}</div>
+              <div class="item-sub">${it.sub}</div>
+            </div>
+          </div>
+          ${!readOnly?`
+          <div class="subtasks-list" id="stlist-${it.id}"></div>
+          <button class="add-subtask-btn" onclick="showSubtaskInput('${it.id}')">+ add sub-task</button>
+          <div class="subtask-input-row" id="sti-${it.id}">
+            <input class="subtask-input" id="stt-${it.id}" type="text" placeholder="Describe the sub-task..." onkeydown="if(event.key==='Enter')saveSubtask('${it.id}')"/>
+            <button class="st-save" onclick="saveSubtask('${it.id}')">Save</button>
+            <button class="st-cancel" onclick="hideSubtaskInput('${it.id}')">Cancel</button>
+          </div>`:''}
+        </div>`;
+    });
+    container.appendChild(div);
+  });
+  if(!readOnly)SECTIONS.forEach(s=>s.items.forEach(i=>renderSubtasks(i.id,d)));
+}
+
+function updateStats(d){
+  const done=Object.values(d.checks).filter(Boolean).length;
+  const pct=Math.round(done/TOTAL*100);
+  document.getElementById('cnt-done').textContent=done;
+  document.getElementById('cnt-left').textContent=TOTAL-done;
+  document.getElementById('cnt-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-label').textContent=done+' of '+TOTAL+' complete';
+}
+
+function toggleItem(id){
+  if(readOnly)return;
+  const d=getData(cid)||emptyData();
+  d.checks[id]=!d.checks[id];setData(cid,d);
+  document.getElementById('item-'+id).classList.toggle('done',d.checks[id]);
+  const cb=document.getElementById('cb-'+id);
+  cb.classList.toggle('checked',d.checks[id]);cb.textContent=d.checks[id]?'✓':'';
+  updateStats(d);
+  const ms=getMotions();const m=ms.find(m=>m.id===cid);
+  if(m){const done=Object.values(d.checks).filter(Boolean).length;m.status=done===TOTAL?'Complete':done>0?'In Motion':'Planning';setMotions(ms);}
+}
+
+function renderSubtasks(itemId,d){
+  const sts=(d||getData(cid)||emptyData()).subtasks[itemId]||[];
+  const list=document.getElementById('stlist-'+itemId);if(!list)return;
+  list.innerHTML=sts.map((st,i)=>`
+    <div class="subtask-item">
+      <div class="sub-checkbox ${st.done?'checked':''}" onclick="toggleSubtask('${itemId}',${i})">${st.done?'✓':''}</div>
+      <span class="subtask-name ${st.done?'done':''}">${st.text}</span>
+      <button class="subtask-del" onclick="deleteSubtask('${itemId}',${i})" title="Remove">×</button>
+    </div>`).join('');
+}
+
+function showSubtaskInput(id){document.getElementById('sti-'+id).classList.add('visible');document.getElementById('stt-'+id).focus();}
+function hideSubtaskInput(id){document.getElementById('sti-'+id).classList.remove('visible');document.getElementById('stt-'+id).value='';}
+function saveSubtask(id){
+  const text=document.getElementById('stt-'+id).value.trim();if(!text)return;
+  const d=getData(cid)||emptyData();
+  if(!d.subtasks[id])d.subtasks[id]=[];
+  d.subtasks[id].push({text,done:false});setData(cid,d);hideSubtaskInput(id);renderSubtasks(id,d);
+}
+function toggleSubtask(itemId,idx){const d=getData(cid)||emptyData();d.subtasks[itemId][idx].done=!d.subtasks[itemId][idx].done;setData(cid,d);renderSubtasks(itemId,d);}
+function deleteSubtask(itemId,idx){const d=getData(cid)||emptyData();d.subtasks[itemId].splice(idx,1);setData(cid,d);renderSubtasks(itemId,d);}
+function resetChecklist(){if(!confirm('Reset all checkboxes and sub-tasks for this motion?'))return;setData(cid,emptyData());buildChecklist();}
+function askDel(id){delId=id;document.getElementById('delOverlay').classList.add('open');}
+function closeModal(){delId=null;document.getElementById('delOverlay').classList.remove('open');}
+function confirmDel(){
+  if(!delId)return;
+  let ms=getMotions();ms=ms.filter(m=>m.id!==delId);setMotions(ms);
+  localStorage.removeItem('gtm_d_'+delId);closeModal();renderHome();
+}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+
+function route(){
+  const h=location.hash.slice(1);
+  if(!h){renderHome();showPage('pgHome');return;}
+  if(h.startsWith('share_')){openShared(h.slice(6));return;}
+  const m=getMotions().find(m=>m.id===h);
+  if(m)openMotion(h);else{renderHome();showPage('pgHome');}
+}
+window.addEventListener('popstate',route);
+route();
+</script>
+</body>
+</html>
