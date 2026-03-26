@@ -7,27 +7,19 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F3F6FA;color:#374151}
-.wrap{max-width:720px;margin:0 auto;padding:24px}
 
-/* ── PAGE SWITCHING ── */
 .page{display:none}
 .page.active{display:block}
 
-/* ══════════════════════════════════
-   HOME SCREEN
-══════════════════════════════════ */
+/* HOME */
 .home-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center}
 .home-wordmark{font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#9CA3AF;margin-bottom:32px}
 .home-title{font-size:36px;font-weight:700;color:#111827;letter-spacing:-1px;line-height:1.15;margin-bottom:48px}
 .home-title span{color:#0078D4}
-
-.btn-start{position:relative;background:#0078D4;color:#fff;border:none;padding:18px 48px;border-radius:100px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:0.3px;transition:all 0.2s;box-shadow:0 4px 24px rgba(0,120,212,0.35)}
+.btn-start{background:#0078D4;color:#fff;border:none;padding:18px 48px;border-radius:100px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:0.3px;transition:all 0.2s;box-shadow:0 4px 24px rgba(0,120,212,0.35)}
 .btn-start:hover{background:#006cbd;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,120,212,0.45)}
-.btn-start:active{transform:translateY(0)}
-
 .home-motions-list{width:100%;max-width:560px;margin-top:48px;text-align:left}
 .home-motions-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#9CA3AF;margin-bottom:12px;text-align:center}
-
 .home-card{background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.07);transition:box-shadow 0.15s,transform 0.12s}
 .home-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.1);transform:translateY(-1px)}
 .hc-name{font-size:14px;font-weight:600;color:#111827;margin-bottom:2px}
@@ -42,14 +34,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .home-card:hover .hc-btns{opacity:1}
 .hc-share{background:#E6F1FB;color:#0C447C;border:none;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
 .hc-del{background:#FCEBEB;color:#A32D2D;border:none;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
-
 .rocket-empty{margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:16px}
-.rocket-svg{opacity:0.85}
 .rocket-label{font-size:14px;color:#9CA3AF;line-height:1.5}
 
-/* ══════════════════════════════════
-   NEW MOTION SCREEN
-══════════════════════════════════ */
+/* NEW MOTION */
 .new-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px}
 .new-card{background:#fff;border-radius:16px;padding:36px;width:100%;max-width:480px;box-shadow:0 2px 16px rgba(0,0,0,0.08)}
 .new-back{background:none;border:none;font-size:13px;color:#9CA3AF;cursor:pointer;font-family:inherit;padding:0;margin-bottom:24px;display:flex;align-items:center;gap:5px;transition:color 0.15s}
@@ -62,12 +50,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .fg input:focus{border-color:#0078D4;box-shadow:0 0 0 3px rgba(0,120,212,0.1)}
 .fg input::placeholder{color:#D1D5DB;font-size:14px}
 .btn-create{width:100%;background:#0078D4;color:#fff;border:none;padding:14px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px;transition:all 0.2s;box-shadow:0 2px 12px rgba(0,120,212,0.25)}
-.btn-create:hover{background:#006cbd;transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,120,212,0.35)}
+.btn-create:hover{background:#006cbd;transform:translateY(-1px)}
+.btn-create:disabled{background:#9CA3AF;transform:none;box-shadow:none;cursor:not-allowed}
 
-/* ══════════════════════════════════
-   CHECKLIST SCREEN — EXACT ORIGINAL
-══════════════════════════════════ */
+/* CHECKLIST */
 .cl-wrap{max-width:720px;margin:0 auto;padding:24px}
+.cl-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.cl-back{background:none;border:none;font-size:13px;color:#9CA3AF;cursor:pointer;font-family:inherit;padding:0;display:flex;align-items:center;gap:4px}
+.cl-back:hover{color:#0078D4}
+.cl-share{background:#E6F1FB;color:#0C447C;border:none;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.cl-share:hover{background:#d0e4f5}
 .header{margin-bottom:1.5rem}
 .title-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
 .title-display{font-size:20px;font-weight:600;color:#111827;cursor:pointer;border-bottom:2px dashed transparent;transition:border-color 0.15s;padding-bottom:2px}
@@ -116,12 +108,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .reset-btn{font-size:13px;color:#6B7280;background:#fff;border:1px solid #E5EBF4;border-radius:8px;padding:8px 16px;cursor:pointer;margin-top:8px;font-family:inherit}
 .reset-btn:hover{background:#F3F6FA}
 .save-notice{font-size:11px;color:#9CA3AF;margin-top:12px;text-align:center}
-.cl-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.cl-back{background:none;border:none;font-size:13px;color:#9CA3AF;cursor:pointer;font-family:inherit;padding:0;display:flex;align-items:center;gap:4px}
-.cl-back:hover{color:#0078D4}
-.cl-share{background:#E6F1FB;color:#0C447C;border:none;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.15s}
-.cl-share:hover{background:#d0e4f5}
+.live-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#0F6E56;background:#E1F5EE;padding:3px 9px;border-radius:20px;font-weight:600}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#0F6E56;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 .ro-banner{background:#FFF3CD;border:1px solid #FFB900;border-radius:8px;padding:10px 14px;font-size:12px;color:#7D5A00;margin-bottom:1.5rem}
+.loading{text-align:center;padding:80px 24px;color:#9CA3AF;font-size:14px}
 
 /* modal */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:100;align-items:center;justify-content:center}
@@ -133,14 +124,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-sec{background:#F3F6FA;color:#374151;border:none;padding:8px 14px;border-radius:7px;font-size:13px;cursor:pointer;font-family:inherit}
 .btn-danger{background:#D13438;color:#fff;border:none;padding:8px 14px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
 
-/* toast */
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;transition:opacity 0.25s;pointer-events:none;z-index:200;white-space:nowrap}
 .toast.show{opacity:1}
 </style>
 </head>
 <body>
 
-<!-- ══ HOME ══ -->
+<!-- HOME -->
 <div class="page active" id="pgHome">
   <div class="home-wrap">
     <div class="home-wordmark">Microsoft Security · BA Team</div>
@@ -151,7 +141,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div id="motionCards"></div>
     </div>
     <div class="rocket-empty" id="rocketEmpty">
-      <svg class="rocket-svg" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="40" cy="40" r="40" fill="#EEF2FF"/>
         <path d="M40 16C40 16 28 28 28 42C28 49.18 33.37 55.13 40 56.7C46.63 55.13 52 49.18 52 42C52 28 40 16 40 16Z" fill="#0078D4" opacity="0.15"/>
         <path d="M40 16C40 16 28 28 28 42C28 49.18 33.37 55.13 40 56.7C46.63 55.13 52 49.18 52 42C52 28 40 16 40 16Z" stroke="#0078D4" stroke-width="1.5" fill="none"/>
@@ -162,14 +152,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <path d="M28 42C24 42 20 44 20 44C20 44 22 50 28 50" stroke="#0078D4" stroke-width="1.5" fill="none"/>
         <path d="M52 42C56 42 60 44 60 44C60 44 58 50 52 50" fill="#0078D4" opacity="0.2"/>
         <path d="M52 42C56 42 60 44 60 44C60 44 58 50 52 50" stroke="#0078D4" stroke-width="1.5" fill="none"/>
-        <path d="M37 64L40 68L43 64" stroke="#0078D4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
       </svg>
       <p class="rocket-label">Click <strong>"Start New Motion"</strong> to create a new project</p>
     </div>
   </div>
 </div>
 
-<!-- ══ NEW MOTION ══ -->
+<!-- NEW MOTION -->
 <div class="page" id="pgNew">
   <div class="new-wrap">
     <div class="new-card">
@@ -180,17 +169,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="fg"><label>Primary product(s)</label><input id="fp" type="text" placeholder="e.g. Defender for Endpoint, Sentinel"/></div>
       <div class="fg"><label>Your name</label><input id="fo" type="text" placeholder="Your full name"/></div>
       <div class="fg"><label>Fiscal period</label><input id="ff" type="text" placeholder="e.g. FY26 H1"/></div>
-      <button class="btn-create" onclick="createMotion()">Create Motion &amp; Start Checklist →</button>
+      <button class="btn-create" id="btnCreate" onclick="createMotion()">Create Motion &amp; Start Checklist →</button>
     </div>
   </div>
 </div>
 
-<!-- ══ CHECKLIST ══ -->
+<!-- CHECKLIST -->
 <div class="page" id="pgChecklist">
   <div class="cl-wrap">
     <div class="cl-topbar">
       <button class="cl-back" id="clBack" onclick="goHome()">← My Motions</button>
-      <button class="cl-share" id="clShareBtn" onclick="doShare()">⬆ Share</button>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="live-badge" id="liveBadge" style="display:none"><span class="live-dot"></span>Live</span>
+        <button class="cl-share" id="clShareBtn" onclick="doShare()">⬆ Share</button>
+      </div>
     </div>
     <div id="roBanner" style="display:none" class="ro-banner">👁 <strong>Read-only view.</strong> This is a shared snapshot — progress shown is from when this link was generated.</div>
     <div class="header">
@@ -198,7 +190,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <span class="title-display" id="titleDisplay" onclick="startEditTitle()" title="Click to rename"></span>
         <input class="title-input" id="titleInput" type="text" onblur="saveTitle()" onkeydown="if(event.key==='Enter')saveTitle()" style="display:none"/>
       </div>
-      <p id="clSub">Check off each item as you build out your motion. Progress and sub-tasks save automatically.</p>
+      <p id="clSub">Check off each item as you build out your motion. Changes sync live for everyone with access.</p>
     </div>
     <div class="stats">
       <div class="stat"><div class="stat-num" id="cnt-done">0</div><div class="stat-lbl">Completed</div></div>
@@ -210,16 +202,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div id="sections"></div>
     <div id="clBottom">
       <button class="reset-btn" onclick="resetChecklist()">Reset checklist</button>
-      <div class="save-notice">✓ Progress and sub-tasks save automatically in your browser</div>
+      <div class="save-notice">✓ Changes sync live to Firebase — everyone sees updates instantly</div>
     </div>
   </div>
 </div>
 
-<!-- DELETE MODAL -->
 <div class="overlay" id="delOverlay">
   <div class="modal">
     <h3>Delete this motion?</h3>
-    <p>This will permanently delete the motion and all its checklist progress. This cannot be undone.</p>
+    <p>This will permanently delete the motion and all its checklist progress for everyone. This cannot be undone.</p>
     <div class="modal-btns">
       <button class="btn-sec" onclick="closeModal()">Cancel</button>
       <button class="btn-danger" onclick="confirmDel()">Delete</button>
@@ -228,7 +219,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </div>
 <div class="toast" id="toast"></div>
 
-<script>
+<script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import{getDatabase,ref,set,get,onValue,remove,update}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+const firebaseConfig={
+  apiKey:"AIzaSyBqIwbmnsGzoU0qs9sT7OvZtLA4PpEybCI",
+  authDomain:"gtm-motions-ba-checklist.firebaseapp.com",
+  databaseURL:"https://gtm-motions-ba-checklist-default-rtdb.firebaseio.com",
+  projectId:"gtm-motions-ba-checklist",
+  storageBucket:"gtm-motions-ba-checklist.firebasestorage.app",
+  messagingSenderId:"10504982858",
+  appId:"1:10504982858:web:c4f89e4fb7b610b13231b3"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+
 const SECTIONS=[
   {title:"Foundation — do this first",items:[
     {id:"s1",name:"Strategic rationale (motion brief)",sub:"Define why now, what problem it solves, and which FY priority it serves. One paragraph max.",badge:"must"},
@@ -260,18 +267,22 @@ const SECTIONS=[
 ];
 const BL={must:"Required",team:"Cross-functional",lock:"Time-sensitive"};
 const TOTAL=14;
-let cid=null,readOnly=false,roData=null,delId=null;
+
+let cid=null,readOnly=false,roData=null,delId=null,liveUnsub=null;
+const USER_KEY='gtm_user_motions';
 
 function allIds(){return SECTIONS.flatMap(s=>s.items.map(i=>i.id));}
 function emptyData(){const d={checks:{},subtasks:{}};allIds().forEach(id=>{d.checks[id]=false;d.subtasks[id]=[];});return d;}
-function getMotions(){try{return JSON.parse(localStorage.getItem('gtm_motions')||'[]');}catch{return[];}}
-function setMotions(m){localStorage.setItem('gtm_motions',JSON.stringify(m));}
-function getData(id){try{return JSON.parse(localStorage.getItem('gtm_d_'+id)||'null');}catch{return null;}}
-function setData(id,d){localStorage.setItem('gtm_d_'+id,JSON.stringify(d));}
+
+// localStorage for tracking which motions this user created
+function getUserMotions(){try{return JSON.parse(localStorage.getItem(USER_KEY)||'[]');}catch{return[];}}
+function addUserMotion(id){const m=getUserMotions();if(!m.includes(id)){m.unshift(id);localStorage.setItem(USER_KEY,JSON.stringify(m));}}
+function removeUserMotion(id){const m=getUserMotions().filter(x=>x!==id);localStorage.setItem(USER_KEY,JSON.stringify(m));}
 
 function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
 
 function goHome(){
+  if(liveUnsub){liveUnsub();liveUnsub=null;}
   cid=null;readOnly=false;roData=null;
   history.replaceState(null,'',location.pathname);
   renderHome();showPage('pgHome');
@@ -282,109 +293,109 @@ function goNew(){
   showPage('pgNew');
 }
 
-function renderHome(){
-  const ms=getMotions();
+async function renderHome(){
+  const ids=getUserMotions();
   const homeMotions=document.getElementById('homeMotions');
   const rocketEmpty=document.getElementById('rocketEmpty');
-  if(!ms.length){
-    homeMotions.style.display='none';
-    rocketEmpty.style.display='flex';
-    return;
-  }
+  if(!ids.length){homeMotions.style.display='none';rocketEmpty.style.display='flex';return;}
   rocketEmpty.style.display='none';
   homeMotions.style.display='block';
-  document.getElementById('motionCards').innerHTML=ms.map(m=>{
-    const d=getData(m.id)||emptyData();
-    const done=Object.values(d.checks).filter(Boolean).length;
+
+  const cards=[];
+  for(const id of ids){
+    const snap=await get(ref(db,'motions/'+id));
+    if(!snap.exists()){removeUserMotion(id);continue;}
+    const m=snap.val();
+    const done=m.checks?Object.values(m.checks).filter(Boolean).length:0;
     const pct=Math.round(done/TOTAL*100);
-    const sc=m.status==='In Motion'?'i':m.status==='Complete'?'c':'p';
-    return `<div class="home-card" onclick="openMotion('${m.id}')">
+    const status=done===TOTAL?'Complete':done>0?'In Motion':'Planning';
+    const sc=status==='In Motion'?'i':status==='Complete'?'c':'p';
+    cards.push(`<div class="home-card" onclick="window.openMotion('${id}')">
       <div>
         <div class="hc-name">${m.name}</div>
         <div class="hc-meta">${m.owner}${m.product?' · '+m.product:''}${m.fiscal?' · '+m.fiscal:''}</div>
       </div>
       <div class="hc-right">
         <div class="hc-btns">
-          <button class="hc-share" onclick="event.stopPropagation();shareById('${m.id}')">⬆ Share</button>
-          <button class="hc-del" onclick="event.stopPropagation();askDel('${m.id}')">Delete</button>
+          <button class="hc-share" onclick="event.stopPropagation();window.shareMotion('${id}')">⬆ Share</button>
+          <button class="hc-del" onclick="event.stopPropagation();window.askDel('${id}')">Delete</button>
         </div>
         <span class="hc-pct">${done}/${TOTAL} · ${pct}%</span>
-        <span class="hc-pill ${sc}">${m.status}</span>
+        <span class="hc-pill ${sc}">${status}</span>
         <span style="color:#0078D4;font-size:18px">›</span>
       </div>
-    </div>`;
-  }).join('');
+    </div>`);
+  }
+  document.getElementById('motionCards').innerHTML=cards.join('');
 }
 
-function createMotion(){
+async function createMotion(){
   const name=document.getElementById('fn').value.trim();
   const owner=document.getElementById('fo').value.trim();
   if(!name||!owner){alert('Please fill in the project name and your name.');return;}
-  const ms=getMotions();
+  const btn=document.getElementById('btnCreate');
+  btn.disabled=true;btn.textContent='Creating...';
   const id='m_'+Date.now();
-  ms.unshift({id,name,owner,product:document.getElementById('fp').value.trim(),fiscal:document.getElementById('ff').value.trim(),status:'Planning'});
-  setMotions(ms);setData(id,emptyData());openMotion(id);
+  const data={id,name,owner,product:document.getElementById('fp').value.trim(),fiscal:document.getElementById('ff').value.trim(),created:new Date().toISOString(),checks:{},subtasks:{}};
+  allIds().forEach(itemId=>{data.checks[itemId]=false;data.subtasks[itemId]=[];});
+  await set(ref(db,'motions/'+id),data);
+  addUserMotion(id);
+  btn.disabled=false;btn.textContent='Create Motion & Start Checklist →';
+  openMotion(id);
 }
 
 function openMotion(id){
+  if(liveUnsub){liveUnsub();liveUnsub=null;}
   readOnly=false;roData=null;cid=id;
-  const m=getMotions().find(m=>m.id===id);if(!m)return;
   history.replaceState(null,'',location.pathname+'#'+id);
-  document.getElementById('titleDisplay').textContent=m.name;
-  document.getElementById('titleDisplay').style.display='';
-  document.getElementById('titleInput').style.display='none';
   document.getElementById('clShareBtn').style.display='';
   document.getElementById('roBanner').style.display='none';
   document.getElementById('clBottom').style.display='block';
+  document.getElementById('liveBadge').style.display='flex';
   document.getElementById('clBack').onclick=goHome;
-  buildChecklist();showPage('pgChecklist');
+  showPage('pgChecklist');
+
+  // live listener
+  liveUnsub=onValue(ref(db,'motions/'+id),(snap)=>{
+    if(!snap.exists()){goHome();return;}
+    const m=snap.val();
+    document.getElementById('titleDisplay').textContent=m.name;
+    document.getElementById('titleDisplay').style.display='';
+    document.getElementById('titleInput').style.display='none';
+    buildChecklist(m);
+  });
 }
 
-function startEditTitle(){
-  if(readOnly)return;
-  const ms=getMotions();const m=ms.find(m=>m.id===cid);if(!m)return;
-  const d=document.getElementById('titleDisplay');
-  const i=document.getElementById('titleInput');
-  i.value=m.name;d.style.display='none';i.style.display='block';i.focus();i.select();
-}
-
-function saveTitle(){
-  const i=document.getElementById('titleInput');
-  const d=document.getElementById('titleDisplay');
-  const text=i.value.trim();if(!text)return;
-  const ms=getMotions();const m=ms.find(m=>m.id===cid);
-  if(m){m.name=text;setMotions(ms);}
-  d.textContent=text;d.style.display='';i.style.display='none';document.title=text;
-}
-
-function shareById(id){
-  const d=getData(id)||emptyData();
-  const m=getMotions().find(m=>m.id===id);if(!m)return;
-  const enc=btoa(unescape(encodeURIComponent(JSON.stringify({motion:m,data:d}))));
-  const url=location.origin+location.pathname+'#share_'+enc;
-  navigator.clipboard.writeText(url).then(()=>showToast('Share link copied to clipboard!')).catch(()=>prompt('Copy this link:',url));
-}
-
-function doShare(){if(cid)shareById(cid);}
+window.openMotion=openMotion;
 
 function openShared(enc){
   try{
     const p=JSON.parse(decodeURIComponent(escape(atob(enc))));
-    readOnly=true;roData=p.data;cid=null;
-    document.getElementById('titleDisplay').textContent=p.motion.name;
+    if(liveUnsub){liveUnsub();liveUnsub=null;}
+    readOnly=true;roData=p;cid=null;
+    document.getElementById('titleDisplay').textContent=p.name;
     document.getElementById('titleDisplay').style.display='';
     document.getElementById('titleInput').style.display='none';
     document.getElementById('clShareBtn').style.display='none';
     document.getElementById('roBanner').style.display='block';
     document.getElementById('clBottom').style.display='none';
+    document.getElementById('liveBadge').style.display='none';
     document.getElementById('clBack').onclick=()=>{history.replaceState(null,'',location.pathname);goHome();};
-    buildChecklist();showPage('pgChecklist');
+    buildChecklist(p);showPage('pgChecklist');
   }catch{goHome();}
 }
 
-function buildChecklist(){
-  const d=readOnly?roData:(getData(cid)||emptyData());
-  updateStats(d);
+function buildChecklist(m){
+  const checks=m.checks||{};
+  const subtasks=m.subtasks||{};
+  const done=Object.values(checks).filter(Boolean).length;
+  const pct=Math.round(done/TOTAL*100);
+  document.getElementById('cnt-done').textContent=done;
+  document.getElementById('cnt-left').textContent=TOTAL-done;
+  document.getElementById('cnt-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-label').textContent=done+' of '+TOTAL+' complete';
+
   const container=document.getElementById('sections');
   container.innerHTML='';
   SECTIONS.forEach(sec=>{
@@ -392,9 +403,16 @@ function buildChecklist(){
     div.className='section';
     div.innerHTML='<div class="section-title">'+sec.title+'</div>';
     sec.items.forEach(it=>{
-      const on=d.checks[it.id]||false;
+      const on=checks[it.id]||false;
       const badge=it.badge?`<span class="badge ${it.badge}">${BL[it.badge]}</span>`:'';
-      const click=readOnly?'':`onclick="toggleItem('${it.id}')"`;
+      const click=readOnly?'':`onclick="window.toggleItem('${it.id}')"`;
+      const sts=subtasks[it.id]||[];
+      const stHtml=sts.map((st,i)=>`
+        <div class="subtask-item">
+          <div class="sub-checkbox ${st.done?'checked':''}" onclick="window.toggleST('${it.id}',${i})">${st.done?'✓':''}</div>
+          <span class="subtask-name ${st.done?'done':''}">${st.text}</span>
+          ${!readOnly?`<button class="subtask-del" onclick="window.deleteST('${it.id}',${i})">×</button>`:''}
+        </div>`).join('');
       div.innerHTML+=`
         <div class="item ${on?'done':''}" id="item-${it.id}">
           <div class="item-row" style="${readOnly?'cursor:default':''}" ${click}>
@@ -404,80 +422,112 @@ function buildChecklist(){
               <div class="item-sub">${it.sub}</div>
             </div>
           </div>
+          <div class="subtasks-list">${stHtml}</div>
           ${!readOnly?`
-          <div class="subtasks-list" id="stlist-${it.id}"></div>
-          <button class="add-subtask-btn" onclick="showSubtaskInput('${it.id}')">+ add sub-task</button>
+          <button class="add-subtask-btn" onclick="window.showST('${it.id}')">+ add sub-task</button>
           <div class="subtask-input-row" id="sti-${it.id}">
-            <input class="subtask-input" id="stt-${it.id}" type="text" placeholder="Describe the sub-task..." onkeydown="if(event.key==='Enter')saveSubtask('${it.id}')"/>
-            <button class="st-save" onclick="saveSubtask('${it.id}')">Save</button>
-            <button class="st-cancel" onclick="hideSubtaskInput('${it.id}')">Cancel</button>
+            <input class="subtask-input" id="stt-${it.id}" type="text" placeholder="Describe the sub-task..." onkeydown="if(event.key==='Enter')window.saveST('${it.id}')"/>
+            <button class="st-save" onclick="window.saveST('${it.id}')">Save</button>
+            <button class="st-cancel" onclick="window.hideST('${it.id}')">Cancel</button>
           </div>`:''}
         </div>`;
     });
     container.appendChild(div);
   });
-  if(!readOnly)SECTIONS.forEach(s=>s.items.forEach(i=>renderSubtasks(i.id,d)));
 }
 
-function updateStats(d){
-  const done=Object.values(d.checks).filter(Boolean).length;
-  const pct=Math.round(done/TOTAL*100);
-  document.getElementById('cnt-done').textContent=done;
-  document.getElementById('cnt-left').textContent=TOTAL-done;
-  document.getElementById('cnt-pct').textContent=pct+'%';
-  document.getElementById('prog-fill').style.width=pct+'%';
-  document.getElementById('prog-label').textContent=done+' of '+TOTAL+' complete';
-}
+window.toggleItem=async function(itemId){
+  if(readOnly||!cid)return;
+  const snap=await get(ref(db,'motions/'+cid+'/checks/'+itemId));
+  const cur=snap.exists()?snap.val():false;
+  await set(ref(db,'motions/'+cid+'/checks/'+itemId),!cur);
+};
 
-function toggleItem(id){
-  if(readOnly)return;
-  const d=getData(cid)||emptyData();
-  d.checks[id]=!d.checks[id];setData(cid,d);
-  document.getElementById('item-'+id).classList.toggle('done',d.checks[id]);
-  const cb=document.getElementById('cb-'+id);
-  cb.classList.toggle('checked',d.checks[id]);cb.textContent=d.checks[id]?'✓':'';
-  updateStats(d);
-  const ms=getMotions();const m=ms.find(m=>m.id===cid);
-  if(m){const done=Object.values(d.checks).filter(Boolean).length;m.status=done===TOTAL?'Complete':done>0?'In Motion':'Planning';setMotions(ms);}
-}
+window.showST=function(id){document.getElementById('sti-'+id).classList.add('visible');document.getElementById('stt-'+id).focus();};
+window.hideST=function(id){document.getElementById('sti-'+id).classList.remove('visible');document.getElementById('stt-'+id).value='';};
 
-function renderSubtasks(itemId,d){
-  const sts=(d||getData(cid)||emptyData()).subtasks[itemId]||[];
-  const list=document.getElementById('stlist-'+itemId);if(!list)return;
-  list.innerHTML=sts.map((st,i)=>`
-    <div class="subtask-item">
-      <div class="sub-checkbox ${st.done?'checked':''}" onclick="toggleSubtask('${itemId}',${i})">${st.done?'✓':''}</div>
-      <span class="subtask-name ${st.done?'done':''}">${st.text}</span>
-      <button class="subtask-del" onclick="deleteSubtask('${itemId}',${i})" title="Remove">×</button>
-    </div>`).join('');
-}
-
-function showSubtaskInput(id){document.getElementById('sti-'+id).classList.add('visible');document.getElementById('stt-'+id).focus();}
-function hideSubtaskInput(id){document.getElementById('sti-'+id).classList.remove('visible');document.getElementById('stt-'+id).value='';}
-function saveSubtask(id){
+window.saveST=async function(id){
   const text=document.getElementById('stt-'+id).value.trim();if(!text)return;
-  const d=getData(cid)||emptyData();
-  if(!d.subtasks[id])d.subtasks[id]=[];
-  d.subtasks[id].push({text,done:false});setData(cid,d);hideSubtaskInput(id);renderSubtasks(id,d);
+  const snap=await get(ref(db,'motions/'+cid+'/subtasks/'+id));
+  const arr=snap.exists()&&Array.isArray(snap.val())?snap.val():[];
+  arr.push({text,done:false});
+  await set(ref(db,'motions/'+cid+'/subtasks/'+id),arr);
+  window.hideST(id);
+};
+
+window.toggleST=async function(itemId,idx){
+  if(readOnly||!cid)return;
+  const snap=await get(ref(db,'motions/'+cid+'/subtasks/'+itemId));
+  const arr=snap.exists()&&Array.isArray(snap.val())?snap.val():[];
+  arr[idx].done=!arr[idx].done;
+  await set(ref(db,'motions/'+cid+'/subtasks/'+itemId),arr);
+};
+
+window.deleteST=async function(itemId,idx){
+  const snap=await get(ref(db,'motions/'+cid+'/subtasks/'+itemId));
+  const arr=snap.exists()&&Array.isArray(snap.val())?snap.val():[];
+  arr.splice(idx,1);
+  await set(ref(db,'motions/'+cid+'/subtasks/'+itemId),arr);
+};
+
+function startEditTitle(){
+  if(readOnly)return;
+  const d=document.getElementById('titleDisplay');
+  const i=document.getElementById('titleInput');
+  i.value=d.textContent;d.style.display='none';i.style.display='block';i.focus();i.select();
 }
-function toggleSubtask(itemId,idx){const d=getData(cid)||emptyData();d.subtasks[itemId][idx].done=!d.subtasks[itemId][idx].done;setData(cid,d);renderSubtasks(itemId,d);}
-function deleteSubtask(itemId,idx){const d=getData(cid)||emptyData();d.subtasks[itemId].splice(idx,1);setData(cid,d);renderSubtasks(itemId,d);}
-function resetChecklist(){if(!confirm('Reset all checkboxes and sub-tasks for this motion?'))return;setData(cid,emptyData());buildChecklist();}
-function askDel(id){delId=id;document.getElementById('delOverlay').classList.add('open');}
-function closeModal(){delId=null;document.getElementById('delOverlay').classList.remove('open');}
-function confirmDel(){
+window.startEditTitle=startEditTitle;
+
+async function saveTitle(){
+  const i=document.getElementById('titleInput');
+  const d=document.getElementById('titleDisplay');
+  const text=i.value.trim();if(!text)return;
+  if(cid)await update(ref(db,'motions/'+cid),{name:text});
+  d.style.display='';i.style.display='none';document.title=text;
+}
+window.saveTitle=saveTitle;
+
+window.shareMotion=async function(id){
+  const snap=await get(ref(db,'motions/'+id));
+  if(!snap.exists())return;
+  const m=snap.val();
+  const enc=btoa(unescape(encodeURIComponent(JSON.stringify(m))));
+  const url=location.origin+location.pathname+'#share_'+enc;
+  navigator.clipboard.writeText(url).then(()=>showToast('Share link copied!')).catch(()=>prompt('Copy this link:',url));
+};
+
+function doShare(){if(cid)window.shareMotion(cid);}
+window.doShare=doShare;
+
+async function resetChecklist(){
+  if(!confirm('Reset all checkboxes and sub-tasks for this motion?'))return;
+  const updates={};
+  allIds().forEach(id=>{updates['checks/'+id]=false;updates['subtasks/'+id]=[];});
+  await update(ref(db,'motions/'+cid),updates);
+}
+window.resetChecklist=resetChecklist;
+
+window.askDel=function(id){delId=id;document.getElementById('delOverlay').classList.add('open');};
+window.closeModal=function(){delId=null;document.getElementById('delOverlay').classList.remove('open');};
+window.confirmDel=async function(){
   if(!delId)return;
-  let ms=getMotions();ms=ms.filter(m=>m.id!==delId);setMotions(ms);
-  localStorage.removeItem('gtm_d_'+delId);closeModal();renderHome();
-}
+  await remove(ref(db,'motions/'+delId));
+  removeUserMotion(delId);
+  window.closeModal();renderHome();
+};
+
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+
+// expose to HTML onclick
+window.goHome=goHome;
+window.goNew=goNew;
+window.createMotion=createMotion;
 
 function route(){
   const h=location.hash.slice(1);
   if(!h){renderHome();showPage('pgHome');return;}
   if(h.startsWith('share_')){openShared(h.slice(6));return;}
-  const m=getMotions().find(m=>m.id===h);
-  if(m)openMotion(h);else{renderHome();showPage('pgHome');}
+  openMotion(h);
 }
 window.addEventListener('popstate',route);
 route();
