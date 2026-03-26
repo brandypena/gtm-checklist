@@ -8,21 +8,25 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F3F6FA;color:#374151}
-
-.page{display:none}
-.page.active{display:block}
+.page{display:none}.page.active{display:block}
 
 /* HOME */
-.home-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center}
-.home-wordmark{font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#9CA3AF;margin-bottom:32px}
-.home-title{font-size:36px;font-weight:700;color:#111827;letter-spacing:-1px;line-height:1.15;margin-bottom:48px}
+.home-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:48px 24px;text-align:center}
+.home-wordmark{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#9CA3AF;margin-bottom:24px}
+.home-title{font-size:34px;font-weight:700;color:#111827;letter-spacing:-1px;line-height:1.15;margin-bottom:32px}
 .home-title span{color:#0078D4}
-.btn-start{background:#0078D4;color:#fff;border:none;padding:18px 48px;border-radius:100px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:0.3px;transition:all 0.2s;box-shadow:0 4px 24px rgba(0,120,212,0.35)}
+.btn-start{background:#0078D4;color:#fff;border:none;padding:16px 44px;border-radius:100px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;box-shadow:0 4px 24px rgba(0,120,212,0.35);margin-bottom:40px}
 .btn-start:hover{background:#006cbd;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,120,212,0.45)}
-.home-motions-list{width:100%;max-width:560px;margin-top:48px;text-align:left}
-.home-motions-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#9CA3AF;margin-bottom:12px;text-align:center}
+
+/* TABS */
+.tabs{display:flex;gap:0;background:#fff;border-radius:10px;padding:4px;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:20px;width:100%;max-width:560px}
+.tab{flex:1;padding:8px 12px;border:none;background:none;font-size:13px;font-weight:500;color:#9CA3AF;cursor:pointer;font-family:inherit;border-radius:7px;transition:all 0.15s}
+.tab.active{background:#F3F6FA;color:#111827;font-weight:600}
+
+.motions-container{width:100%;max-width:560px;text-align:left}
 .home-card{background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.07);transition:box-shadow 0.15s,transform 0.12s}
 .home-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.1);transform:translateY(-1px)}
+.home-card.archived{opacity:0.6}
 .hc-name{font-size:14px;font-weight:600;color:#111827;margin-bottom:2px}
 .hc-meta{font-size:12px;color:#9CA3AF}
 .hc-right{display:flex;align-items:center;gap:10px}
@@ -31,12 +35,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .hc-pill.p{background:#F3F6FA;color:#9CA3AF}
 .hc-pill.i{background:#E6F1FB;color:#0C447C}
 .hc-pill.c{background:#E1F5EE;color:#0F6E56}
+.hc-pill.a{background:#F3F4F6;color:#9CA3AF}
 .hc-btns{display:flex;gap:6px;opacity:0;transition:opacity 0.15s}
 .home-card:hover .hc-btns{opacity:1}
 .hc-share{background:#E6F1FB;color:#0C447C;border:none;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
 .hc-del{background:#FCEBEB;color:#A32D2D;border:none;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
-.rocket-empty{margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.hc-restore{background:#E1F5EE;color:#0F6E56;border:none;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
+
+.rocket-empty{margin-top:24px;display:flex;flex-direction:column;align-items:center;gap:14px}
 .rocket-label{font-size:14px;color:#9CA3AF;line-height:1.5}
+.empty-tab{text-align:center;padding:40px 0;color:#9CA3AF;font-size:13px}
 
 /* NEW MOTION */
 .new-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px}
@@ -59,8 +67,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .cl-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
 .cl-back{background:none;border:none;font-size:13px;color:#9CA3AF;cursor:pointer;font-family:inherit;padding:0;display:flex;align-items:center;gap:4px}
 .cl-back:hover{color:#0078D4}
+.cl-topbar-right{display:flex;align-items:center;gap:8px}
 .cl-share{background:#E6F1FB;color:#0C447C;border:none;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
 .cl-share:hover{background:#d0e4f5}
+.btn-complete{background:#E1F5EE;color:#0F6E56;border:none;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.15s}
+.btn-complete:hover{background:#c8edda}
+.btn-reopen{background:#F3F4F6;color:#6B7280;border:none;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.archived-banner{background:#F3F4F6;border:1px solid #E5E7EB;border-radius:8px;padding:10px 14px;font-size:12px;color:#6B7280;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between}
 .header{margin-bottom:1.5rem}
 .title-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
 .title-display{font-size:20px;font-weight:600;color:#111827;cursor:pointer;border-bottom:2px dashed transparent;transition:border-color 0.15s;padding-bottom:2px}
@@ -112,10 +125,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .live-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#0F6E56;background:#E1F5EE;padding:3px 9px;border-radius:20px;font-weight:600}
 .live-dot{width:6px;height:6px;border-radius:50%;background:#0F6E56;animation:pulse 1.5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-.ro-banner{background:#FFF3CD;border:1px solid #FFB900;border-radius:8px;padding:10px 14px;font-size:12px;color:#7D5A00;margin-bottom:1.5rem}
-.loading{text-align:center;padding:80px 24px;color:#9CA3AF;font-size:14px}
 
-/* modal */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:100;align-items:center;justify-content:center}
 .overlay.open{display:flex}
 .modal{background:#fff;border-radius:12px;padding:24px;width:90%;max-width:380px;box-shadow:0 4px 24px rgba(0,0,0,0.15)}
@@ -124,7 +134,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .modal-btns{display:flex;gap:8px;justify-content:flex-end}
 .btn-sec{background:#F3F6FA;color:#374151;border:none;padding:8px 14px;border-radius:7px;font-size:13px;cursor:pointer;font-family:inherit}
 .btn-danger{background:#D13438;color:#fff;border:none;padding:8px 14px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
-
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;transition:opacity 0.25s;pointer-events:none;z-index:200;white-space:nowrap}
 .toast.show{opacity:1}
 </style>
@@ -136,25 +145,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="home-wrap">
     <div class="home-wordmark">Microsoft Security · BA Team</div>
     <h1 class="home-title">GTM Motions<br><span>BA Checklist</span></h1>
-    <button class="btn-start" onclick="goNew()">Start New Motion</button>
-    <div id="homeMotions" class="home-motions-list" style="display:none">
-      <div class="home-motions-label">My Motions</div>
-      <div id="motionCards"></div>
+    <button class="btn-start" onclick="goNew()">+ Start New Motion</button>
+
+    <div class="tabs" id="homeTabs">
+      <button class="tab active" id="tabMine" onclick="switchTab('mine')">My Motions</button>
+      <button class="tab" id="tabAll" onclick="switchTab('all')">All Team Motions</button>
+      <button class="tab" id="tabArchived" onclick="switchTab('archived')">Archived</button>
     </div>
-    <div class="rocket-empty" id="rocketEmpty">
-      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="40" cy="40" r="40" fill="#EEF2FF"/>
-        <path d="M40 16C40 16 28 28 28 42C28 49.18 33.37 55.13 40 56.7C46.63 55.13 52 49.18 52 42C52 28 40 16 40 16Z" fill="#0078D4" opacity="0.15"/>
-        <path d="M40 16C40 16 28 28 28 42C28 49.18 33.37 55.13 40 56.7C46.63 55.13 52 49.18 52 42C52 28 40 16 40 16Z" stroke="#0078D4" stroke-width="1.5" fill="none"/>
-        <circle cx="40" cy="40" r="5" fill="#0078D4"/>
-        <path d="M32 50L26 56M26 56L22 64M26 56L34 58" stroke="#0078D4" stroke-width="1.5" stroke-linecap="round"/>
-        <path d="M48 50L54 56M54 56L58 64M54 56L46 58" stroke="#0078D4" stroke-width="1.5" stroke-linecap="round"/>
-        <path d="M28 42C24 42 20 44 20 44C20 44 22 50 28 50" fill="#0078D4" opacity="0.2"/>
-        <path d="M28 42C24 42 20 44 20 44C20 44 22 50 28 50" stroke="#0078D4" stroke-width="1.5" fill="none"/>
-        <path d="M52 42C56 42 60 44 60 44C60 44 58 50 52 50" fill="#0078D4" opacity="0.2"/>
-        <path d="M52 42C56 42 60 44 60 44C60 44 58 50 52 50" stroke="#0078D4" stroke-width="1.5" fill="none"/>
-      </svg>
-      <p class="rocket-label">Click <strong>"Start New Motion"</strong> to create a new project</p>
+
+    <div class="motions-container" id="motionsContainer">
+      <div class="rocket-empty" id="rocketEmpty">
+        <svg width="72" height="72" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="40" fill="#EEF2FF"/>
+          <path d="M40 16C40 16 28 28 28 42C28 49.18 33.37 55.13 40 56.7C46.63 55.13 52 49.18 52 42C52 28 40 16 40 16Z" fill="#0078D4" opacity="0.15"/>
+          <path d="M40 16C40 16 28 28 28 42C28 49.18 33.37 55.13 40 56.7C46.63 55.13 52 49.18 52 42C52 28 40 16 40 16Z" stroke="#0078D4" stroke-width="1.5" fill="none"/>
+          <circle cx="40" cy="40" r="5" fill="#0078D4"/>
+          <path d="M32 50L26 56M26 56L22 64M26 56L34 58" stroke="#0078D4" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M48 50L54 56M54 56L58 64M54 56L46 58" stroke="#0078D4" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M28 42C24 42 20 44 20 44C20 44 22 50 28 50" fill="#0078D4" opacity="0.2" stroke="#0078D4" stroke-width="1.5"/>
+          <path d="M52 42C56 42 60 44 60 44C60 44 58 50 52 50" fill="#0078D4" opacity="0.2" stroke="#0078D4" stroke-width="1.5"/>
+        </svg>
+        <p class="rocket-label">Click <strong>"Start New Motion"</strong> to create your first project</p>
+      </div>
+      <div id="motionCards"></div>
     </div>
   </div>
 </div>
@@ -180,18 +193,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="cl-wrap">
     <div class="cl-topbar">
       <button class="cl-back" id="clBack" onclick="goHome()">← My Motions</button>
-      <div style="display:flex;align-items:center;gap:10px">
-        <span class="live-badge" id="liveBadge" style="display:none"><span class="live-dot"></span>Live</span>
-        <button class="cl-share" id="clShareBtn" onclick="doShare()">⬆ Share</button>
+      <div class="cl-topbar-right">
+        <span class="live-badge"><span class="live-dot"></span>Live</span>
+        <button class="btn-complete" id="btnComplete" onclick="archiveMotion()">✓ Mark Complete</button>
+        <button class="btn-reopen" id="btnReopen" onclick="reopenMotion()" style="display:none">↩ Reopen</button>
+        <button class="cl-share" onclick="doShare()">⬆ Share</button>
       </div>
     </div>
-    <div id="roBanner" style="display:none" class="ro-banner">👁 <strong>Read-only view.</strong> This is a shared snapshot — progress shown is from when this link was generated.</div>
+    <div class="archived-banner" id="archivedBanner" style="display:none">
+      <span>📦 This motion is archived and read-only.</span>
+      <button class="btn-reopen" onclick="reopenMotion()">↩ Reopen Motion</button>
+    </div>
     <div class="header">
       <div class="title-row">
         <span class="title-display" id="titleDisplay" onclick="startEditTitle()" title="Click to rename"></span>
         <input class="title-input" id="titleInput" type="text" onblur="saveTitle()" onkeydown="if(event.key==='Enter')saveTitle()" style="display:none"/>
       </div>
-      <p id="clSub">Check off each item as you build out your motion. Changes sync live for everyone with access.</p>
+      <p id="clSub">Check off each item as you build out your motion. Changes sync live for everyone.</p>
     </div>
     <div class="stats">
       <div class="stat"><div class="stat-num" id="cnt-done">0</div><div class="stat-lbl">Completed</div></div>
@@ -211,7 +229,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="overlay" id="delOverlay">
   <div class="modal">
     <h3>Delete this motion?</h3>
-    <p>This will permanently delete the motion and all its checklist progress for everyone. This cannot be undone.</p>
+    <p>This will permanently delete the motion from Firebase for everyone. This cannot be undone.</p>
     <div class="modal-btns">
       <button class="btn-sec" onclick="closeModal()">Cancel</button>
       <button class="btn-danger" onclick="confirmDel()">Delete</button>
@@ -222,7 +240,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import{getDatabase,ref,set,get,onValue,remove,update}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+import{getDatabase,ref,set,get,onValue,remove,update,query,orderByChild,equalTo}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
 const firebaseConfig={
   apiKey:"AIzaSyBqIwbmnsGzoU0qs9sT7OvZtLA4PpEybCI",
@@ -269,13 +287,10 @@ const SECTIONS=[
 const BL={must:"Required",team:"Cross-functional",lock:"Time-sensitive"};
 const TOTAL=14;
 
-let cid=null,readOnly=false,roData=null,delId=null,liveUnsub=null;
+let cid=null,liveUnsub=null,delId=null,currentTab='mine';
 const USER_KEY='gtm_user_motions';
 
 function allIds(){return SECTIONS.flatMap(s=>s.items.map(i=>i.id));}
-function emptyData(){const d={checks:{},subtasks:{}};allIds().forEach(id=>{d.checks[id]=false;d.subtasks[id]=[];});return d;}
-
-// localStorage for tracking which motions this user created
 function getUserMotions(){try{return JSON.parse(localStorage.getItem(USER_KEY)||'[]');}catch{return[];}}
 function addUserMotion(id){const m=getUserMotions();if(!m.includes(id)){m.unshift(id);localStorage.setItem(USER_KEY,JSON.stringify(m));}}
 function removeUserMotion(id){const m=getUserMotions().filter(x=>x!==id);localStorage.setItem(USER_KEY,JSON.stringify(m));}
@@ -284,50 +299,86 @@ function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.
 
 function goHome(){
   if(liveUnsub){liveUnsub();liveUnsub=null;}
-  cid=null;readOnly=false;roData=null;
+  cid=null;
   history.replaceState(null,'',location.pathname);
   renderHome();showPage('pgHome');
 }
+window.goHome=goHome;
 
 function goNew(){
   ['fn','fp','fo','ff'].forEach(id=>document.getElementById(id).value='');
   showPage('pgNew');
 }
+window.goNew=goNew;
+
+function switchTab(tab){
+  currentTab=tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
+  renderHome();
+}
+window.switchTab=switchTab;
 
 async function renderHome(){
-  const ids=getUserMotions();
-  const homeMotions=document.getElementById('homeMotions');
-  const rocketEmpty=document.getElementById('rocketEmpty');
-  if(!ids.length){homeMotions.style.display='none';rocketEmpty.style.display='flex';return;}
-  rocketEmpty.style.display='none';
-  homeMotions.style.display='block';
+  const cards=document.getElementById('motionCards');
+  const rocket=document.getElementById('rocketEmpty');
+  cards.innerHTML='<div style="text-align:center;padding:32px;color:#9CA3AF;font-size:13px">Loading...</div>';
+  rocket.style.display='none';
 
-  const cards=[];
-  for(const id of ids){
-    const snap=await get(ref(db,'motions/'+id));
-    if(!snap.exists()){removeUserMotion(id);continue;}
-    const m=snap.val();
+  const snap=await get(ref(db,'motions'));
+  if(!snap.exists()){cards.innerHTML='';rocket.style.display='flex';return;}
+
+  const all=[];
+  snap.forEach(child=>{all.push(child.val());});
+
+  const myIds=getUserMotions();
+  let filtered=[];
+
+  if(currentTab==='mine'){
+    filtered=all.filter(m=>myIds.includes(m.id)&&!m.archived);
+  }else if(currentTab==='all'){
+    filtered=all.filter(m=>!m.archived);
+  }else{
+    filtered=all.filter(m=>m.archived);
+  }
+
+  // sort by created desc
+  filtered.sort((a,b)=>new Date(b.created||0)-new Date(a.created||0));
+
+  if(!filtered.length){
+    cards.innerHTML='';
+    if(currentTab==='mine'&&!myIds.length){
+      rocket.style.display='flex';
+    }else{
+      cards.innerHTML=`<div class="empty-tab">${currentTab==='archived'?'No archived motions yet.':currentTab==='mine'?'No active motions. Click "+ Start New Motion" to create one.':'No team motions yet.'}</div>`;
+    }
+    return;
+  }
+
+  rocket.style.display='none';
+  cards.innerHTML=filtered.map(m=>{
     const done=m.checks?Object.values(m.checks).filter(Boolean).length:0;
     const pct=Math.round(done/TOTAL*100);
-    const status=done===TOTAL?'Complete':done>0?'In Motion':'Planning';
-    const sc=status==='In Motion'?'i':status==='Complete'?'c':'p';
-    cards.push(`<div class="home-card" onclick="window.openMotion('${id}')">
+    const status=m.archived?'Archived':done===TOTAL?'Complete':done>0?'In Motion':'Planning';
+    const sc=m.archived?'a':status==='In Motion'?'i':status==='Complete'?'c':'p';
+    const isArchived=!!m.archived;
+    return `<div class="home-card ${isArchived?'archived':''}" onclick="window.openMotion('${m.id}')">
       <div>
         <div class="hc-name">${m.name}</div>
         <div class="hc-meta">${m.owner}${m.product?' · '+m.product:''}${m.fiscal?' · '+m.fiscal:''}</div>
       </div>
       <div class="hc-right">
         <div class="hc-btns">
-          <button class="hc-share" onclick="event.stopPropagation();window.shareMotion('${id}')">⬆ Share</button>
-          <button class="hc-del" onclick="event.stopPropagation();window.askDel('${id}')">Delete</button>
+          ${!isArchived?`<button class="hc-share" onclick="event.stopPropagation();window.shareMotion('${m.id}')">⬆ Share</button>`:''}
+          ${isArchived?`<button class="hc-restore" onclick="event.stopPropagation();window.reopenById('${m.id}')">↩ Reopen</button>`:''}
+          <button class="hc-del" onclick="event.stopPropagation();window.askDel('${m.id}')">Delete</button>
         </div>
         <span class="hc-pct">${done}/${TOTAL} · ${pct}%</span>
         <span class="hc-pill ${sc}">${status}</span>
         <span style="color:#0078D4;font-size:18px">›</span>
       </div>
-    </div>`);
-  }
-  document.getElementById('motionCards').innerHTML=cards.join('');
+    </div>`;
+  }).join('');
 }
 
 async function createMotion(){
@@ -337,44 +388,41 @@ async function createMotion(){
   const btn=document.getElementById('btnCreate');
   btn.disabled=true;btn.textContent='Creating...';
   const id='m_'+Date.now();
-  const data={id,name,owner,product:document.getElementById('fp').value.trim(),fiscal:document.getElementById('ff').value.trim(),created:new Date().toISOString(),checks:{},subtasks:{}};
+  const data={id,name,owner,product:document.getElementById('fp').value.trim(),fiscal:document.getElementById('ff').value.trim(),created:new Date().toISOString(),archived:false,checks:{},subtasks:{}};
   allIds().forEach(itemId=>{data.checks[itemId]=false;data.subtasks[itemId]=[];});
   await set(ref(db,'motions/'+id),data);
   addUserMotion(id);
   btn.disabled=false;btn.textContent='Create Motion & Start Checklist →';
   openMotion(id);
 }
+window.createMotion=createMotion;
 
 function openMotion(id){
   if(liveUnsub){liveUnsub();liveUnsub=null;}
-  readOnly=false;roData=null;cid=id;
+  cid=id;
   history.replaceState(null,'',location.pathname+'#'+id);
-  document.getElementById('clShareBtn').style.display='';
-  document.getElementById('roBanner').style.display='none';
-  document.getElementById('clBottom').style.display='block';
-  document.getElementById('liveBadge').style.display='flex';
-  document.getElementById('clBack').onclick=goHome;
   showPage('pgChecklist');
 
-  // live listener
   liveUnsub=onValue(ref(db,'motions/'+id),(snap)=>{
     if(!snap.exists()){goHome();return;}
     const m=snap.val();
+    const isArchived=!!m.archived;
+
     document.getElementById('titleDisplay').textContent=m.name;
     document.getElementById('titleDisplay').style.display='';
     document.getElementById('titleInput').style.display='none';
-    buildChecklist(m);
+    document.getElementById('titleDisplay').style.cursor=isArchived?'default':'pointer';
+    document.getElementById('archivedBanner').style.display=isArchived?'flex':'none';
+    document.getElementById('btnComplete').style.display=isArchived?'none':'';
+    document.getElementById('btnReopen').style.display='none';
+    document.getElementById('clBottom').style.display=isArchived?'none':'block';
+
+    buildChecklist(m,isArchived);
   });
 }
-
 window.openMotion=openMotion;
 
-function openShared(enc){
-  // legacy snapshot links — just go home
-  goHome();
-}
-
-function buildChecklist(m){
+function buildChecklist(m,isArchived){
   const checks=m.checks||{};
   const subtasks=m.subtasks||{};
   const done=Object.values(checks).filter(Boolean).length;
@@ -394,17 +442,17 @@ function buildChecklist(m){
     sec.items.forEach(it=>{
       const on=checks[it.id]||false;
       const badge=it.badge?`<span class="badge ${it.badge}">${BL[it.badge]}</span>`:'';
-      const click=readOnly?'':`onclick="window.toggleItem('${it.id}')"`;
-      const sts=subtasks[it.id]||[];
+      const click=isArchived?'':`onclick="window.toggleItem('${it.id}')"`;
+      const sts=Array.isArray(subtasks[it.id])?subtasks[it.id]:[];
       const stHtml=sts.map((st,i)=>`
         <div class="subtask-item">
-          <div class="sub-checkbox ${st.done?'checked':''}" onclick="window.toggleST('${it.id}',${i})">${st.done?'✓':''}</div>
+          <div class="sub-checkbox ${st.done?'checked':''}" ${isArchived?'':` onclick="window.toggleST('${it.id}',${i})"`}>${st.done?'✓':''}</div>
           <span class="subtask-name ${st.done?'done':''}">${st.text}</span>
-          ${!readOnly?`<button class="subtask-del" onclick="window.deleteST('${it.id}',${i})">×</button>`:''}
+          ${!isArchived?`<button class="subtask-del" onclick="window.deleteST('${it.id}',${i})">×</button>`:''}
         </div>`).join('');
       div.innerHTML+=`
         <div class="item ${on?'done':''}" id="item-${it.id}">
-          <div class="item-row" style="${readOnly?'cursor:default':''}" ${click}>
+          <div class="item-row" style="${isArchived?'cursor:default':''}" ${click}>
             <div class="checkbox ${on?'checked':''}" id="cb-${it.id}">${on?'✓':''}</div>
             <div class="item-body">
               <div class="item-name">${it.name}${badge}</div>
@@ -412,7 +460,7 @@ function buildChecklist(m){
             </div>
           </div>
           <div class="subtasks-list">${stHtml}</div>
-          ${!readOnly?`
+          ${!isArchived?`
           <button class="add-subtask-btn" onclick="window.showST('${it.id}')">+ add sub-task</button>
           <div class="subtask-input-row" id="sti-${it.id}">
             <input class="subtask-input" id="stt-${it.id}" type="text" placeholder="Describe the sub-task..." onkeydown="if(event.key==='Enter')window.saveST('${it.id}')"/>
@@ -426,7 +474,7 @@ function buildChecklist(m){
 }
 
 window.toggleItem=async function(itemId){
-  if(readOnly||!cid)return;
+  if(!cid)return;
   const snap=await get(ref(db,'motions/'+cid+'/checks/'+itemId));
   const cur=snap.exists()?snap.val():false;
   await set(ref(db,'motions/'+cid+'/checks/'+itemId),!cur);
@@ -445,10 +493,9 @@ window.saveST=async function(id){
 };
 
 window.toggleST=async function(itemId,idx){
-  if(readOnly||!cid)return;
   const snap=await get(ref(db,'motions/'+cid+'/subtasks/'+itemId));
   const arr=snap.exists()&&Array.isArray(snap.val())?snap.val():[];
-  arr[idx].done=!arr[idx].done;
+  if(arr[idx])arr[idx].done=!arr[idx].done;
   await set(ref(db,'motions/'+cid+'/subtasks/'+itemId),arr);
 };
 
@@ -460,7 +507,6 @@ window.deleteST=async function(itemId,idx){
 };
 
 function startEditTitle(){
-  if(readOnly)return;
   const d=document.getElementById('titleDisplay');
   const i=document.getElementById('titleInput');
   i.value=d.textContent;d.style.display='none';i.style.display='block';i.focus();i.select();
@@ -476,9 +522,29 @@ async function saveTitle(){
 }
 window.saveTitle=saveTitle;
 
+async function archiveMotion(){
+  if(!cid)return;
+  if(!confirm('Mark this motion as complete and archive it? It will be removed from active views but saved in Firebase.'))return;
+  await update(ref(db,'motions/'+cid),{archived:true,archivedAt:new Date().toISOString()});
+  showToast('Motion archived ✓');
+}
+window.archiveMotion=archiveMotion;
+
+async function reopenMotion(){
+  if(!cid)return;
+  await update(ref(db,'motions/'+cid),{archived:false,archivedAt:null});
+  showToast('Motion reopened');
+}
+window.reopenMotion=reopenMotion;
+
+window.reopenById=async function(id){
+  await update(ref(db,'motions/'+id),{archived:false,archivedAt:null});
+  renderHome();showToast('Motion reopened');
+};
+
 window.shareMotion=function(id){
   const url=location.origin+location.pathname+'#'+id;
-  navigator.clipboard.writeText(url).then(()=>showToast('Live link copied! Anyone with this link can view and edit.')).catch(()=>prompt('Copy this link:',url));
+  navigator.clipboard.writeText(url).then(()=>showToast('Live link copied! Anyone with this can view and edit.')).catch(()=>prompt('Copy this link:',url));
 };
 
 function doShare(){if(cid)window.shareMotion(cid);}
@@ -503,15 +569,9 @@ window.confirmDel=async function(){
 
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 
-// expose to HTML onclick
-window.goHome=goHome;
-window.goNew=goNew;
-window.createMotion=createMotion;
-
 function route(){
   const h=location.hash.slice(1);
   if(!h){renderHome();showPage('pgHome');return;}
-  if(h.startsWith('share_')){openShared(h.slice(6));return;}
   openMotion(h);
 }
 window.addEventListener('popstate',route);
