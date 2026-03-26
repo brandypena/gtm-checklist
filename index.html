@@ -369,20 +369,8 @@ function openMotion(id){
 window.openMotion=openMotion;
 
 function openShared(enc){
-  try{
-    const p=JSON.parse(decodeURIComponent(escape(atob(enc))));
-    if(liveUnsub){liveUnsub();liveUnsub=null;}
-    readOnly=true;roData=p;cid=null;
-    document.getElementById('titleDisplay').textContent=p.name;
-    document.getElementById('titleDisplay').style.display='';
-    document.getElementById('titleInput').style.display='none';
-    document.getElementById('clShareBtn').style.display='none';
-    document.getElementById('roBanner').style.display='block';
-    document.getElementById('clBottom').style.display='none';
-    document.getElementById('liveBadge').style.display='none';
-    document.getElementById('clBack').onclick=()=>{history.replaceState(null,'',location.pathname);goHome();};
-    buildChecklist(p);showPage('pgChecklist');
-  }catch{goHome();}
+  // legacy snapshot links — just go home
+  goHome();
 }
 
 function buildChecklist(m){
@@ -487,13 +475,9 @@ async function saveTitle(){
 }
 window.saveTitle=saveTitle;
 
-window.shareMotion=async function(id){
-  const snap=await get(ref(db,'motions/'+id));
-  if(!snap.exists())return;
-  const m=snap.val();
-  const enc=btoa(unescape(encodeURIComponent(JSON.stringify(m))));
-  const url=location.origin+location.pathname+'#share_'+enc;
-  navigator.clipboard.writeText(url).then(()=>showToast('Share link copied!')).catch(()=>prompt('Copy this link:',url));
+window.shareMotion=function(id){
+  const url=location.origin+location.pathname+'#'+id;
+  navigator.clipboard.writeText(url).then(()=>showToast('Live link copied! Anyone with this link can view and edit.')).catch(()=>prompt('Copy this link:',url));
 };
 
 function doShare(){if(cid)window.shareMotion(cid);}
