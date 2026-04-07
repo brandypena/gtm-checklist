@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,6 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F3F6FA;color:#374151}
 .page{display:none}.page.active{display:block}
 
-/* HOME */
 .home-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:48px 24px;text-align:center}
 .home-wordmark{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#9CA3AF;margin-bottom:24px}
 .home-title{font-size:34px;font-weight:700;color:#111827;letter-spacing:-1px;line-height:1.15;margin-bottom:32px}
@@ -18,7 +18,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-start{background:#0078D4;color:#fff;border:none;padding:16px 44px;border-radius:100px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;box-shadow:0 4px 24px rgba(0,120,212,0.35);margin-bottom:40px}
 .btn-start:hover{background:#006cbd;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,120,212,0.45)}
 
-/* TABS */
 .tabs{display:flex;gap:0;background:#fff;border-radius:10px;padding:4px;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:20px;width:100%;max-width:560px}
 .tab{flex:1;padding:8px 12px;border:none;background:none;font-size:13px;font-weight:500;color:#9CA3AF;cursor:pointer;font-family:inherit;border-radius:7px;transition:all 0.15s}
 .tab.active{background:#F3F6FA;color:#111827;font-weight:600}
@@ -46,7 +45,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .rocket-label{font-size:14px;color:#9CA3AF;line-height:1.5}
 .empty-tab{text-align:center;padding:40px 0;color:#9CA3AF;font-size:13px}
 
-/* NEW MOTION */
 .new-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px}
 .new-card{background:#fff;border-radius:16px;padding:36px;width:100%;max-width:480px;box-shadow:0 2px 16px rgba(0,0,0,0.08)}
 .new-back{background:none;border:none;font-size:13px;color:#9CA3AF;cursor:pointer;font-family:inherit;padding:0;margin-bottom:24px;display:flex;align-items:center;gap:5px;transition:color 0.15s}
@@ -62,7 +60,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-create:hover{background:#006cbd;transform:translateY(-1px)}
 .btn-create:disabled{background:#9CA3AF;transform:none;box-shadow:none;cursor:not-allowed}
 
-/* CHECKLIST */
 .cl-wrap{max-width:720px;margin:0 auto;padding:24px}
 .cl-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
 .cl-back{background:none;border:none;font-size:13px;color:#9CA3AF;cursor:pointer;font-family:inherit;padding:0;display:flex;align-items:center;gap:4px}
@@ -255,35 +252,113 @@ const firebaseConfig={
 const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 
+// Pre-populated subtasks per item id
+const PRESET_SUBTASKS={
+  s1:[
+    {text:"Write out your problem statement",done:false},
+    {text:"Define your target scenario by listing what criteria you'll focus on",done:false},
+    {text:"Define what you want people to do differently as a result of your motion",done:false}
+  ],
+  s2:[
+    {text:"Get official TAM from EG Finance team for your market segment",done:false},
+    {text:"Work with EG Finance to estimate pipeline opportunity over the motion period",done:false},
+    {text:"Create a scenario analysis that gives a range of potential revenue impact",done:false}
+  ],
+  s3:[],
+  t1:[
+    {text:"Determine industry, geos, and segments you want to focus on",done:false},
+    {text:"Identify any pre-requisites you want the customer profile to anchor on",done:false},
+    {text:"Determine number of accounts you're hoping to target",done:false},
+    {text:"Validate against usage where possible",done:false},
+    {text:"Validate against customer maturity where needed",done:false},
+    {text:"Create tiers within your final target list — P0, P1, P2, etc.",done:false},
+    {text:"Validate with SE&O timezone GTM managers early, at least 4 weeks before launch",done:false},
+    {text:"Ensure target list has all relevant data: geo, OU breakdown, segment, seller assignment, etc.",done:false}
+  ],
+  t2:[
+    {text:"Determine the data you have vs. the data you need",done:false},
+    {text:"Stand up reporting with Finance or BI team early — pipeline? Actuals? Usage? OSP offers?",done:false}
+  ],
+  v1:[
+    {text:"Create tactical WIIFM slide for your Initiative Playbook",done:false}
+  ],
+  v2:[
+    {text:"Create tactical customer value proposition slide — one page, field-ready, vetted by Marketing",done:false}
+  ],
+  o1:[
+    {text:"Create detailed orchestration slide anchored to MCEM stages 1–5",done:false},
+    {text:"Create any supporting detail slides",done:false}
+  ],
+  o2:[
+    {text:"Work across Enterprise, SME&C, and GPS counterparts to cover partner strategy holistically",done:false},
+    {text:"Determine if you need net new or amplification of existing partner workstreams",done:false},
+    {text:"Reach out early if you are expecting a new approach for partners",done:false}
+  ],
+  o3:[
+    {text:"Align with Csaba and Security GBB team to determine support and coverage model",done:false},
+    {text:"Reach out to related CxE partners to gauge bandwidth and support commitment",done:false}
+  ],
+  c1:[
+    {text:"Create OSP page to support your campaign",done:false},
+    {text:"Create plan for customized outreach — through OSP or mail merge?",done:false},
+    {text:"Determine what reporting will be feasible from the programs team",done:false},
+    {text:"Ensure comms to field reach the right people without spamming",done:false}
+  ],
+  c2:[
+    {text:"Identify what cross-CSA trainings and community calls you need to plug into",done:false},
+    {text:"Work to create or update assets to support launching your motion",done:false},
+    {text:"Create agents to support you scaling, where necessary",done:false},
+    {text:"Create BOM with resources for all receiving members of your motion",done:false}
+  ],
+  c3:[
+    {text:"Align with PMM and Marketing GTM teams to identify what you need, from who, by when",done:false},
+    {text:"Identify what needs to be updated or created and communicate with advance notice",done:false}
+  ],
+  c4:[
+    {text:"Request any updates to roadmap or commitments needed to support your motion launch",done:false}
+  ],
+  e1:[
+    {text:"Get Steve/Ritu to email Judson/Deb for notice of your motion",done:false},
+    {text:"Align to ensure field leadership receives notice of your motion prior to field comms",done:false},
+    {text:"Notify global SE&O teams and leaders prior to field communications",done:false},
+    {text:"Create field landing deck for your motion",done:false},
+    {text:"Ensure alignment with any cross-CSA stakeholders",done:false},
+    {text:"Identify all recipients and dedupe to minimize spam",done:false},
+    {text:"Create OFTs to make it easy for any leaders you're relying on to send your comms",done:false},
+    {text:"Join relevant community calls and enablement calls to land your message with field stakeholders",done:false}
+  ]
+};
+
 const SECTIONS=[
   {title:"Foundation — do this first",items:[
-    {id:"s1",name:"Strategic rationale (motion brief)",sub:"Define why now, what problem it solves, and which FY priority it serves. One paragraph max.",badge:"must"},
-    {id:"s2",name:"TAM & opportunity slide",sub:"Market size, pipeline potential, revenue impact, and risk of inaction.",badge:"must"},
-    {id:"s3",name:"Motion type & success metrics",sub:"Name the motion lever (velocity, attach, conversion, etc.) and set 2–3 measurable KPIs.",badge:"must"}
+    {id:"s1",name:"Strategic Rationale / Motion Brief",sub:"Create a proposal, early deck or doc that explains why now, what problem you are solving, what priorities you are snapping to. Get buy-in on what you're going to do before you start.",badge:"must"},
+    {id:"s2",name:"TAM & Opportunity",sub:"Market size, pipeline potential, revenue impact over your motion's time period, and risk of inaction.",badge:"must"},
+    {id:"s3",name:"Motion Type",sub:"Determine the type of motion you're standing up — new customer acquisition, expansion of existing, conversion from trials, etc.",badge:"must"}
   ]},
-  {title:"Targeting & scope",items:[
-    {id:"t1",name:"Account targeting & ICP criteria slide",sub:"Industry, size, lifecycle stage, product signal, geography, and explicit exclusions.",badge:"must"},
-    {id:"t2",name:"Geo / segment breakdown of accounts in scope",sub:"Region × segment table with account counts and priority tier (P1/P2/P3).",badge:"must"}
+  {title:"Targeting & Reporting",items:[
+    {id:"t1",name:"Targeting",sub:"Determine scope for your motion — who, where, what.",badge:"must"},
+    {id:"t2",name:"Success Metrics & Reporting",sub:"Determine how you will report back to LT on the results of your motion.",badge:"must"}
   ]},
-  {title:"Value & messaging",items:[
-    {id:"v1",name:"Seller value articulation (WIIFM)",sub:"Comp impact, pipeline coverage, deal size uplift, time-to-close, competitive edge.",badge:"must"},
-    {id:"v2",name:"Customer value proposition",sub:"Business outcome, security outcome, TCO/ROI, time-to-value, differentiation, proof points.",badge:"must"}
+  {title:"Value & Messaging",items:[
+    {id:"v1",name:"Seller Value Articulation / WIIFM",sub:"Create a reason for sellers to care — does it help their quota retirement? Accelerate their pipeline or time to close?",badge:"must"},
+    {id:"v2",name:"Customer Value Articulation / Proposition",sub:"Create a reason for customers to care — does it help them achieve desired business outcomes, save money, or give them more of something?",badge:"must"}
   ]},
-  {title:"Orchestration & coverage",items:[
-    {id:"o1",name:"MCEM orchestration slide",sub:"Actions and owners mapped across Identify → Connect → Discover → Prove → Close → Grow.",badge:"must"},
-    {id:"o2",name:"Partner activation strategy",sub:"Partner roles, enablement plan, co-sell model, PAL attach, deal registration process.",badge:"team"},
-    {id:"o3",name:"CxE / GBB support plan",sub:"Coverage model, engagement trigger criteria, escalation path, POC support model.",badge:"team"}
+  {title:"Orchestration & Coverage",items:[
+    {id:"o1",name:"MCEM",sub:"Anchor actions, owners, and design across MCEM stages 1–5.",badge:"must"},
+    {id:"o2",name:"Partner Activation Strategy",sub:"Define partner roles, enablement plan, co-sell models, and incentive models.",badge:"team"},
+    {id:"o3",name:"CxE / GBB Support Plan",sub:"Determine coverage model, engagement trigger criteria, escalation paths, and POC support.",badge:"team"}
   ]},
-  {title:"Cross-functional plans",items:[
-    {id:"c1",name:"Programs team plan",sub:"Funding/incentives, motion tracking methodology, governance cadence and owners.",badge:"team"},
-    {id:"c2",name:"Enablement team plan",sub:"Training format, seller readiness date, pitch deck/toolkit assets created or updated.",badge:"team"},
-    {id:"c3",name:"Marketing plan",sub:"ABM campaign, webinar/event, concise field-ready value pitch deck — owner + due date.",badge:"team"}
+  {title:"Cross-Functional Plans",items:[
+    {id:"c1",name:"Programs Team Plan",sub:"Funding/incentives, motion tracking methodology and expectations, governance cadence and owners.",badge:"team"},
+    {id:"c2",name:"Enablement Team Plan",sub:"Upcoming trainings to plug into, seller community calls, pitch deck and assets needing to be created or updated.",badge:"team"},
+    {id:"c3",name:"Marketing Team Plan",sub:"ABM campaigns, webinars, concise field-ready value pitch deck — determine what you need from who and by when.",badge:"team"},
+    {id:"c4",name:"Engineering Team Plan",sub:"Roadmap, commitments, and any support needed.",badge:"team"}
   ]},
-  {title:"Execution & governance",items:[
-    {id:"e1",name:"Engineering roadmap alignment (with lock date)",sub:"Committed features confirmed. Lock date set — no edits after that date without VP approval.",badge:"lock"},
-    {id:"e2",name:"Comms & landing plan",sub:"Stakeholder matrix, key messages per audience, channel, timing, and owner for each group.",badge:"must"}
+  {title:"Execution",items:[
+    {id:"e1",name:"Comms & Landing Plan",sub:"Stakeholder matrix/RACI, key messages per audience, channels, timing, and owners.",badge:"must"}
   ]}
 ];
+
 const BL={must:"Required",team:"Cross-functional",lock:"Time-sensitive"};
 const TOTAL=14;
 
@@ -342,7 +417,6 @@ async function renderHome(){
     filtered=all.filter(m=>m.archived);
   }
 
-  // sort by created desc
   filtered.sort((a,b)=>new Date(b.created||0)-new Date(a.created||0));
 
   if(!filtered.length){
@@ -388,8 +462,22 @@ async function createMotion(){
   const btn=document.getElementById('btnCreate');
   btn.disabled=true;btn.textContent='Creating...';
   const id='m_'+Date.now();
-  const data={id,name,owner,product:document.getElementById('fp').value.trim(),fiscal:document.getElementById('ff').value.trim(),created:new Date().toISOString(),archived:false,checks:{},subtasks:{}};
-  allIds().forEach(itemId=>{data.checks[itemId]=false;data.subtasks[itemId]=[];});
+
+  // Build initial subtasks with presets
+  const subtasksInit={};
+  allIds().forEach(itemId=>{
+    subtasksInit[itemId]=PRESET_SUBTASKS[itemId]?[...PRESET_SUBTASKS[itemId]]:[];
+  });
+
+  const data={id,name,owner,
+    product:document.getElementById('fp').value.trim(),
+    fiscal:document.getElementById('ff').value.trim(),
+    created:new Date().toISOString(),
+    archived:false,
+    checks:{},
+    subtasks:subtasksInit
+  };
+  allIds().forEach(itemId=>{data.checks[itemId]=false;});
   await set(ref(db,'motions/'+id),data);
   addUserMotion(id);
   btn.disabled=false;btn.textContent='Create Motion & Start Checklist →';
@@ -551,9 +639,12 @@ function doShare(){if(cid)window.shareMotion(cid);}
 window.doShare=doShare;
 
 async function resetChecklist(){
-  if(!confirm('Reset all checkboxes and sub-tasks for this motion?'))return;
+  if(!confirm('Reset all checkboxes and sub-tasks for this motion? Pre-populated sub-tasks will be restored.'))return;
   const updates={};
-  allIds().forEach(id=>{updates['checks/'+id]=false;updates['subtasks/'+id]=[];});
+  allIds().forEach(id=>{
+    updates['checks/'+id]=false;
+    updates['subtasks/'+id]=PRESET_SUBTASKS[id]?[...PRESET_SUBTASKS[id]]:[];
+  });
   await update(ref(db,'motions/'+cid),updates);
 }
 window.resetChecklist=resetChecklist;
