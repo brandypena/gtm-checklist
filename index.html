@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,8 +16,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .home-wordmark{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#9CA3AF;margin-bottom:24px}
 .home-title{font-size:34px;font-weight:700;color:#111827;letter-spacing:-1px;line-height:1.15;margin-bottom:32px}
 .home-title span{color:#0078D4}
-.btn-start{background:#0078D4;color:#fff;border:none;padding:16px 44px;border-radius:100px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;box-shadow:0 4px 24px rgba(0,120,212,0.35);margin-bottom:40px}
-.btn-start:hover{background:#006cbd;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,120,212,0.45)}
+.home-btns{display:flex;gap:10px;justify-content:center;flex-wrap:nowrap;margin-bottom:40px}
+.btn-start{color:#fff;border:none;padding:13px 28px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;white-space:nowrap}
+.btn-start.accel{background:#0078D4;box-shadow:0 4px 24px rgba(0,120,212,0.35)}
+.btn-start.accel:hover{background:#006cbd;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,120,212,0.45)}
+.btn-start.fy{background:#FF8C00;box-shadow:0 4px 24px rgba(255,140,0,0.35)}
+.btn-start.fy:hover{background:#e67d00;transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,140,0,0.45)}
 
 .tabs{display:flex;gap:0;background:#fff;border-radius:10px;padding:4px;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:20px;width:100%;max-width:560px}
 .tab{flex:1;padding:8px 12px;border:none;background:none;font-size:13px;font-weight:500;color:#9CA3AF;cursor:pointer;font-family:inherit;border-radius:7px;transition:all 0.15s}
@@ -49,7 +54,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .new-card{background:#fff;border-radius:16px;padding:36px;width:100%;max-width:480px;box-shadow:0 2px 16px rgba(0,0,0,0.08)}
 .new-back{background:none;border:none;font-size:13px;color:#9CA3AF;cursor:pointer;font-family:inherit;padding:0;margin-bottom:24px;display:flex;align-items:center;gap:5px;transition:color 0.15s}
 .new-back:hover{color:#0078D4}
-.new-card h2{font-size:20px;font-weight:700;color:#111827;letter-spacing:-0.3px;margin-bottom:4px}
+.new-card h2{font-size:20px;font-weight:700;letter-spacing:-0.3px;margin-bottom:4px}
 .new-card p{font-size:13px;color:#9CA3AF;margin-bottom:28px}
 .fg{margin-bottom:18px}
 .fg label{display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:7px;letter-spacing:0.3px;text-transform:uppercase}
@@ -58,6 +63,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .fg input::placeholder{color:#D1D5DB;font-size:14px}
 .btn-create{width:100%;background:#0078D4;color:#fff;border:none;padding:14px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px;transition:all 0.2s;box-shadow:0 2px 12px rgba(0,120,212,0.25)}
 .btn-create:hover{background:#006cbd;transform:translateY(-1px)}
+.btn-create.fy-create{background:#FF8C00;box-shadow:0 2px 12px rgba(255,140,0,0.25)}
+.btn-create.fy-create:hover{background:#e67d00}
 .btn-create:disabled{background:#9CA3AF;transform:none;box-shadow:none;cursor:not-allowed}
 
 .cl-wrap{max-width:720px;margin:0 auto;padding:24px}
@@ -100,6 +107,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .badge.must{background:#E6F1FB;color:#0C447C}
 .badge.team{background:#E1F5EE;color:#0F6E56}
 .badge.lock{background:#FAEEDA;color:#633806}
+.item-del-btn{background:none;border:none;color:#D1D5DB;cursor:pointer;font-size:18px;padding:0 4px;line-height:1;transition:color 0.15s;margin-top:1px;opacity:0;flex-shrink:0}
+.item:hover .item-del-btn{opacity:1}
+.item-del-btn:hover{color:#D13438}
 .subtasks-list{padding:0 14px 4px 46px}
 .subtask-item{display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px solid #F3F6FA}
 .sub-checkbox{width:16px;height:16px;min-width:16px;border-radius:3px;border:1.5px solid #D1D5DB;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;font-size:9px;font-weight:700;color:#fff}
@@ -116,13 +126,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .subtask-input:focus{border-color:#0078D4}
 .st-save{background:#0078D4;color:#fff;border:none;padding:7px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
 .st-cancel{background:#F3F6FA;color:#6B7280;border:none;padding:7px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit}
+.add-section-btn{display:flex;align-items:center;gap:8px;background:none;border:1.5px dashed #D1D5DB;color:#9CA3AF;font-size:13px;padding:10px 16px;border-radius:8px;cursor:pointer;font-family:inherit;margin-bottom:12px;transition:all 0.15s;width:100%}
+.add-section-btn:hover{border-color:#0078D4;color:#0078D4;background:#EEF6FD}
 .reset-btn{font-size:13px;color:#6B7280;background:#fff;border:1px solid #E5EBF4;border-radius:8px;padding:8px 16px;cursor:pointer;margin-top:8px;font-family:inherit}
 .reset-btn:hover{background:#F3F6FA}
 .save-notice{font-size:11px;color:#9CA3AF;margin-top:12px;text-align:center}
 .live-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#0F6E56;background:#E1F5EE;padding:3px 9px;border-radius:20px;font-weight:600}
 .live-dot{width:6px;height:6px;border-radius:50%;background:#0F6E56;animation:pulse 1.5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:100;align-items:center;justify-content:center}
 .overlay.open{display:flex}
 .modal{background:#fff;border-radius:12px;padding:24px;width:90%;max-width:380px;box-shadow:0 4px 24px rgba(0,0,0,0.15)}
@@ -131,6 +142,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .modal-btns{display:flex;gap:8px;justify-content:flex-end}
 .btn-sec{background:#F3F6FA;color:#374151;border:none;padding:8px 14px;border-radius:7px;font-size:13px;cursor:pointer;font-family:inherit}
 .btn-danger{background:#D13438;color:#fff;border:none;padding:8px 14px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.add-sec-modal{background:#fff;border-radius:12px;padding:24px;width:90%;max-width:440px;box-shadow:0 4px 24px rgba(0,0,0,0.15)}
+.add-sec-modal h3{font-size:15px;font-weight:600;color:#111827;margin-bottom:16px}
+.add-sec-modal input,.add-sec-modal textarea{width:100%;padding:10px 12px;border:1.5px solid #E5EBF4;border-radius:8px;font-size:14px;font-family:inherit;color:#111827;outline:none;transition:border-color 0.15s;margin-bottom:12px}
+.add-sec-modal input:focus,.add-sec-modal textarea:focus{border-color:#0078D4}
+.add-sec-modal textarea{resize:vertical;min-height:72px}
+.add-sec-modal label{display:block;font-size:11px;font-weight:600;color:#6B7280;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:5px}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;transition:opacity 0.25s;pointer-events:none;z-index:200;white-space:nowrap}
 .toast.show{opacity:1}
 </style>
@@ -142,14 +159,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="home-wrap">
     <div class="home-wordmark">Microsoft Security · BA Team</div>
     <h1 class="home-title">GTM Motions<br><span>BA Checklist</span></h1>
-    <button class="btn-start" onclick="goNew()">+ Start New Motion</button>
-
+    <div class="home-btns">
+      <button class="btn-start accel" onclick="goNew('accel')">+ Create Acceleration Motion</button>
+      <button class="btn-start fy" onclick="goNew('fy')">+ Create FY Planning Motion</button>
+    </div>
     <div class="tabs" id="homeTabs">
       <button class="tab active" id="tabMine" onclick="switchTab('mine')">My Motions</button>
       <button class="tab" id="tabAll" onclick="switchTab('all')">All Team Motions</button>
       <button class="tab" id="tabArchived" onclick="switchTab('archived')">Archived</button>
     </div>
-
     <div class="motions-container" id="motionsContainer">
       <div class="rocket-empty" id="rocketEmpty">
         <svg width="72" height="72" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -162,7 +180,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
           <path d="M28 42C24 42 20 44 20 44C20 44 22 50 28 50" fill="#0078D4" opacity="0.2" stroke="#0078D4" stroke-width="1.5"/>
           <path d="M52 42C56 42 60 44 60 44C60 44 58 50 52 50" fill="#0078D4" opacity="0.2" stroke="#0078D4" stroke-width="1.5"/>
         </svg>
-        <p class="rocket-label">Click <strong>"Start New Motion"</strong> to create your first project</p>
+        <p class="rocket-label">Choose a motion type above to create your first project</p>
       </div>
       <div id="motionCards"></div>
     </div>
@@ -174,8 +192,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="new-wrap">
     <div class="new-card">
       <button class="new-back" onclick="goHome()">← Back</button>
-      <h2>New GTM Motion</h2>
-      <p>Fill in the details below to get started.</p>
+      <h2 id="newMotionHeading" style="color:#0078D4">New Acceleration Motion</h2>
+      <p id="newMotionSub">Fill in the details below to get started.</p>
       <div class="fg"><label>Project name</label><input id="fn" type="text" placeholder="e.g. Defender for Cloud Q4 Acceleration"/></div>
       <div class="fg"><label>Primary product(s)</label><input id="fp" type="text" placeholder="e.g. Defender for Endpoint, Sentinel"/></div>
       <div class="fg"><label>Your name</label><input id="fo" type="text" placeholder="Your full name"/></div>
@@ -210,19 +228,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
     <div class="stats">
       <div class="stat"><div class="stat-num" id="cnt-done">0</div><div class="stat-lbl">Completed</div></div>
-      <div class="stat"><div class="stat-num" id="cnt-left">14</div><div class="stat-lbl">Remaining</div></div>
+      <div class="stat"><div class="stat-num" id="cnt-left">0</div><div class="stat-lbl">Remaining</div></div>
       <div class="stat"><div class="stat-num" id="cnt-pct">0%</div><div class="stat-lbl">Ready to launch</div></div>
     </div>
-    <div class="progress-label" id="prog-label">0 of 14 complete</div>
+    <div class="progress-label" id="prog-label">0 of 0 complete</div>
     <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
     <div id="sections"></div>
     <div id="clBottom">
+      <button class="add-section-btn" onclick="showAddSection()">+ Add checklist item</button>
       <button class="reset-btn" onclick="resetChecklist()">Reset checklist</button>
       <div class="save-notice">✓ Changes sync live to Firebase — everyone sees updates instantly</div>
     </div>
   </div>
 </div>
 
+<!-- Delete motion modal -->
 <div class="overlay" id="delOverlay">
   <div class="modal">
     <h3>Delete this motion?</h3>
@@ -233,11 +253,39 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
   </div>
 </div>
+
+<!-- Delete checklist item modal -->
+<div class="overlay" id="delItemOverlay">
+  <div class="modal">
+    <h3>Remove this checklist item?</h3>
+    <p>This will remove the item and all its sub-tasks from this motion.</p>
+    <div class="modal-btns">
+      <button class="btn-sec" onclick="closeItemModal()">Cancel</button>
+      <button class="btn-danger" onclick="confirmDelItem()">Remove</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add checklist item modal -->
+<div class="overlay" id="addSecOverlay">
+  <div class="add-sec-modal">
+    <h3>Add checklist item</h3>
+    <label>Item name</label>
+    <input id="newSecName" type="text" placeholder="e.g. BOM Assets" onkeydown="if(event.key==='Enter')window.confirmAddSection()"/>
+    <label>Description (optional)</label>
+    <textarea id="newSecSub" placeholder="Brief description of what this covers..."></textarea>
+    <div class="modal-btns">
+      <button class="btn-sec" onclick="closeAddSection()">Cancel</button>
+      <button class="btn-danger" style="background:#0078D4" onclick="confirmAddSection()">Add Item</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import{getDatabase,ref,set,get,onValue,remove,update,query,orderByChild,equalTo}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+import{getDatabase,ref,set,get,onValue,remove,update}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
 const firebaseConfig={
   apiKey:"AIzaSyBqIwbmnsGzoU0qs9sT7OvZtLA4PpEybCI",
@@ -252,92 +300,39 @@ const firebaseConfig={
 const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 
-// Pre-populated subtasks per item id
-const PRESET_SUBTASKS={
-  s1:[
-    {text:"Write out your problem statement",done:false},
-    {text:"Define your target scenario by listing what criteria you'll focus on",done:false},
-    {text:"Define what you want people to do differently as a result of your motion",done:false}
-  ],
-  s2:[
-    {text:"Get official TAM from EG Finance team for your market segment",done:false},
-    {text:"Work with EG Finance to estimate pipeline opportunity over the motion period",done:false},
-    {text:"Create a scenario analysis that gives a range of potential revenue impact",done:false}
-  ],
+const PRESET_SUBTASKS_ACCEL={
+  s1:[{text:"Write out your problem statement",done:false},{text:"Define your target scenario by listing what criteria you'll focus on",done:false},{text:"Define what you want people to do differently as a result of your motion",done:false}],
+  s2:[{text:"Get official TAM from EG Finance team for your market segment",done:false},{text:"Work with EG Finance to estimate pipeline opportunity over the motion period",done:false},{text:"Create a scenario analysis that gives a range of potential revenue impact",done:false}],
   s3:[],
-  t1:[
-    {text:"Determine industry, geos, and segments you want to focus on",done:false},
-    {text:"Identify any pre-requisites you want the customer profile to anchor on",done:false},
-    {text:"Determine number of accounts you're hoping to target",done:false},
-    {text:"Validate against usage where possible",done:false},
-    {text:"Validate against customer maturity where needed",done:false},
-    {text:"Create tiers within your final target list — P0, P1, P2, etc.",done:false},
-    {text:"Validate with SE&O timezone GTM managers early, at least 4 weeks before launch",done:false},
-    {text:"Ensure target list has all relevant data: geo, OU breakdown, segment, seller assignment, etc.",done:false}
-  ],
-  t2:[
-    {text:"Determine the data you have vs. the data you need",done:false},
-    {text:"Stand up reporting with Finance or BI team early — pipeline? Actuals? Usage? OSP offers?",done:false}
-  ],
-  v1:[
-    {text:"Create tactical WIIFM slide for your Initiative Playbook",done:false}
-  ],
-  v2:[
-    {text:"Create tactical customer value proposition slide — one page, field-ready, vetted by Marketing",done:false}
-  ],
-  o1:[
-    {text:"Create detailed orchestration slide anchored to MCEM stages 1–5",done:false},
-    {text:"Create any supporting detail slides",done:false}
-  ],
-  o2:[
-    {text:"Work across Enterprise, SME&C, and GPS counterparts to cover partner strategy holistically",done:false},
-    {text:"Determine if you need net new or amplification of existing partner workstreams",done:false},
-    {text:"Reach out early if you are expecting a new approach for partners",done:false}
-  ],
-  o3:[
-    {text:"Align with Csaba and Security GBB team to determine support and coverage model",done:false},
-    {text:"Reach out to related CxE partners to gauge bandwidth and support commitment",done:false}
-  ],
-  c1:[
-    {text:"Create OSP page to support your campaign",done:false},
-    {text:"Create plan for customized outreach — through OSP or mail merge?",done:false},
-    {text:"Determine what reporting will be feasible from the programs team",done:false},
-    {text:"Ensure comms to field reach the right people without spamming",done:false}
-  ],
-  c2:[
-    {text:"Identify what cross-CSA trainings and community calls you need to plug into",done:false},
-    {text:"Work to create or update assets to support launching your motion",done:false},
-    {text:"Create agents to support you scaling, where necessary",done:false},
-    {text:"Create BOM with resources for all receiving members of your motion",done:false}
-  ],
-  c3:[
-    {text:"Align with PMM and Marketing GTM teams to identify what you need, from who, by when",done:false},
-    {text:"Identify what needs to be updated or created and communicate with advance notice",done:false}
-  ],
-  c4:[
-    {text:"Request any updates to roadmap or commitments needed to support your motion launch",done:false}
-  ],
-  e1:[
-    {text:"Get Steve/Ritu to email Judson/Deb for notice of your motion",done:false},
-    {text:"Align to ensure field leadership receives notice of your motion prior to field comms",done:false},
-    {text:"Notify global SE&O teams and leaders prior to field communications",done:false},
-    {text:"Create field landing deck for your motion",done:false},
-    {text:"Ensure alignment with any cross-CSA stakeholders",done:false},
-    {text:"Identify all recipients and dedupe to minimize spam",done:false},
-    {text:"Create OFTs to make it easy for any leaders you're relying on to send your comms",done:false},
-    {text:"Join relevant community calls and enablement calls to land your message with field stakeholders",done:false}
-  ]
+  t1:[{text:"Determine industry, geos, and segments you want to focus on",done:false},{text:"Identify any pre-requisites you want the customer profile to anchor on",done:false},{text:"Determine number of accounts you're hoping to target",done:false},{text:"Validate against usage where possible",done:false},{text:"Validate against customer maturity where needed",done:false},{text:"Create tiers within your final target list — P0, P1, P2, etc.",done:false},{text:"Validate with SE&O timezone GTM managers early, at least 4 weeks before launch",done:false},{text:"Ensure target list has all relevant data: geo, OU breakdown, segment, seller assignment, etc.",done:false}],
+  t2:[{text:"Determine the data you have vs. the data you need",done:false},{text:"Stand up reporting with Finance or BI team early — pipeline? Actuals? Usage? OSP offers?",done:false}],
+  v1:[{text:"Create tactical WIIFM slide for your Initiative Playbook",done:false}],
+  v2:[{text:"Create tactical customer value proposition slide — one page, field-ready, vetted by Marketing",done:false}],
+  o1:[{text:"Create detailed orchestration slide anchored to MCEM stages 1–5",done:false},{text:"Create any supporting detail slides",done:false}],
+  o2:[{text:"Work across Enterprise, SME&C, and GPS counterparts to cover partner strategy holistically",done:false},{text:"Determine if you need net new or amplification of existing partner workstreams",done:false},{text:"Reach out early if you are expecting a new approach for partners",done:false}],
+  o3:[{text:"Align with Csaba and Security GBB team to determine support and coverage model",done:false},{text:"Reach out to related CxE partners to gauge bandwidth and support commitment",done:false}],
+  c1:[{text:"Create OSP page to support your campaign",done:false},{text:"Create plan for customized outreach — through OSP or mail merge?",done:false},{text:"Determine what reporting will be feasible from the programs team",done:false},{text:"Ensure comms to field reach the right people without spamming",done:false}],
+  c2:[{text:"Identify what cross-CSA trainings and community calls you need to plug into",done:false},{text:"Work to create or update assets to support launching your motion",done:false},{text:"Create agents to support you scaling, where necessary",done:false},{text:"Create BOM with resources for all receiving members of your motion",done:false}],
+  c3:[{text:"Align with PMM and Marketing GTM teams to identify what you need, from who, by when",done:false},{text:"Identify what needs to be updated or created and communicate with advance notice",done:false}],
+  c4:[{text:"Request any updates to roadmap or commitments needed to support your motion launch",done:false}],
+  e1:[{text:"Get Steve/Ritu to email Judson/Deb for notice of your motion",done:false},{text:"Align to ensure field leadership receives notice of your motion prior to field comms",done:false},{text:"Notify global SE&O teams and leaders prior to field communications",done:false},{text:"Create field landing deck for your motion",done:false},{text:"Ensure alignment with any cross-CSA stakeholders",done:false},{text:"Identify all recipients and dedupe to minimize spam",done:false},{text:"Create OFTs to make it easy for any leaders you're relying on to send your comms",done:false},{text:"Join relevant community calls and enablement calls to land your message with field stakeholders",done:false}]
 };
 
-const SECTIONS=[
+const PRESET_SUBTASKS_FY_EXTRA={
+  fy_bom:[{text:"Inventory all existing assets across decks, one-pagers, and digital",done:false},{text:"Identify gaps vs. FY plan requirements",done:false},{text:"Request new asset creation from Enablement and Marketing",done:false},{text:"Review and approve final BOM with stakeholders",done:false}],
+  fy_pitch:[{text:"Create customer-facing pitch deck",done:false},{text:"Create exec briefing deck",done:false},{text:"Create partner co-sell deck",done:false},{text:"Version control and store in shared library",done:false}],
+  fy_landing:[{text:"Define landing page strategy and messaging",done:false},{text:"Align on CTAs and conversion goals",done:false},{text:"Brief web team with timeline",done:false},{text:"QA and run launch checklist before go-live",done:false}],
+  fy_target:[{text:"Determine industry, geos, and segments you want to focus on",done:false},{text:"Identify any pre-requisites you want the customer profile to anchor on",done:false},{text:"Determine number of accounts you're hoping to target",done:false},{text:"Validate against usage where possible",done:false},{text:"Validate against customer maturity where needed",done:false},{text:"Create tiers within your final target list — P0, P1, P2, etc.",done:false},{text:"Validate with SE&O timezone GTM managers early, at least 4 weeks before launch",done:false},{text:"Ensure target list has all relevant data: geo, OU breakdown, segment, seller assignment, etc.",done:false}]
+};
+
+const SECTIONS_ACCEL=[
   {title:"Foundation — do this first",items:[
     {id:"s1",name:"Strategic Rationale / Motion Brief",sub:"Create a proposal, early deck or doc that explains why now, what problem you are solving, what priorities you are snapping to. Get buy-in on what you're going to do before you start.",badge:"must"},
     {id:"s2",name:"TAM & Opportunity",sub:"Market size, pipeline potential, revenue impact over your motion's time period, and risk of inaction.",badge:"must"},
     {id:"s3",name:"Motion Type",sub:"Determine the type of motion you're standing up — new customer acquisition, expansion of existing, conversion from trials, etc.",badge:"must"}
   ]},
-  {title:"Targeting & Reporting",items:[
-    {id:"t1",name:"Targeting",sub:"Determine scope for your motion — who, where, what.",badge:"must"},
-    {id:"t2",name:"Success Metrics & Reporting",sub:"Determine how you will report back to LT on the results of your motion.",badge:"must"}
+  {title:"Targeting",items:[
+    {id:"t1",name:"Targeting",sub:"Determine scope for your motion — who, where, what.",badge:"must"}
   ]},
   {title:"Value & Messaging",items:[
     {id:"v1",name:"Seller Value Articulation / WIIFM",sub:"Create a reason for sellers to care — does it help their quota retirement? Accelerate their pipeline or time to close?",badge:"must"},
@@ -356,32 +351,80 @@ const SECTIONS=[
   ]},
   {title:"Execution",items:[
     {id:"e1",name:"Comms & Landing Plan",sub:"Stakeholder matrix/RACI, key messages per audience, channels, timing, and owners.",badge:"must"}
+  ]},
+  {title:"Reporting",items:[
+    {id:"t2",name:"Success Metrics & Reporting",sub:"Determine how you will report back to LT on the results of your motion.",badge:"must"}
+  ]}
+];
+
+const SECTIONS_FY=[
+  {title:"Foundation — do this first",items:[
+    {id:"s1",name:"Strategic Rationale / Motion Brief",sub:"Create a proposal, early deck or doc that explains why now, what problem you are solving, what priorities you are snapping to. Get buy-in on what you're going to do before you start.",badge:"must"},
+    {id:"s2",name:"TAM & Opportunity",sub:"Market size, pipeline potential, revenue impact over your motion's time period, and risk of inaction.",badge:"must"},
+    {id:"s3",name:"Motion Type",sub:"Determine the type of motion you're standing up — new customer acquisition, expansion of existing, conversion from trials, etc.",badge:"must"}
+  ]},
+  {title:"Value & Messaging",items:[
+    {id:"v1",name:"Seller Value Articulation / WIIFM",sub:"Create a reason for sellers to care — does it help their quota retirement? Accelerate their pipeline or time to close?",badge:"must"},
+    {id:"v2",name:"Customer Value Articulation / Proposition",sub:"Create a reason for customers to care — does it help them achieve desired business outcomes, save money, or give them more of something?",badge:"must"}
+  ]},
+  {title:"Orchestration & Coverage",items:[
+    {id:"o1",name:"MCEM",sub:"Anchor actions, owners, and design across MCEM stages 1–5.",badge:"must"},
+    {id:"o2",name:"Partner Activation Strategy",sub:"Define partner roles, enablement plan, co-sell models, and incentive models.",badge:"team"},
+    {id:"o3",name:"CxE / GBB Support Plan",sub:"Determine coverage model, engagement trigger criteria, escalation paths, and POC support.",badge:"team"}
+  ]},
+  {title:"Planning Asset Necessities",items:[
+    {id:"fy_bom",name:"BOM Assets",sub:"Build out your full Bill of Materials — all assets needed to support the motion across seller, partner, and customer audiences.",badge:"must"},
+    {id:"fy_pitch",name:"Pitch Decks",sub:"Create and version-control all pitch decks: customer-facing, exec briefing, and partner co-sell.",badge:"must"},
+    {id:"fy_target",name:"Targeting",sub:"Define your ICP for the fiscal year, build the account list, segment into tiers, and align with sales on coverage.",badge:"must"}
+  ]},
+  {title:"Cross-Functional Plans",items:[
+    {id:"c1",name:"Programs Team Plan",sub:"Funding/incentives, motion tracking methodology and expectations, governance cadence and owners.",badge:"team"},
+    {id:"c2",name:"Enablement Team Plan",sub:"Upcoming trainings to plug into, seller community calls, pitch deck and assets needing to be created or updated.",badge:"team"},
+    {id:"c3",name:"Marketing Team Plan",sub:"ABM campaigns, webinars, concise field-ready value pitch deck — determine what you need from who and by when.",badge:"team"},
+    {id:"c4",name:"Engineering Team Plan",sub:"Roadmap, commitments, and any support needed.",badge:"team"}
+  ]},
+  {title:"Execution",items:[
+    {id:"fy_landing",name:"Landing Prep",sub:"Plan, brief, and QA the landing experience — pages, CTAs, and go-live readiness.",badge:"must"},
+    {id:"e1",name:"Comms & Landing Plan",sub:"Stakeholder matrix/RACI, key messages per audience, channels, timing, and owners.",badge:"must"}
+  ]},
+  {title:"Reporting",items:[
+    {id:"t2",name:"Success Metrics & Reporting",sub:"Determine how you will report back to LT on the results of your motion.",badge:"must"}
   ]}
 ];
 
 const BL={must:"Required",team:"Cross-functional",lock:"Time-sensitive"};
-const TOTAL=14;
-
-let cid=null,liveUnsub=null,delId=null,currentTab='mine';
+let cid=null,liveUnsub=null,delId=null,delItemId=null,currentTab='mine',pendingMotionType='accel';
 const USER_KEY='gtm_user_motions';
 
-function allIds(){return SECTIONS.flatMap(s=>s.items.map(i=>i.id));}
+function getSections(t){return t==='fy'?SECTIONS_FY:SECTIONS_ACCEL;}
+function getPresets(t){return t==='fy'?Object.assign({},PRESET_SUBTASKS_ACCEL,PRESET_SUBTASKS_FY_EXTRA):PRESET_SUBTASKS_ACCEL;}
+function allIdsFrom(sections){return sections.flatMap(s=>s.items.map(i=>i.id));}
 function getUserMotions(){try{return JSON.parse(localStorage.getItem(USER_KEY)||'[]');}catch{return[];}}
 function addUserMotion(id){const m=getUserMotions();if(!m.includes(id)){m.unshift(id);localStorage.setItem(USER_KEY,JSON.stringify(m));}}
-function removeUserMotion(id){const m=getUserMotions().filter(x=>x!==id);localStorage.setItem(USER_KEY,JSON.stringify(m));}
-
+function removeUserMotion(id){localStorage.setItem(USER_KEY,JSON.stringify(getUserMotions().filter(x=>x!==id)));}
 function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
 
 function goHome(){
   if(liveUnsub){liveUnsub();liveUnsub=null;}
-  cid=null;
-  history.replaceState(null,'',location.pathname);
-  renderHome();showPage('pgHome');
+  cid=null;history.replaceState(null,'',location.pathname);renderHome();showPage('pgHome');
 }
 window.goHome=goHome;
 
-function goNew(){
+function goNew(type){
+  pendingMotionType=type||'accel';
   ['fn','fp','fo','ff'].forEach(id=>document.getElementById(id).value='');
+  const h=document.getElementById('newMotionHeading');
+  const s=document.getElementById('newMotionSub');
+  const b=document.getElementById('btnCreate');
+  if(type==='fy'){
+    h.textContent='New FY Planning Motion';h.style.color='#FF8C00';
+    s.textContent='Fill in the details to set up your FY Planning motion.';
+    b.className='btn-create fy-create';
+  }else{
+    h.textContent='New Acceleration Motion';h.style.color='#0078D4';
+    s.textContent='Fill in the details to set up your Acceleration motion.';
+    b.className='btn-create';
+  }
   showPage('pgNew');
 }
 window.goNew=goNew;
@@ -399,47 +442,33 @@ async function renderHome(){
   const rocket=document.getElementById('rocketEmpty');
   cards.innerHTML='<div style="text-align:center;padding:32px;color:#9CA3AF;font-size:13px">Loading...</div>';
   rocket.style.display='none';
-
   const snap=await get(ref(db,'motions'));
   if(!snap.exists()){cards.innerHTML='';rocket.style.display='flex';return;}
-
-  const all=[];
-  snap.forEach(child=>{all.push(child.val());});
-
+  const all=[];snap.forEach(child=>{all.push(child.val());});
   const myIds=getUserMotions();
-  let filtered=[];
-
-  if(currentTab==='mine'){
-    filtered=all.filter(m=>myIds.includes(m.id)&&!m.archived);
-  }else if(currentTab==='all'){
-    filtered=all.filter(m=>!m.archived);
-  }else{
-    filtered=all.filter(m=>m.archived);
-  }
-
+  let filtered=currentTab==='mine'?all.filter(m=>myIds.includes(m.id)&&!m.archived):currentTab==='all'?all.filter(m=>!m.archived):all.filter(m=>m.archived);
   filtered.sort((a,b)=>new Date(b.created||0)-new Date(a.created||0));
-
   if(!filtered.length){
     cards.innerHTML='';
-    if(currentTab==='mine'&&!myIds.length){
-      rocket.style.display='flex';
-    }else{
-      cards.innerHTML=`<div class="empty-tab">${currentTab==='archived'?'No archived motions yet.':currentTab==='mine'?'No active motions. Click "+ Start New Motion" to create one.':'No team motions yet.'}</div>`;
-    }
+    if(currentTab==='mine'&&!myIds.length){rocket.style.display='flex';}
+    else{cards.innerHTML=`<div class="empty-tab">${currentTab==='archived'?'No archived motions yet.':currentTab==='mine'?'No active motions. Create one above.':'No team motions yet.'}</div>`;}
     return;
   }
-
   rocket.style.display='none';
   cards.innerHTML=filtered.map(m=>{
+    const sections=m.sections||getSections(m.motionType||'accel');
+    const TOTAL=allIdsFrom(sections).length;
     const done=m.checks?Object.values(m.checks).filter(Boolean).length:0;
-    const pct=Math.round(done/TOTAL*100);
-    const status=m.archived?'Archived':done===TOTAL?'Complete':done>0?'In Motion':'Planning';
+    const pct=TOTAL>0?Math.round(done/TOTAL*100):0;
+    const status=m.archived?'Archived':done===TOTAL&&TOTAL>0?'Complete':done>0?'In Motion':'Planning';
     const sc=m.archived?'a':status==='In Motion'?'i':status==='Complete'?'c':'p';
     const isArchived=!!m.archived;
-    return `<div class="home-card ${isArchived?'archived':''}" onclick="window.openMotion('${m.id}')">
+    const tc=m.motionType==='fy'?'#FF8C00':'#0078D4';
+    const tl=m.motionType==='fy'?'FY Planning':'Acceleration';
+    return `<div class="home-card${isArchived?' archived':''}" onclick="window.openMotion('${m.id}')">
       <div>
         <div class="hc-name">${m.name}</div>
-        <div class="hc-meta">${m.owner}${m.product?' · '+m.product:''}${m.fiscal?' · '+m.fiscal:''}</div>
+        <div class="hc-meta">${m.owner}${m.product?' · '+m.product:''}${m.fiscal?' · '+m.fiscal:''} · <span style="color:${tc};font-weight:600">${tl}</span></div>
       </div>
       <div class="hc-right">
         <div class="hc-btns">
@@ -462,23 +491,22 @@ async function createMotion(){
   const btn=document.getElementById('btnCreate');
   btn.disabled=true;btn.textContent='Creating...';
   const id='m_'+Date.now();
-
-  // Build initial subtasks with presets
-  const subtasksInit={};
-  allIds().forEach(itemId=>{
-    subtasksInit[itemId]=PRESET_SUBTASKS[itemId]?[...PRESET_SUBTASKS[itemId]]:[];
-  });
-
-  const data={id,name,owner,
+  const sections=getSections(pendingMotionType);
+  const ids=allIdsFrom(sections);
+  const presets=getPresets(pendingMotionType);
+  const subtasksInit={};ids.forEach(i=>{subtasksInit[i]=presets[i]?[...presets[i]]:[];});
+  const checksInit={};ids.forEach(i=>{checksInit[i]=false;});
+  await set(ref(db,'motions/'+id),{
+    id,name,owner,
     product:document.getElementById('fp').value.trim(),
     fiscal:document.getElementById('ff').value.trim(),
     created:new Date().toISOString(),
     archived:false,
-    checks:{},
+    motionType:pendingMotionType,
+    sections,
+    checks:checksInit,
     subtasks:subtasksInit
-  };
-  allIds().forEach(itemId=>{data.checks[itemId]=false;});
-  await set(ref(db,'motions/'+id),data);
+  });
   addUserMotion(id);
   btn.disabled=false;btn.textContent='Create Motion & Start Checklist →';
   openMotion(id);
@@ -487,15 +515,11 @@ window.createMotion=createMotion;
 
 function openMotion(id){
   if(liveUnsub){liveUnsub();liveUnsub=null;}
-  cid=id;
-  history.replaceState(null,'',location.pathname+'#'+id);
-  showPage('pgChecklist');
-
+  cid=id;history.replaceState(null,'',location.pathname+'#'+id);showPage('pgChecklist');
   liveUnsub=onValue(ref(db,'motions/'+id),(snap)=>{
     if(!snap.exists()){goHome();return;}
     const m=snap.val();
     const isArchived=!!m.archived;
-
     document.getElementById('titleDisplay').textContent=m.name;
     document.getElementById('titleDisplay').style.display='';
     document.getElementById('titleInput').style.display='none';
@@ -504,7 +528,6 @@ function openMotion(id){
     document.getElementById('btnComplete').style.display=isArchived?'none':'';
     document.getElementById('btnReopen').style.display='none';
     document.getElementById('clBottom').style.display=isArchived?'none':'block';
-
     buildChecklist(m,isArchived);
   });
 }
@@ -513,17 +536,19 @@ window.openMotion=openMotion;
 function buildChecklist(m,isArchived){
   const checks=m.checks||{};
   const subtasks=m.subtasks||{};
-  const done=Object.values(checks).filter(Boolean).length;
-  const pct=Math.round(done/TOTAL*100);
+  const sections=m.sections||getSections(m.motionType||'accel');
+  const ids=allIdsFrom(sections);
+  const TOTAL=ids.length;
+  const done=ids.filter(id=>checks[id]).length;
+  const pct=TOTAL>0?Math.round(done/TOTAL*100):0;
   document.getElementById('cnt-done').textContent=done;
   document.getElementById('cnt-left').textContent=TOTAL-done;
   document.getElementById('cnt-pct').textContent=pct+'%';
   document.getElementById('prog-fill').style.width=pct+'%';
   document.getElementById('prog-label').textContent=done+' of '+TOTAL+' complete';
-
   const container=document.getElementById('sections');
   container.innerHTML='';
-  SECTIONS.forEach(sec=>{
+  sections.forEach(sec=>{
     const div=document.createElement('div');
     div.className='section';
     div.innerHTML='<div class="section-title">'+sec.title+'</div>';
@@ -544,8 +569,9 @@ function buildChecklist(m,isArchived){
             <div class="checkbox ${on?'checked':''}" id="cb-${it.id}">${on?'✓':''}</div>
             <div class="item-body">
               <div class="item-name">${it.name}${badge}</div>
-              <div class="item-sub">${it.sub}</div>
+              <div class="item-sub">${it.sub||''}</div>
             </div>
+            ${!isArchived?`<button class="item-del-btn" onclick="event.stopPropagation();window.askDelItem('${it.id}')" title="Remove item">×</button>`:''}
           </div>
           <div class="subtasks-list">${stHtml}</div>
           ${!isArchived?`
@@ -564,13 +590,10 @@ function buildChecklist(m,isArchived){
 window.toggleItem=async function(itemId){
   if(!cid)return;
   const snap=await get(ref(db,'motions/'+cid+'/checks/'+itemId));
-  const cur=snap.exists()?snap.val():false;
-  await set(ref(db,'motions/'+cid+'/checks/'+itemId),!cur);
+  await set(ref(db,'motions/'+cid+'/checks/'+itemId),!(snap.exists()?snap.val():false));
 };
-
 window.showST=function(id){document.getElementById('sti-'+id).classList.add('visible');document.getElementById('stt-'+id).focus();};
 window.hideST=function(id){document.getElementById('sti-'+id).classList.remove('visible');document.getElementById('stt-'+id).value='';};
-
 window.saveST=async function(id){
   const text=document.getElementById('stt-'+id).value.trim();if(!text)return;
   const snap=await get(ref(db,'motions/'+cid+'/subtasks/'+id));
@@ -579,14 +602,12 @@ window.saveST=async function(id){
   await set(ref(db,'motions/'+cid+'/subtasks/'+id),arr);
   window.hideST(id);
 };
-
 window.toggleST=async function(itemId,idx){
   const snap=await get(ref(db,'motions/'+cid+'/subtasks/'+itemId));
   const arr=snap.exists()&&Array.isArray(snap.val())?snap.val():[];
   if(arr[idx])arr[idx].done=!arr[idx].done;
   await set(ref(db,'motions/'+cid+'/subtasks/'+itemId),arr);
 };
-
 window.deleteST=async function(itemId,idx){
   const snap=await get(ref(db,'motions/'+cid+'/subtasks/'+itemId));
   const arr=snap.exists()&&Array.isArray(snap.val())?snap.val():[];
@@ -594,16 +615,52 @@ window.deleteST=async function(itemId,idx){
   await set(ref(db,'motions/'+cid+'/subtasks/'+itemId),arr);
 };
 
+window.askDelItem=function(itemId){delItemId=itemId;document.getElementById('delItemOverlay').classList.add('open');};
+window.closeItemModal=function(){delItemId=null;document.getElementById('delItemOverlay').classList.remove('open');};
+window.confirmDelItem=async function(){
+  if(!delItemId||!cid)return;
+  const snap=await get(ref(db,'motions/'+cid));
+  if(!snap.exists())return;
+  const m=snap.val();
+  const sections=(m.sections||getSections(m.motionType||'accel'))
+    .map(sec=>({...sec,items:sec.items.filter(it=>it.id!==delItemId)}))
+    .filter(sec=>sec.items.length>0);
+  const updates={sections};
+  updates['checks/'+delItemId]=null;
+  updates['subtasks/'+delItemId]=null;
+  await update(ref(db,'motions/'+cid),updates);
+  window.closeItemModal();showToast('Checklist item removed');
+};
+
+function showAddSection(){document.getElementById('addSecOverlay').classList.add('open');setTimeout(()=>document.getElementById('newSecName').focus(),50);}
+function closeAddSection(){document.getElementById('addSecOverlay').classList.remove('open');document.getElementById('newSecName').value='';document.getElementById('newSecSub').value='';}
+window.showAddSection=showAddSection;window.closeAddSection=closeAddSection;
+window.confirmAddSection=async function(){
+  const name=document.getElementById('newSecName').value.trim();
+  if(!name){alert('Please enter a name.');return;}
+  const sub=document.getElementById('newSecSub').value.trim();
+  const snap=await get(ref(db,'motions/'+cid));
+  if(!snap.exists())return;
+  const m=snap.val();
+  const sections=JSON.parse(JSON.stringify(m.sections||getSections(m.motionType||'accel')));
+  const newId='custom_'+Date.now();
+  const ci=sections.findIndex(s=>s.title==='Custom Items');
+  if(ci>=0){sections[ci].items.push({id:newId,name,sub,badge:''});}
+  else{sections.push({title:'Custom Items',items:[{id:newId,name,sub,badge:''}]});}
+  const updates={sections};
+  updates['checks/'+newId]=false;
+  updates['subtasks/'+newId]=[];
+  await update(ref(db,'motions/'+cid),updates);
+  closeAddSection();showToast('Checklist item added');
+};
+
 function startEditTitle(){
-  const d=document.getElementById('titleDisplay');
-  const i=document.getElementById('titleInput');
+  const d=document.getElementById('titleDisplay'),i=document.getElementById('titleInput');
   i.value=d.textContent;d.style.display='none';i.style.display='block';i.focus();i.select();
 }
 window.startEditTitle=startEditTitle;
-
 async function saveTitle(){
-  const i=document.getElementById('titleInput');
-  const d=document.getElementById('titleDisplay');
+  const i=document.getElementById('titleInput'),d=document.getElementById('titleDisplay');
   const text=i.value.trim();if(!text)return;
   if(cid)await update(ref(db,'motions/'+cid),{name:text});
   d.style.display='';i.style.display='none';document.title=text;
@@ -612,39 +669,38 @@ window.saveTitle=saveTitle;
 
 async function archiveMotion(){
   if(!cid)return;
-  if(!confirm('Mark this motion as complete and archive it? It will be removed from active views but saved in Firebase.'))return;
+  if(!confirm('Mark this motion as complete and archive it?'))return;
   await update(ref(db,'motions/'+cid),{archived:true,archivedAt:new Date().toISOString()});
   showToast('Motion archived ✓');
 }
 window.archiveMotion=archiveMotion;
-
 async function reopenMotion(){
   if(!cid)return;
   await update(ref(db,'motions/'+cid),{archived:false,archivedAt:null});
   showToast('Motion reopened');
 }
 window.reopenMotion=reopenMotion;
-
 window.reopenById=async function(id){
   await update(ref(db,'motions/'+id),{archived:false,archivedAt:null});
   renderHome();showToast('Motion reopened');
 };
-
 window.shareMotion=function(id){
   const url=location.origin+location.pathname+'#'+id;
-  navigator.clipboard.writeText(url).then(()=>showToast('Live link copied! Anyone with this can view and edit.')).catch(()=>prompt('Copy this link:',url));
+  navigator.clipboard.writeText(url).then(()=>showToast('Live link copied!')).catch(()=>prompt('Copy this link:',url));
 };
-
 function doShare(){if(cid)window.shareMotion(cid);}
 window.doShare=doShare;
 
 async function resetChecklist(){
-  if(!confirm('Reset all checkboxes and sub-tasks for this motion? Pre-populated sub-tasks will be restored.'))return;
+  if(!confirm('Reset all checkboxes and sub-tasks?'))return;
+  const snap=await get(ref(db,'motions/'+cid));
+  if(!snap.exists())return;
+  const m=snap.val();
+  const sections=m.sections||getSections(m.motionType||'accel');
+  const ids=allIdsFrom(sections);
+  const presets=getPresets(m.motionType||'accel');
   const updates={};
-  allIds().forEach(id=>{
-    updates['checks/'+id]=false;
-    updates['subtasks/'+id]=PRESET_SUBTASKS[id]?[...PRESET_SUBTASKS[id]]:[];
-  });
+  ids.forEach(id=>{updates['checks/'+id]=false;updates['subtasks/'+id]=presets[id]?[...presets[id]]:[];});
   await update(ref(db,'motions/'+cid),updates);
 }
 window.resetChecklist=resetChecklist;
@@ -654,8 +710,7 @@ window.closeModal=function(){delId=null;document.getElementById('delOverlay').cl
 window.confirmDel=async function(){
   if(!delId)return;
   await remove(ref(db,'motions/'+delId));
-  removeUserMotion(delId);
-  window.closeModal();renderHome();
+  removeUserMotion(delId);window.closeModal();renderHome();
 };
 
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
