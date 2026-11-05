@@ -18,8 +18,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-start{color:#fff;border:none;padding:13px 28px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;white-space:nowrap}
 .btn-start.accel{background:#0078D4;box-shadow:0 4px 24px rgba(0,120,212,0.35)}
 .btn-start.accel:hover{background:#006cbd;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,120,212,0.45)}
-.btn-start.fy{background:#FF8C00;box-shadow:0 4px 24px rgba(255,140,0,0.35)}
-.btn-start.fy:hover{background:#e67d00;transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,140,0,0.45)}
 
 .tabs{display:flex;gap:0;background:#fff;border-radius:10px;padding:4px;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:20px;width:100%;max-width:560px}
 .tab{flex:1;padding:8px 12px;border:none;background:none;font-size:13px;font-weight:500;color:#9CA3AF;cursor:pointer;font-family:inherit;border-radius:7px;transition:all 0.15s}
@@ -61,8 +59,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .fg input::placeholder{color:#D1D5DB;font-size:14px}
 .btn-create{width:100%;background:#0078D4;color:#fff;border:none;padding:14px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px;transition:all 0.2s;box-shadow:0 2px 12px rgba(0,120,212,0.25)}
 .btn-create:hover{background:#006cbd;transform:translateY(-1px)}
-.btn-create.fy-create{background:#FF8C00;box-shadow:0 2px 12px rgba(255,140,0,0.25)}
-.btn-create.fy-create:hover{background:#e67d00}
 .btn-create:disabled{background:#9CA3AF;transform:none;box-shadow:none;cursor:not-allowed}
 
 .cl-wrap{max-width:720px;margin:0 auto;padding:24px}
@@ -172,8 +168,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="home-wordmark">Microsoft Security · BA Team</div>
     <h1 class="home-title">GTM Motions<br><span>BA Checklist</span></h1>
     <div class="home-btns">
-      <button class="btn-start accel" onclick="goNew('accel')">+ Create Acceleration Motion</button>
-      <button class="btn-start fy" onclick="goNew('fy')">+ Create FY Planning Motion</button>
+      <button class="btn-start accel" onclick="goNew()">+ Create Motion</button>
     </div>
     <div class="tabs" id="homeTabs">
       <button class="tab active" id="tabMine" onclick="switchTab('mine')">My Motions</button>
@@ -192,7 +187,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
           <path d="M28 42C24 42 20 44 20 44C20 44 22 50 28 50" fill="#0078D4" opacity="0.2" stroke="#0078D4" stroke-width="1.5"/>
           <path d="M52 42C56 42 60 44 60 44C60 44 58 50 52 50" fill="#0078D4" opacity="0.2" stroke="#0078D4" stroke-width="1.5"/>
         </svg>
-        <p class="rocket-label">Choose a motion type above to create your first project</p>
+        <p class="rocket-label">Create your first GTM motion above</p>
       </div>
       <div id="motionCards"></div>
     </div>
@@ -204,7 +199,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="new-wrap">
     <div class="new-card">
       <button class="new-back" onclick="goHome()">← Back</button>
-      <h2 id="newMotionHeading" style="color:#0078D4">New Acceleration Motion</h2>
+      <h2 id="newMotionHeading" style="color:#0078D4">New GTM Motion</h2>
       <p id="newMotionSub">Fill in the details below to get started.</p>
       <div class="fg"><label>Project name</label><input id="fn" type="text" placeholder="e.g. Defender for Cloud Q4 Acceleration"/></div>
       <div class="fg"><label>Primary product(s)</label><input id="fp" type="text" placeholder="e.g. Defender for Endpoint, Sentinel"/></div>
@@ -297,7 +292,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import{getDatabase,ref,set,get,onValue,remove,update}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+import{getDatabase,ref,set,get,onValue,remove,update,runTransaction}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
 const firebaseConfig={
   apiKey:"AIzaSyBqIwbmnsGzoU0qs9sT7OvZtLA4PpEybCI",
@@ -312,104 +307,143 @@ const firebaseConfig={
 const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 
-const PRESET_SUBTASKS_ACCEL={
+const PRESET_SUBTASKS={
   s1:[{text:"Write out your problem statement",done:false},{text:"Define your target scenario by listing what criteria you'll focus on",done:false},{text:"Define what you want people to do differently as a result of your motion",done:false}],
-  s2:[{text:"Get official TAM from EG Finance team for your market segment",done:false},{text:"Work with EG Finance to estimate pipeline opportunity over the motion period",done:false},{text:"Create a scenario analysis that gives a range of potential revenue impact",done:false}],
-  s3:[],
-  t1:[{text:"Determine industry, geos, and segments you want to focus on",done:false},{text:"Identify any pre-requisites you want the customer profile to anchor on",done:false},{text:"Determine number of accounts you're hoping to target",done:false},{text:"Validate against usage where possible",done:false},{text:"Validate against customer maturity where needed",done:false},{text:"Create tiers within your final target list — P0, P1, P2, etc.",done:false},{text:"Validate with SE&O timezone GTM managers early, at least 4 weeks before launch",done:false},{text:"Ensure target list has all relevant data: geo, OU breakdown, segment, seller assignment, etc.",done:false}],
-  t2:[{text:"Determine the data you have vs. the data you need",done:false},{text:"Stand up reporting with Finance or BI team early — pipeline? Actuals? Usage? OSP offers?",done:false}],
-  v1:[{text:"Create tactical WIIFM slide for your Initiative Playbook",done:false}],
+  t1:[{text:"Determine the geo, segment, and customer profile you want to focus on",done:false},{text:"Identify prerequisites",done:false},{text:"Determine the number of accounts being targeted",done:false},{text:"Validate against usage",done:false},{text:"Create priority tiers within your target list — P0, P1, P2, etc.",done:false},{text:"Validate with SE&O timezone GTM managers early",done:false},{text:"Ensure the target list has all relevant data: geo, OU breakdown, segment, and seller assignment",done:false}],
+  t2:[{text:"Determine the data you have vs. the data you need",done:false},{text:"Stand up reporting with Finance or BI team early — pipeline? Actuals? Usage? FAS offers?",done:false}],
+  v1:[{text:"Create a tactical seller WIIFM slide for the playbook",done:false},{text:"Ensure seller compensation is addressed",done:false},{text:"Land why this motion matters to broad business objectives",done:false}],
   v2:[{text:"Create tactical customer value proposition slide — one page, field-ready, vetted by Marketing",done:false}],
   o1:[{text:"Create detailed orchestration slide anchored to MCEM stages 1–5",done:false},{text:"Create any supporting detail slides",done:false}],
   o2:[{text:"Work across Enterprise, SME&C, and GPS counterparts to cover partner strategy holistically",done:false},{text:"Determine if you need net new or amplification of existing partner workstreams",done:false},{text:"Reach out early if you are expecting a new approach for partners",done:false}],
-  o3:[{text:"Align with Csaba and Security GBB team to determine support and coverage model",done:false},{text:"Reach out to related CxE partners to gauge bandwidth and support commitment",done:false}],
-  c1:[{text:"Create OSP page to support your campaign",done:false},{text:"Create plan for customized outreach — through OSP or mail merge?",done:false},{text:"Determine what reporting will be feasible from the programs team",done:false},{text:"Ensure comms to field reach the right people without spamming",done:false}],
-  c2:[{text:"Identify what cross-CSA trainings and community calls you need to plug into",done:false},{text:"Work to create or update assets to support launching your motion",done:false},{text:"Create agents to support you scaling, where necessary",done:false},{text:"Create BOM with resources for all receiving members of your motion",done:false}],
+  o3:[{text:"Align with Csaba, Security GBB, and GSA teams to determine the support and coverage model",done:false},{text:"Reach out to related CVC partners to gauge bandwidth and support commitment",done:false}],
+  c1:[{text:"Create a FAS campaign page to support the motion",done:false},{text:"Create a plan for customized outreach through the FAS platform to all relevant seller groups",done:false},{text:"Define success metrics, reporting owners, cadence, and where results will be shared",done:false},{text:"Land field communications with the right audience, vetted by SE&O",done:false},{text:"Get Aarti/Ritu to email Judson/Deb for notice of your motion",done:false},{text:"Align to ensure field leadership receives notice of your motion prior to field comms",done:false},{text:"Notify global SE&O teams and leaders prior to field communications",done:false},{text:"Create field landing deck for your motion",done:false},{text:"Ensure alignment with any cross-CSA stakeholders",done:false},{text:"Identify all recipients and dedupe to minimize spam",done:false},{text:"Create OFTs to make it easy for any leaders you're relying on to send your comms",done:false},{text:"Join relevant community calls and enablement calls to land your message with field stakeholders",done:false}],
+  c2:[{text:"Identify what cross-CSA trainings and community calls you need to plug into",done:false},{text:"Work to create or update assets to support launching your motion",done:false},{text:"Create agents to support you scaling, where necessary",done:false},{text:"Create BOM with resources for all receiving members of your motion",done:false},{text:"Ensure technical assets, prototypes, whiteboarding resources, reference architectures, and playbooks are ready for field consumption and use by the deadline",done:false}],
   c3:[{text:"Align with PMM and Marketing GTM teams to identify what you need, from who, by when",done:false},{text:"Identify what needs to be updated or created and communicate with advance notice",done:false}],
-  c4:[{text:"Request any updates to roadmap or commitments needed to support your motion launch",done:false}],
-  e1:[{text:"Get Steve/Ritu to email Judson/Deb for notice of your motion",done:false},{text:"Align to ensure field leadership receives notice of your motion prior to field comms",done:false},{text:"Notify global SE&O teams and leaders prior to field communications",done:false},{text:"Create field landing deck for your motion",done:false},{text:"Ensure alignment with any cross-CSA stakeholders",done:false},{text:"Identify all recipients and dedupe to minimize spam",done:false},{text:"Create OFTs to make it easy for any leaders you're relying on to send your comms",done:false},{text:"Join relevant community calls and enablement calls to land your message with field stakeholders",done:false}]
+  c4:[{text:"Request any updates to roadmap or commitments needed to support your motion launch",done:false}]
 };
 
-const PRESET_SUBTASKS_FY_EXTRA={
+const LEGACY_ASSET_SUBTASKS={
   fy_bom:[{text:"Inventory all existing assets across decks, one-pagers, and digital",done:false},{text:"Identify gaps vs. FY plan requirements",done:false},{text:"Request new asset creation from Enablement and Marketing",done:false},{text:"Review and approve final BOM with stakeholders",done:false}],
   fy_pitch:[{text:"Create customer-facing pitch deck",done:false},{text:"Create exec briefing deck",done:false},{text:"Create partner co-sell deck",done:false},{text:"Version control and store in shared library",done:false}],
-  fy_landing:[{text:"Define landing page strategy and messaging",done:false},{text:"Align on CTAs and conversion goals",done:false},{text:"Brief web team with timeline",done:false},{text:"QA and run launch checklist before go-live",done:false}],
-  fy_target:[{text:"Determine industry, geos, and segments you want to focus on",done:false},{text:"Identify any pre-requisites you want the customer profile to anchor on",done:false},{text:"Determine number of accounts you're hoping to target",done:false},{text:"Validate against usage where possible",done:false},{text:"Validate against customer maturity where needed",done:false},{text:"Create tiers within your final target list — P0, P1, P2, etc.",done:false},{text:"Validate with SE&O timezone GTM managers early, at least 4 weeks before launch",done:false},{text:"Ensure target list has all relevant data: geo, OU breakdown, segment, seller assignment, etc.",done:false}]
+  fy_landing:[{text:"Define landing page strategy and messaging",done:false},{text:"Align on CTAs and conversion goals",done:false},{text:"Brief web team with timeline",done:false},{text:"QA and run launch checklist before go-live",done:false}]
 };
 
-const SECTIONS_ACCEL=[
+const SECTIONS=[
   {title:"Foundation — do this first",items:[
-    {id:"s1",name:"Strategic Rationale / Motion Brief",sub:"Create a proposal, early deck or doc that explains why now, what problem you are solving, what priorities you are snapping to. Get buy-in on what you're going to do before you start.",badge:"must"},
-    {id:"s2",name:"TAM & Opportunity",sub:"Market size, pipeline potential, revenue impact over your motion's time period, and risk of inaction.",badge:"must"},
-    {id:"s3",name:"Motion Type",sub:"Determine the type of motion you're standing up — new customer acquisition, expansion of existing, conversion from trials, etc.",badge:"must"}
+    {id:"s1",name:"Strategic Rationale / Motion Brief",sub:"Create a proposal, early deck or doc that explains why now, what problem you are solving, what priorities you are snapping to. Get buy-in on what you're going to do before you start.",badge:"must"}
   ]},
   {title:"Targeting",items:[
     {id:"t1",name:"Targeting",sub:"Determine scope for your motion — who, where, what.",badge:"must"}
   ]},
   {title:"Value & Messaging",items:[
     {id:"v1",name:"Seller Value Articulation / WIIFM",sub:"Create a reason for sellers to care — does it help their quota retirement? Accelerate their pipeline or time to close?",badge:"must"},
-    {id:"v2",name:"Customer Value Articulation / Proposition",sub:"Create a reason for customers to care — does it help them achieve desired business outcomes, save money, or give them more of something?",badge:"must"}
+    {id:"v2",name:"Customer Value Articulation / WIIFM",sub:"Create a reason for customers to care — does it help them achieve desired business outcomes, save money, or give them more of something?",badge:"must"}
   ]},
   {title:"Orchestration & Coverage",items:[
     {id:"o1",name:"MCEM",sub:"Anchor actions, owners, and design across MCEM stages 1–5.",badge:"must"},
     {id:"o2",name:"Partner Activation Strategy",sub:"Define partner roles, enablement plan, co-sell models, and incentive models.",badge:"team"},
-    {id:"o3",name:"CxE / GBB Support Plan",sub:"Determine coverage model, engagement trigger criteria, escalation paths, and POC support.",badge:"team"}
+    {id:"o3",name:"CVC / GBB / GSA Support Plan",sub:"Determine coverage model, engagement trigger criteria, escalation paths, and POC support.",badge:"team"}
   ]},
-  {title:"Cross-Functional Plans",items:[
-    {id:"c1",name:"Programs Team Plan",sub:"Funding/incentives, motion tracking methodology and expectations, governance cadence and owners.",badge:"team"},
+  {title:"Execution",items:[
+    {id:"c1",name:"Execution Team Plan",sub:"FAS campaign, seller outreach, reporting cadence, and communications & landing: audiences, channels, timing, and owners.",badge:"team"},
     {id:"c2",name:"Enablement Team Plan",sub:"Upcoming trainings to plug into, seller community calls, pitch deck and assets needing to be created or updated.",badge:"team"},
     {id:"c3",name:"Marketing Team Plan",sub:"ABM campaigns, webinars, concise field-ready value pitch deck — determine what you need from who and by when.",badge:"team"},
     {id:"c4",name:"Engineering Team Plan",sub:"Roadmap, commitments, and any support needed.",badge:"team"}
-  ]},
-  {title:"Execution",items:[
-    {id:"e1",name:"Comms & Landing Plan",sub:"Stakeholder matrix/RACI, key messages per audience, channels, timing, and owners.",badge:"must"}
   ]},
   {title:"Reporting",items:[
     {id:"t2",name:"Success Metrics & Reporting",sub:"Determine how you will report back to LT on the results of your motion.",badge:"must"}
   ]}
 ];
 
-const SECTIONS_FY=[
-  {title:"Foundation — do this first",items:[
-    {id:"s1",name:"Strategic Rationale / Motion Brief",sub:"Create a proposal, early deck or doc that explains why now, what problem you are solving, what priorities you are snapping to. Get buy-in on what you're going to do before you start.",badge:"must"},
-    {id:"s2",name:"TAM & Opportunity",sub:"Market size, pipeline potential, revenue impact over your motion's time period, and risk of inaction.",badge:"must"},
-    {id:"s3",name:"Motion Type",sub:"Determine the type of motion you're standing up — new customer acquisition, expansion of existing, conversion from trials, etc.",badge:"must"}
-  ]},
-  {title:"Value & Messaging",items:[
-    {id:"v1",name:"Seller Value Articulation / WIIFM",sub:"Create a reason for sellers to care — does it help their quota retirement? Accelerate their pipeline or time to close?",badge:"must"},
-    {id:"v2",name:"Customer Value Articulation / Proposition",sub:"Create a reason for customers to care — does it help them achieve desired business outcomes, save money, or give them more of something?",badge:"must"}
-  ]},
-  {title:"Orchestration & Coverage",items:[
-    {id:"o1",name:"MCEM",sub:"Anchor actions, owners, and design across MCEM stages 1–5.",badge:"must"},
-    {id:"o2",name:"Partner Activation Strategy",sub:"Define partner roles, enablement plan, co-sell models, and incentive models.",badge:"team"},
-    {id:"o3",name:"CxE / GBB Support Plan",sub:"Determine coverage model, engagement trigger criteria, escalation paths, and POC support.",badge:"team"}
-  ]},
-  {title:"Planning Asset Necessities",items:[
-    {id:"fy_bom",name:"BOM Assets",sub:"Build out your full Bill of Materials — all assets needed to support the motion across seller, partner, and customer audiences.",badge:"must"},
-    {id:"fy_pitch",name:"Pitch Decks",sub:"Create and version-control all pitch decks: customer-facing, exec briefing, and partner co-sell.",badge:"must"},
-    {id:"fy_target",name:"Targeting",sub:"Define your ICP for the fiscal year, build the account list, segment into tiers, and align with sales on coverage.",badge:"must"}
-  ]},
-  {title:"Cross-Functional Plans",items:[
-    {id:"c1",name:"Programs Team Plan",sub:"Funding/incentives, motion tracking methodology and expectations, governance cadence and owners.",badge:"team"},
-    {id:"c2",name:"Enablement Team Plan",sub:"Upcoming trainings to plug into, seller community calls, pitch deck and assets needing to be created or updated.",badge:"team"},
-    {id:"c3",name:"Marketing Team Plan",sub:"ABM campaigns, webinars, concise field-ready value pitch deck — determine what you need from who and by when.",badge:"team"},
-    {id:"c4",name:"Engineering Team Plan",sub:"Roadmap, commitments, and any support needed.",badge:"team"}
-  ]},
-  {title:"Execution",items:[
-    {id:"fy_landing",name:"Landing Prep",sub:"Plan, brief, and QA the landing experience — pages, CTAs, and go-live readiness.",badge:"must"},
-    {id:"e1",name:"Comms & Landing Plan",sub:"Stakeholder matrix/RACI, key messages per audience, channels, timing, and owners.",badge:"must"}
-  ]},
-  {title:"Reporting",items:[
-    {id:"t2",name:"Success Metrics & Reporting",sub:"Determine how you will report back to LT on the results of your motion.",badge:"must"}
-  ]}
-];
+const CHECKLIST_VERSION=1;
+
+// Match legacy text, not array positions: users can delete, reorder, and add tasks.
+const LEGACY_TASK_TEXT={
+  "Determine industry, geos, and segments you want to focus on":PRESET_SUBTASKS.t1[0].text,
+  "Identify any pre-requisites you want the customer profile to anchor on":PRESET_SUBTASKS.t1[1].text,
+  "Determine number of accounts you're hoping to target":PRESET_SUBTASKS.t1[2].text,
+  "Validate against usage where possible":PRESET_SUBTASKS.t1[3].text,
+  "Create tiers within your final target list — P0, P1, P2, etc.":PRESET_SUBTASKS.t1[4].text,
+  "Validate with SE&O timezone GTM managers early, at least 4 weeks before launch":PRESET_SUBTASKS.t1[5].text,
+  "Ensure target list has all relevant data: geo, OU breakdown, segment, seller assignment, etc.":PRESET_SUBTASKS.t1[6].text,
+  "Create tactical WIIFM slide for your Initiative Playbook":PRESET_SUBTASKS.v1[0].text,
+  "Stand up reporting with Finance or BI team early — pipeline? Actuals? Usage? OSP offers?":PRESET_SUBTASKS.t2[1].text,
+  "Align with Csaba and Security GBB team to determine support and coverage model":PRESET_SUBTASKS.o3[0].text,
+  "Reach out to related CxE partners to gauge bandwidth and support commitment":PRESET_SUBTASKS.o3[1].text,
+  "Create OSP page to support your campaign":PRESET_SUBTASKS.c1[0].text,
+  "Create plan for customized outreach — through OSP or mail merge?":PRESET_SUBTASKS.c1[1].text,
+  "Determine what reporting will be feasible from the programs team":PRESET_SUBTASKS.c1[2].text,
+  "Ensure comms to field reach the right people without spamming":PRESET_SUBTASKS.c1[3].text,
+  "Get Steve/Ritu to email Judson/Deb for notice of your motion":PRESET_SUBTASKS.c1[4].text
+};
+
+function getSections(){return SECTIONS;}
+function getPresets(){return {...PRESET_SUBTASKS,...LEGACY_ASSET_SUBTASKS,fy_target:PRESET_SUBTASKS.t1};}
+
+function retrofitMotion(m){
+  if(m.checklistVersion===CHECKLIST_VERSION)return m;
+  const original=JSON.parse(JSON.stringify(m));
+  const result=JSON.parse(JSON.stringify(m));
+  const source=m.sections||getSections();
+  const sourceItems=source.flatMap(s=>s.items);
+  const existing=new Map(sourceItems.map(item=>[item.id,item]));
+  const standard=new Map(SECTIONS.flatMap(s=>s.items).map(item=>[item.id,item]));
+  const subtasks=result.subtasks||(result.subtasks={});
+  const checks=result.checks||(result.checks={});
+  const taskList=id=>Array.isArray(subtasks[id])?subtasks[id]:[];
+  const retitleTasks=id=>taskList(id).filter(st=>
+    !(['t1','fy_target'].includes(id)&&st.text==="Validate against customer maturity where needed")
+  ).map(st=>({...st,text:Object.hasOwn(LEGACY_TASK_TEXT,st.text)?LEGACY_TASK_TEXT[st.text]:st.text}));
+  const sections=SECTIONS.map(section=>({
+    ...section,
+    items:section.items.flatMap(item=>{
+      if(item.id==='t1'&&existing.has('fy_target')&&!existing.has('t1')){
+        return [{...existing.get('fy_target'),...item,id:'fy_target'}];
+      }
+      if(item.id==='c1'&&!existing.has('c1')&&existing.has('e1'))return [{...item}];
+      return existing.has(item.id)?[{...existing.get(item.id),...item}]:[];
+    })
+  })).filter(section=>section.items.length);
+  // Keep unrelated FY assets and custom items, including their original grouping.
+  source.forEach(section=>{
+    const items=section.items.filter(item=>!standard.has(item.id)&&
+      !['s2','s3','e1','fy_target'].includes(item.id));
+    if(!items.length)return;
+    const title=section.title==='Cross-Functional Plans'?'Execution':section.title;
+    const destination=sections.find(s=>s.title===title);
+    if(destination)destination.items.push(...items);
+    else sections.push({...section,title,items});
+  });
+  sections.flatMap(section=>section.items).forEach(item=>{
+    if(standard.has(item.id)||item.id==='fy_target')subtasks[item.id]=retitleTasks(item.id);
+  });
+  const appendNew=(id,tasks)=>{
+    if(!existing.has(id))return;
+    tasks.forEach(task=>{
+      if(!taskList(id).some(st=>st.text===task.text))taskList(id).push({...task});
+    });
+  };
+  appendNew('v1',PRESET_SUBTASKS.v1.slice(1));
+  appendNew('c2',PRESET_SUBTASKS.c2.slice(4));
+  if(existing.has('e1')){
+    subtasks.c1=[...taskList('c1'),...retitleTasks('e1')];
+    checks.c1=existing.has('c1')?!!checks.c1&&!!checks.e1:!!checks.e1;
+  }
+  result.sections=sections;
+  result.checklistVersion=CHECKLIST_VERSION;
+  // Retain a recoverable pre-migration snapshot, including removed item state.
+  result.previousChecklist={
+    sections:original.sections||source,
+    checks:original.checks||{},
+    subtasks:original.subtasks||{}
+  };
+  return result;
+}
 
 const BL={must:"Required",team:"Cross-functional",lock:"Time-sensitive"};
-let cid=null,liveUnsub=null,delId=null,delItemId=null,currentTab='mine',pendingMotionType='accel';
+let cid=null,liveUnsub=null,delId=null,delItemId=null,currentTab='mine';
 const USER_KEY='gtm_user_motions';
 
-function getSections(t){return t==='fy'?SECTIONS_FY:SECTIONS_ACCEL;}
-function getPresets(t){return t==='fy'?Object.assign({},PRESET_SUBTASKS_ACCEL,PRESET_SUBTASKS_FY_EXTRA):PRESET_SUBTASKS_ACCEL;}
 function allIdsFrom(sections){return sections.flatMap(s=>s.items.map(i=>i.id));}
 function getUserMotions(){try{return JSON.parse(localStorage.getItem(USER_KEY)||'[]');}catch{return[];}}
 function addUserMotion(id){const m=getUserMotions();if(!m.includes(id)){m.unshift(id);localStorage.setItem(USER_KEY,JSON.stringify(m));}}
@@ -422,21 +456,8 @@ function goHome(){
 }
 window.goHome=goHome;
 
-function goNew(type){
-  pendingMotionType=type||'accel';
+function goNew(){
   ['fn','fp','fo','ff'].forEach(id=>document.getElementById(id).value='');
-  const h=document.getElementById('newMotionHeading');
-  const s=document.getElementById('newMotionSub');
-  const b=document.getElementById('btnCreate');
-  if(type==='fy'){
-    h.textContent='New FY Planning Motion';h.style.color='#FF8C00';
-    s.textContent='Fill in the details to set up your FY Planning motion.';
-    b.className='btn-create fy-create';
-  }else{
-    h.textContent='New Acceleration Motion';h.style.color='#0078D4';
-    s.textContent='Fill in the details to set up your Acceleration motion.';
-    b.className='btn-create';
-  }
   showPage('pgNew');
 }
 window.goNew=goNew;
@@ -467,20 +488,19 @@ async function renderHome(){
     return;
   }
   rocket.style.display='none';
-  cards.innerHTML=filtered.map(m=>{
-    const sections=m.sections||getSections(m.motionType||'accel');
+  cards.innerHTML=filtered.map(saved=>{
+    const m=retrofitMotion(saved);
+    const sections=m.sections||getSections();
     const TOTAL=allIdsFrom(sections).length;
-    const done=m.checks?Object.values(m.checks).filter(Boolean).length:0;
+    const done=allIdsFrom(sections).filter(id=>m.checks?.[id]).length;
     const pct=TOTAL>0?Math.round(done/TOTAL*100):0;
     const status=m.archived?'Archived':done===TOTAL&&TOTAL>0?'Complete':done>0?'In Motion':'Planning';
     const sc=m.archived?'a':status==='In Motion'?'i':status==='Complete'?'c':'p';
     const isArchived=!!m.archived;
-    const tc=m.motionType==='fy'?'#FF8C00':'#0078D4';
-    const tl=m.motionType==='fy'?'FY Planning':'Acceleration';
     return `<div class="home-card${isArchived?' archived':''}" onclick="window.openMotion('${m.id}')">
       <div>
         <div class="hc-name">${m.name}</div>
-        <div class="hc-meta">${m.owner}${m.product?' · '+m.product:''}${m.fiscal?' · '+m.fiscal:''} · <span style="color:${tc};font-weight:600">${tl}</span></div>
+        <div class="hc-meta">${m.owner}${m.product?' · '+m.product:''}${m.fiscal?' · '+m.fiscal:''}</div>
       </div>
       <div class="hc-right">
         <div class="hc-btns">
@@ -503,31 +523,56 @@ async function createMotion(){
   const btn=document.getElementById('btnCreate');
   btn.disabled=true;btn.textContent='Creating...';
   const id='m_'+Date.now();
-  const sections=getSections(pendingMotionType);
+  const sections=getSections();
   const ids=allIdsFrom(sections);
-  const presets=getPresets(pendingMotionType);
+  const presets=getPresets();
   const subtasksInit={};ids.forEach(i=>{subtasksInit[i]=presets[i]?[...presets[i]]:[];});
   const checksInit={};ids.forEach(i=>{checksInit[i]=false;});
-  await set(ref(db,'motions/'+id),{
-    id,name,owner,
-    product:document.getElementById('fp').value.trim(),
-    fiscal:document.getElementById('ff').value.trim(),
-    created:new Date().toISOString(),
-    archived:false,
-    motionType:pendingMotionType,
-    sections,
-    checks:checksInit,
-    subtasks:subtasksInit
-  });
-  addUserMotion(id);
-  btn.disabled=false;btn.textContent='Create Motion & Start Checklist →';
-  openMotion(id);
+  try{
+    await set(ref(db,'motions/'+id),{
+      id,name,owner,
+      product:document.getElementById('fp').value.trim(),
+      fiscal:document.getElementById('ff').value.trim(),
+      created:new Date().toISOString(),
+      archived:false,
+      checklistVersion:CHECKLIST_VERSION,
+      sections,
+      checks:checksInit,
+      subtasks:subtasksInit
+    });
+    addUserMotion(id);
+    await openMotion(id);
+  }catch(error){
+    console.error('Unable to create motion',error);
+    showToast('Could not create motion. Please try again.');
+  }finally{
+    btn.disabled=false;btn.textContent='Create Motion & Start Checklist →';
+  }
 }
 window.createMotion=createMotion;
 
-function openMotion(id){
+async function openMotion(id){
   if(liveUnsub){liveUnsub();liveUnsub=null;}
   cid=id;history.replaceState(null,'',location.pathname+'#'+id);showPage('pgChecklist');
+  document.getElementById('sections').textContent='Loading checklist...';
+  document.getElementById('clBottom').style.display='none';
+  document.getElementById('btnComplete').style.display='none';
+  document.getElementById('titleDisplay').textContent='Loading...';
+  try{
+    await runTransaction(ref(db,'motions/'+id),current=>{
+      if(!current)return current;
+      if(current.checklistVersion===CHECKLIST_VERSION)return;
+      return retrofitMotion(current);
+    },{applyLocally:false});
+  }catch(error){
+    console.error('Unable to update checklist',error);
+    if(cid===id){
+      goHome();
+      showToast('Could not load the updated checklist. Your saved data has not been reset.');
+    }
+    return;
+  }
+  if(cid!==id)return;
   liveUnsub=onValue(ref(db,'motions/'+id),(snap)=>{
     if(!snap.exists()){goHome();return;}
     const m=snap.val();
@@ -541,6 +586,9 @@ function openMotion(id){
     document.getElementById('btnReopen').style.display='none';
     document.getElementById('clBottom').style.display=isArchived?'none':'block';
     buildChecklist(m,isArchived);
+  },error=>{
+    console.error('Checklist live sync failed',error);
+    showToast('Live sync failed. Reload to reconnect.');
   });
 }
 window.openMotion=openMotion;
@@ -548,7 +596,7 @@ window.openMotion=openMotion;
 function buildChecklist(m,isArchived){
   const checks=m.checks||{};
   const subtasks=m.subtasks||{};
-  const sections=m.sections||getSections(m.motionType||'accel');
+  const sections=m.sections||getSections();
   const ids=allIdsFrom(sections);
   const TOTAL=ids.length;
   const done=ids.filter(id=>checks[id]).length;
@@ -673,7 +721,7 @@ window.confirmDelItem=async function(){
   const snap=await get(ref(db,'motions/'+cid));
   if(!snap.exists())return;
   const m=snap.val();
-  const sections=(m.sections||getSections(m.motionType||'accel'))
+  const sections=(m.sections||getSections())
     .map(sec=>({...sec,items:sec.items.filter(it=>it.id!==delItemId)}))
     .filter(sec=>sec.items.length>0);
   const updates={sections};
@@ -693,7 +741,7 @@ window.confirmAddSection=async function(){
   const snap=await get(ref(db,'motions/'+cid));
   if(!snap.exists())return;
   const m=snap.val();
-  const sections=JSON.parse(JSON.stringify(m.sections||getSections(m.motionType||'accel')));
+  const sections=JSON.parse(JSON.stringify(m.sections||getSections()));
   const newId='custom_'+Date.now();
   const ci=sections.findIndex(s=>s.title==='Custom Items');
   if(ci>=0){sections[ci].items.push({id:newId,name,sub,badge:''});}
@@ -747,9 +795,9 @@ async function resetChecklist(){
   const snap=await get(ref(db,'motions/'+cid));
   if(!snap.exists())return;
   const m=snap.val();
-  const sections=m.sections||getSections(m.motionType||'accel');
+  const sections=m.sections||getSections();
   const ids=allIdsFrom(sections);
-  const presets=getPresets(m.motionType||'accel');
+  const presets=getPresets();
   const updates={};
   ids.forEach(id=>{updates['checks/'+id]=false;updates['subtasks/'+id]=presets[id]?[...presets[id]]:[];});
   await update(ref(db,'motions/'+cid),updates);
