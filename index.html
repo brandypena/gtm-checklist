@@ -110,6 +110,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .sub-checkbox.checked{background:#00838F;border-color:#00838F}
 .subtask-name{font-size:12px;color:#374151;flex:1;line-height:1.4}
 .subtask-name.done{text-decoration:line-through;color:#9CA3AF}
+.subtask-name[ondblclick]{cursor:text}
+.subtask-name[ondblclick]:focus-visible{outline:2px solid #0078D4;outline-offset:2px}
+.subtask-owner{display:block;background:none;border:none;padding:3px 0;font-family:inherit;font-size:11px;font-weight:700;color:#0078D4;cursor:pointer;text-align:left}
+.subtask-owner.unassigned{font-weight:400;color:#9CA3AF}
+.subtask-owner:disabled{cursor:default}
+.st-edit-form{margin:6px 0;padding:8px;background:#F8FAFD;border:1px solid #E5EBF4;border-radius:6px}
+.st-edit-form label{display:block;font-size:11px;font-weight:600;margin-bottom:3px}
+.st-edit-form input{width:100%;padding:7px 9px;margin-bottom:7px;border:1px solid #D1D5DB;border-radius:5px;font:inherit;font-size:12px;color:#111827;background:#fff}
+.st-edit-form input:focus{outline:2px solid #0078D4;outline-offset:1px}
+.st-edit-hint{font-size:10px;color:#6B7280;margin-bottom:7px}
+.st-edit-error{font-size:11px;color:#A32D2D;margin-bottom:7px}
+.st-edit-actions{display:flex;gap:6px}
 .subtask-del{background:none;border:none;color:#D1D5DB;cursor:pointer;font-size:16px;padding:0 2px;line-height:1;transition:color 0.15s}
 .subtask-del:hover{color:#D13438}
 .st-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#0078D4;text-decoration:none;background:#EEF6FD;border-radius:4px;padding:2px 7px;margin-right:4px;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
@@ -380,6 +392,21 @@ const LEGACY_TASK_TEXT={
 function getSections(){return SECTIONS;}
 function getPresets(){return {...PRESET_SUBTASKS,...LEGACY_ASSET_SUBTASKS,fy_target:PRESET_SUBTASKS.t1};}
 
+function withSubtaskIds(m){
+  const visibleIds=allIdsFrom(m.sections||getSections());
+  const missing=visibleIds.some(id=>{
+    const tasks=m.subtasks?.[id];
+    return Array.isArray(tasks)&&tasks.some(st=>!st.id);
+  });
+  if(!missing)return m;
+  const result=JSON.parse(JSON.stringify(m));
+  visibleIds.forEach(id=>{
+    const tasks=result.subtasks?.[id];
+    if(Array.isArray(tasks))tasks.forEach(st=>{if(!st.id)st.id=crypto.randomUUID();});
+  });
+  return result;
+}
+
 function retrofitMotion(m){
   if(m.checklistVersion===CHECKLIST_VERSION)return m;
   const original=JSON.parse(JSON.stringify(m));
@@ -441,7 +468,7 @@ function retrofitMotion(m){
 }
 
 const BL={must:"Required",team:"Cross-functional",lock:"Time-sensitive"};
-let cid=null,liveUnsub=null,delId=null,delItemId=null,currentTab='mine';
+let cid=null,liveUnsub=null,delId=null,delItemId=null,currentTab='mine',currentMotion=null,editingST=null;
 const USER_KEY='gtm_user_motions';
 
 function allIdsFrom(sections){return sections.flatMap(s=>s.items.map(i=>i.id));}
@@ -452,7 +479,8 @@ function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.
 
 function goHome(){
   if(liveUnsub){liveUnsub();liveUnsub=null;}
-  cid=null;history.replaceState(null,'',location.pathname);renderHome();showPage('pgHome');
+  cid=null;currentMotion=null;editingST=null;
+  history.replaceState(null,'',location.pathname);renderHome();showPage('pgHome');
 }
 window.goHome=goHome;
 
@@ -526,7 +554,7 @@ async function createMotion(){
   const sections=getSections();
   const ids=allIdsFrom(sections);
   const presets=getPresets();
-  const subtasksInit={};ids.forEach(i=>{subtasksInit[i]=presets[i]?[...presets[i]]:[];});
+  const subtasksInit={};ids.forEach(i=>{subtasksInit[i]=(presets[i]||[]).map(st=>({...st,id:crypto.randomUUID()}));});
   const checksInit={};ids.forEach(i=>{checksInit[i]=false;});
   try{
     await set(ref(db,'motions/'+id),{
@@ -553,6 +581,7 @@ window.createMotion=createMotion;
 
 async function openMotion(id){
   if(liveUnsub){liveUnsub();liveUnsub=null;}
+  currentMotion=null;editingST=null;
   cid=id;history.replaceState(null,'',location.pathname+'#'+id);showPage('pgChecklist');
   document.getElementById('sections').textContent='Loading checklist...';
   document.getElementById('clBottom').style.display='none';
@@ -561,8 +590,9 @@ async function openMotion(id){
   try{
     await runTransaction(ref(db,'motions/'+id),current=>{
       if(!current)return current;
-      if(current.checklistVersion===CHECKLIST_VERSION)return;
-      return retrofitMotion(current);
+      const next=withSubtaskIds(retrofitMotion(current));
+      if(next===current)return;
+      return next;
     },{applyLocally:false});
   }catch(error){
     console.error('Unable to update checklist',error);
@@ -594,6 +624,15 @@ async function openMotion(id){
 window.openMotion=openMotion;
 
 function buildChecklist(m,isArchived){
+  const focused=document.activeElement;
+  const selection=focused?.id==='st-edit-text'||focused?.id==='st-edit-owner'?
+    {id:focused.id,start:focused.selectionStart,end:focused.selectionEnd}:null;
+  currentMotion=m;
+  if(editingST&&(editingST.motionId!==cid||isArchived||
+    !m.subtasks?.[editingST.itemId]?.some(st=>st.id===editingST.taskId))){
+    showToast(isArchived?'Motion archived; editing closed.':'Subtask removed or reset; editing closed.');
+    editingST=null;
+  }
   const checks=m.checks||{};
   const subtasks=m.subtasks||{};
   const sections=m.sections||getSections();
@@ -620,10 +659,15 @@ function buildChecklist(m,isArchived){
       const stHtml=sts.map((st,i)=>{
         const links=Array.isArray(st.links)?st.links:[];
         const linkHtml=links.map((lk,li)=>`<a class="st-link" href="${lk.url}" target="_blank" rel="noopener" title="${lk.url}">&#128206; ${lk.name}</a>${!isArchived?`<button class="st-link-del" onclick="event.stopPropagation();window.deleteSTLink('${it.id}',${i},${li})" title="Remove link">×</button>`:''}` ).join('');
-        return `<div class="subtask-item" id="sti-row-${it.id}-${i}">
+        const isEditing=editingST?.itemId===it.id&&editingST?.taskId===st.id;
+        const owner=st.owner||'';
+        const editable=isArchived?'':`ondblclick="window.editST('${it.id}',${i})" tabindex="0" onkeydown="if(event.key==='Enter'){event.preventDefault();window.editST('${it.id}',${i})}" title="Double-click to edit subtask"`;
+        return `<div class="subtask-item" id="sti-row-${it.id}-${i}" data-subtask-id="${st.id}">
           <div class="sub-checkbox ${st.done?'checked':''}" ${isArchived?'':` onclick="window.toggleST('${it.id}',${i})"`}>${st.done?'✓':''}</div>
           <div style="flex:1;min-width:0">
-            <span class="subtask-name ${st.done?'done':''}">${st.text}</span>
+            <span class="subtask-name ${st.done?'done':''}" ${editable}>${escapeHtml(st.text)}</span>
+            ${!isArchived||owner?`<button class="subtask-owner${owner?'':' unassigned'}" ${isArchived?'disabled':`onclick="window.editST('${it.id}',${i},true)"`} title="Owner label only; no notifications">${owner?'@'+escapeHtml(owner):'+ Assign owner'}</button>`:''}
+            ${!isArchived&&isEditing?renderSTEditor():''}
             ${linkHtml?`<div style="display:flex;flex-wrap:wrap;align-items:center;gap:2px;margin-top:3px">${linkHtml}</div>`:''}
             ${!isArchived?`<div class="st-link-form" id="stlf-${it.id}-${i}">
               <input class="url-in" id="stlu-${it.id}-${i}" type="url" placeholder="Paste SharePoint / OneDrive link..."/>
@@ -658,7 +702,134 @@ function buildChecklist(m,isArchived){
     });
     container.appendChild(div);
   });
+  if(selection&&editingST&&!editingST.saving){
+    const input=document.getElementById(selection.id);
+    if(input){input.focus();input.setSelectionRange(selection.start,selection.end);}
+  }
 }
+
+function escapeHtml(value){
+  return String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+}
+
+function renderSTEditor(){
+  const e=editingST;
+  return `<div class="st-edit-form" onkeydown="if(event.key==='Escape'){event.preventDefault();window.cancelSTEdit();}else if(event.key==='Enter'&&event.target.tagName==='INPUT'){event.preventDefault();window.saveSTEdit();}">
+    <label for="st-edit-text">Subtask</label>
+    <input id="st-edit-text" value="${escapeHtml(e.text)}" oninput="window.updateSTEdit('text',this.value)" ${e.saving?'disabled':''}/>
+    <label for="st-edit-owner">Owner</label>
+    <input id="st-edit-owner" value="${escapeHtml(e.owner)}" placeholder="@Name" oninput="window.updateSTEdit('owner',this.value)" ${e.saving?'disabled':''}/>
+    <p class="st-edit-hint">Owner label only; no notifications. Clear the owner to unassign.</p>
+    ${e.error?`<p class="st-edit-error" role="alert">${escapeHtml(e.error)}</p>`:''}
+    <div class="st-edit-actions">
+      <button class="st-save" onclick="window.saveSTEdit()" ${e.saving?'disabled':''}>${e.saving?'Saving...':'Save'}</button>
+      <button class="st-cancel" onclick="window.cancelSTEdit()" ${e.saving?'disabled':''}>Cancel</button>
+    </div>
+  </div>`;
+}
+
+window.editST=function(itemId,idx,focusOwner=false){
+  if(!currentMotion||currentMotion.archived)return;
+  const taskId=document.getElementById('sti-row-'+itemId+'-'+idx)?.dataset.subtaskId;
+  const st=currentMotion.subtasks?.[itemId]?.find(task=>task.id===taskId);
+  if(!st)return;
+  if(editingST?.saving)return;
+  if(editingST){
+    if(editingST.itemId!==itemId||editingST.taskId!==taskId){
+      showToast('Save or cancel the current subtask edit first.');
+      return;
+    }
+    document.getElementById(focusOwner?'st-edit-owner':'st-edit-text').focus();
+    return;
+  }
+  editingST={motionId:cid,itemId,taskId,text:st.text,owner:st.owner?'@'+st.owner:'',
+    originalText:st.text,originalOwner:st.owner||'',saving:false,error:''};
+  buildChecklist(currentMotion,false);
+  const input=document.getElementById(focusOwner?'st-edit-owner':'st-edit-text');
+  input.focus();input.select();
+};
+window.updateSTEdit=function(field,value){if(editingST&&!editingST.saving)editingST[field]=value;};
+window.cancelSTEdit=function(){
+  if(!editingST||editingST.saving)return;
+  editingST=null;buildChecklist(currentMotion,!!currentMotion.archived);
+};
+
+async function updateSubtasks(itemId,change,motionId=cid){
+  if(!motionId)throw new Error('Open a motion before editing subtasks.');
+  let applied=false;
+  const outcome=await runTransaction(ref(db,'motions/'+motionId),current=>{
+    if(!current)return current;
+    if(current.archived)throw new Error('Archived motions are read-only. Reopen the motion first.');
+    if(!allIdsFrom(current.sections||getSections()).includes(itemId)){
+      throw new Error('This checklist item was removed. Reload before editing.');
+    }
+    const next=JSON.parse(JSON.stringify(current));
+    if(!next.subtasks)next.subtasks={};
+    if(!Array.isArray(next.subtasks[itemId]))next.subtasks[itemId]=[];
+    change(next.subtasks[itemId]);
+    applied=true;
+    return next;
+  },{applyLocally:false});
+  if(!outcome.committed||!outcome.snapshot.exists()||!applied){
+    throw new Error('The motion is no longer available. Reload before editing.');
+  }
+}
+
+function changeSubtask(itemId,taskId,change,motionId=cid){
+  return updateSubtasks(itemId,tasks=>{
+    const idx=tasks.findIndex(st=>st.id===taskId);
+    if(idx<0)throw new Error('This subtask was removed or reset. Reload before editing.');
+    change(tasks[idx],tasks,idx);
+  },motionId);
+}
+
+async function mutateST(itemId,idx,change){
+  const taskId=document.getElementById('sti-row-'+itemId+'-'+idx)?.dataset.subtaskId;
+  try{
+    await changeSubtask(itemId,taskId,change);
+    return true;
+  }catch(error){
+    console.error('Unable to update subtask',error);
+    showToast(error.message);
+    return false;
+  }
+}
+
+window.saveSTEdit=async function(){
+  const e=editingST;
+  if(!e||e.saving)return;
+  const text=e.text.trim();
+  const owner=e.owner.trim().replace(/^@+/,'').trim();
+  if(!text){
+    e.error='Subtask text cannot be empty.';
+    buildChecklist(currentMotion,false);
+    document.getElementById('st-edit-text').focus();
+    return;
+  }
+  e.saving=true;e.error='';
+  buildChecklist(currentMotion,false);
+  try{
+    await changeSubtask(e.itemId,e.taskId,st=>{
+      if(st.text!==e.originalText||(st.owner||'')!==e.originalOwner){
+        throw new Error('Someone changed this subtask. Cancel and reopen it to use the latest version.');
+      }
+      st.text=text;
+      if(owner)st.owner=owner;
+      else delete st.owner;
+    },e.motionId);
+    if(editingST===e){
+      editingST=null;buildChecklist(currentMotion,!!currentMotion.archived);
+      showToast('Subtask updated');
+    }
+  }catch(error){
+    console.error('Unable to save subtask edit',error);
+    if(editingST===e){
+      e.saving=false;e.error=error.message;
+      buildChecklist(currentMotion,!!currentMotion.archived);
+    }
+    showToast(error.message);
+  }
+};
 
 window.toggleItem=async function(itemId){
   if(!cid)return;
@@ -669,17 +840,18 @@ window.showST=function(id){document.getElementById('sti-'+id).classList.add('vis
 window.hideST=function(id){document.getElementById('sti-'+id).classList.remove('visible');document.getElementById('stt-'+id).value='';};
 window.saveST=async function(id){
   const text=document.getElementById('stt-'+id).value.trim();if(!text)return;
-  const snap=await get(ref(db,'motions/'+cid+'/subtasks/'+id));
-  const arr=snap.exists()&&Array.isArray(snap.val())?snap.val():[];
-  arr.push({text,done:false});
-  await set(ref(db,'motions/'+cid+'/subtasks/'+id),arr);
-  window.hideST(id);
+  const motionId=cid;
+  const task={text,done:false,id:crypto.randomUUID()};
+  try{
+    await updateSubtasks(id,tasks=>tasks.push(task),motionId);
+    if(cid===motionId)window.hideST(id);
+  }catch(error){
+    console.error('Unable to add subtask',error);
+    showToast(error.message);
+  }
 };
 window.toggleST=async function(itemId,idx){
-  const snap=await get(ref(db,'motions/'+cid+'/subtasks/'+itemId));
-  const arr=snap.exists()&&Array.isArray(snap.val())?snap.val():[];
-  if(arr[idx])arr[idx].done=!arr[idx].done;
-  await set(ref(db,'motions/'+cid+'/subtasks/'+itemId),arr);
+  await mutateST(itemId,idx,st=>{st.done=!st.done;});
 };
 window.showSTLink=function(itemId,idx){
   const f=document.getElementById('stlf-'+itemId+'-'+idx);
@@ -693,25 +865,18 @@ window.saveSTLink=async function(itemId,idx){
   const url=document.getElementById('stlu-'+itemId+'-'+idx).value.trim();
   const name=document.getElementById('stln-'+itemId+'-'+idx).value.trim();
   if(!url)return;
-  const snap=await get(ref(db,'motions/'+cid+'/subtasks/'+itemId));
-  const arr=snap.exists()&&Array.isArray(snap.val())?snap.val():[];
-  if(!arr[idx])return;
-  if(!Array.isArray(arr[idx].links))arr[idx].links=[];
-  arr[idx].links.push({url,name:name||url});
-  await set(ref(db,'motions/'+cid+'/subtasks/'+itemId),arr);
-  window.hideSTLink(itemId,idx);
+  const motionId=cid;
+  const saved=await mutateST(itemId,idx,st=>{
+    if(!Array.isArray(st.links))st.links=[];
+    st.links.push({url,name:name||url});
+  });
+  if(saved&&cid===motionId)window.hideSTLink(itemId,idx);
 };
 window.deleteSTLink=async function(itemId,idx,linkIdx){
-  const snap=await get(ref(db,'motions/'+cid+'/subtasks/'+itemId));
-  const arr=snap.exists()&&Array.isArray(snap.val())?snap.val():[];
-  if(arr[idx]&&Array.isArray(arr[idx].links))arr[idx].links.splice(linkIdx,1);
-  await set(ref(db,'motions/'+cid+'/subtasks/'+itemId),arr);
+  await mutateST(itemId,idx,st=>{if(Array.isArray(st.links))st.links.splice(linkIdx,1);});
 };
 window.deleteST=async function(itemId,idx){
-  const snap=await get(ref(db,'motions/'+cid+'/subtasks/'+itemId));
-  const arr=snap.exists()&&Array.isArray(snap.val())?snap.val():[];
-  arr.splice(idx,1);
-  await set(ref(db,'motions/'+cid+'/subtasks/'+itemId),arr);
+  await mutateST(itemId,idx,(st,tasks,index)=>tasks.splice(index,1));
 };
 
 window.askDelItem=function(itemId){delItemId=itemId;document.getElementById('delItemOverlay').classList.add('open');};
@@ -799,7 +964,7 @@ async function resetChecklist(){
   const ids=allIdsFrom(sections);
   const presets=getPresets();
   const updates={};
-  ids.forEach(id=>{updates['checks/'+id]=false;updates['subtasks/'+id]=presets[id]?[...presets[id]]:[];});
+  ids.forEach(id=>{updates['checks/'+id]=false;updates['subtasks/'+id]=(presets[id]||[]).map(st=>({...st,id:crypto.randomUUID()}));});
   await update(ref(db,'motions/'+cid),updates);
 }
 window.resetChecklist=resetChecklist;
